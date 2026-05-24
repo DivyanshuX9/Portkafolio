@@ -1,0 +1,138 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-primary: var(--ink-deep);
+  --color-primary-foreground: var(--background);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--foreground);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--foreground);
+  --color-destructive: oklch(0.55 0.22 27);
+  --color-destructive-foreground: oklch(0.99 0 0);
+  --color-input: var(--border);
+  --color-ring: var(--ink-deep);
+}
+
+:root {
+  /* Paper & Ink — bright white default */
+  --background: #ffffff;
+  --surface:    #f7f8fa;
+  --foreground: #1f2328;
+  --ink:        #1f2328;
+  --ink-deep:   #0f0e0d;
+  --accent:     #0f766e;
+  --accent-foreground: #ffffff;
+  --muted-foreground: rgba(31, 35, 40, 0.58);
+  --border: rgba(31, 35, 40, 0.12);
+  transition: background-color 700ms ease, color 700ms ease;
+}
+
+html[data-season="sunny"] {
+  --background: #ffffff;
+  --surface:    #f7f8fa;
+  --foreground: #1f2328;
+  --ink:        #1f2328;
+  --ink-deep:   #0f0e0d;
+  --accent:     #0f766e;
+  --accent-foreground: #ffffff;
+  --border: rgba(31, 35, 40, 0.12);
+}
+
+html[data-season="rain"] {
+  --background: #dbe1e4;
+  --surface:    #c7ced3;
+  --foreground: #222b31;
+  --ink:        #2b343b;
+  --ink-deep:   #10151a;
+  --accent:     #0369a1;
+  --accent-foreground: #eff6fb;
+  --border: rgba(18, 25, 33, 0.14);
+}
+
+html[data-season="night"] {
+  --background: #0b1016;
+  --surface:    #151b23;
+  --foreground: #e6e0d5;
+  --ink:        #c6bfae;
+  --ink-deep:   #f4ede0;
+  --accent:     #f97316;
+  --accent-foreground: #0b1016;
+  --muted-foreground: rgba(230, 224, 213, 0.56);
+  --border: rgba(230, 224, 213, 0.14);
+}
+
+html[data-season="autumn"] {
+  --background: #ead8be;
+  --surface:    #d6c1a0;
+  --foreground: #3d271d;
+  --ink:        #4b3023;
+  --ink-deep:   #2d1810;
+  --accent:     #b45309;
+  --accent-foreground: #fdf4e8;
+  --muted-foreground: rgba(61, 39, 29, 0.6);
+  --border: rgba(61, 39, 29, 0.14);
+}
+
+html, body { background-color: var(--background); }
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background-color: var(--color-ink-deep);
+    color: var(--color-background);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ink-deep);
+    outline-offset: 3px;
+  }
+}
+
+@utility font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+@utility eyebrow { @apply text-[11px] uppercase tracking-[0.2em] opacity-60 font-medium; }
+@utility container-edge { @apply mx-auto w-full max-w-[1440px] px-5 md:px-10; }
+
+/* Scoped white surface utility: apply this to a component wrapper to force a white card/look */
+.white-surface {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --foreground: #222222;
+  --ink: #222222;
+  --ink-deep: #0f0e0d;
+  --border: rgba(34, 34, 34, 0.08);
+}
