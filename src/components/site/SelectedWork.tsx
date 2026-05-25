@@ -163,10 +163,10 @@ function ProjectBlock({ project }: { project: Project }) {
             </div>
 
             <a
-              href="#"
+              href="/schedule"
               className="group mt-8 inline-flex items-center gap-3 font-display text-base font-medium text-ink-deep"
             >
-              <span className="border-b border-ink-deep pb-0.5">Read the work</span>
+              <span className="border-b border-ink-deep pb-0.5">Discuss this project</span>
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </a>
           </div>

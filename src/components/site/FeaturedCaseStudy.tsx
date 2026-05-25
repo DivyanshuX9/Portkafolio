@@ -77,10 +77,10 @@ export function FeaturedCaseStudy() {
 
         <Reveal delay={0.1}>
           <a
-            href="#"
+            href="/schedule"
             className="group mt-20 inline-flex items-center gap-4 font-display text-lg font-medium"
           >
-            <span className="border-b border-background pb-1">View full study</span>
+            <span className="border-b border-background pb-1">Discuss the study</span>
             <span aria-hidden className="transition-transform group-hover:translate-x-2">→</span>
           </a>
         </Reveal>

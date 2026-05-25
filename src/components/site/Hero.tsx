@@ -56,7 +56,7 @@ export function Hero() {
           className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 md:ml-[22%]"
         >
           <a
-            href="#work"
+            href="/projects#work"
             className="group inline-flex items-center gap-3 border-b border-ink-deep pb-1 font-display text-base font-medium tracking-tight text-ink-deep"
           >
             View work

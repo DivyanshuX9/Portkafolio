@@ -65,7 +65,7 @@ const entries = [
 
 export function CurrentWorkTimeline() {
   return (
-    <section id="timeline" className="border-t border-ink-deep/15 py-24 md:py-32">
+    <section id="timeline" className="border-t border-ink-deep/15 py-20 md:py-24">
       <div className="container-edge">
         <Reveal>
           <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">

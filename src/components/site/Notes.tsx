@@ -41,7 +41,7 @@ const notes = [
 
 export function Notes() {
   return (
-    <section id="notes" className="py-28 md:py-40">
+    <section id="notes" className="py-20 md:py-28">
       <div className="container-edge">
         <Reveal>
           <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">

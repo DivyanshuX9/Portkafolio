@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Fragment, type CSSProperties, type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { useSeason, type Season } from "./SeasonContext";
 
 type NavItem = {
@@ -11,58 +11,26 @@ type NavItem = {
 
 const Icon = {
   home: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 11.5 12 4l9 7.5" />
       <path d="M5 10v10h14V10" />
     </svg>
   ),
   experience: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="7" width="18" height="13" rx="2" />
       <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
       <path d="M3 12h18" />
     </svg>
   ),
   project: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="8 6 2 12 8 18" />
       <polyline points="16 6 22 12 16 18" />
     </svg>
   ),
   blog: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
       <path d="M5 17a3 3 0 0 0 3 3" />
       <path d="M9 8h7M9 12h7" />
@@ -79,193 +47,88 @@ const Icon = {
     </svg>
   ),
   calendar: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="5" width="18" height="16" rx="2" />
       <path d="M3 10h18M8 3v4M16 3v4" />
       <circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none" />
     </svg>
   ),
-  call: (
-    <svg
-      className="block size-full"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.78.6 2.62a2 2 0 0 1-.45 2.11L8 9.71a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.84.28 1.72.48 2.62.6A2 2 0 0 1 22 16.92z" />
-    </svg>
-  ),
 };
 
 const socialNav: NavItem[] = [
-  {
-    href: "https://github.com/DivyanshuX9",
-    label: "GitHub",
-    icon: Icon.github,
-    external: true,
-  },
-  {
-    href: "https://www.linkedin.com/in/mr-divyanshu",
-    label: "LinkedIn",
-    icon: Icon.linkedin,
-    external: true,
-  },
-  {
-    href: "https://cal.com",
-    label: "Schedule a call",
-    icon: Icon.calendar,
-    external: true,
-  },
+  { href: "https://github.com/DivyanshuX9", label: "GitHub", icon: Icon.github, external: true },
+  { href: "https://www.linkedin.com/in/mr-divyanshu", label: "LinkedIn", icon: Icon.linkedin, external: true },
+  { href: "/schedule", label: "Schedule a meeting", icon: Icon.calendar, external: false },
 ];
 
 const seasonGlyph: Record<Season, ReactNode> = {
   sunny: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-    >
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
   ),
   rain: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M7 14a5 5 0 1 1 1.5-9.78A6 6 0 0 1 19 9a4 4 0 0 1 0 8H7a3 3 0 0 1 0-6" />
-      <path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2" />
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M7 14a5 5 0 1 1 1.5-9.78A6 6 0 0 1 19 9a4 4 0 0 1 0 8H7a3 3 0 0 1 0-6" /><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2" /></svg>
   ),
   night: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
   ),
   autumn: (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 21V9" />
-      <path d="M12 9c-3 0-6-2-6-5 4 0 6 2 6 5z" />
-      <path d="M12 11c3 0 6-2 6-5-4 0-6 2-6 5z" />
-      <path d="M12 14c-3 0-5-1.5-5-4 3 0 5 1.5 5 4z" />
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V9" /><path d="M12 9c-3 0-6-2-6-5 4 0 6 2 6 5z" /><path d="M12 11c3 0 6-2 6-5-4 0-6 2-6 5z" /><path d="M12 14c-3 0-5-1.5-5-4 3 0 5 1.5 5 4z" /></svg>
   ),
 };
 
-function getNavStyles(label: string) {
-  const specs: Record<string, { expandedWidth: string; paddingRight: string }> =
-    {
-      Home: { expandedWidth: "4.9rem", paddingRight: "0.45rem" },
-      Projects: { expandedWidth: "6.5rem", paddingRight: "0.68rem" },
-      Blog: { expandedWidth: "4.8rem", paddingRight: "0.44rem" },
-      Experience: { expandedWidth: "7.4rem", paddingRight: "0.72rem" },
-      GitHub: { expandedWidth: "5.2rem", paddingRight: "0.5rem" },
-      LinkedIn: { expandedWidth: "5.8rem", paddingRight: "0.58rem" },
-      "Schedule a call": { expandedWidth: "7.8rem", paddingRight: "0.74rem" },
-    };
-
-  const fallbackWidth = `calc(2.25rem + ${label.length}ch + 0.5rem)`;
-  const fallbackPadding = `${0.35 + Math.min(label.length * 0.025, 0.5)}rem`;
-  const target = specs[label] ?? {
-    expandedWidth: fallbackWidth,
-    paddingRight: fallbackPadding,
-  };
-
+function navWidthClass(label: string) {
   return {
-    "--nav-expand": target.expandedWidth,
-    paddingRight: target.paddingRight,
-  } as CSSProperties;
+    Home: "hover:w-20",
+    Projects: "hover:w-24",
+    Blog: "hover:w-20",
+    Experience: "hover:w-28",
+    GitHub: "hover:w-24",
+    LinkedIn: "hover:w-24",
+    "Schedule a meeting": "hover:w-32",
+  }[label] ?? "hover:w-24";
 }
 
-function SocialButton({
-  item,
-  onClick,
-}: {
-  item: NavItem;
-  onClick?: () => void;
-}) {
-  const activeStyles = getNavStyles(item.label);
+function SocialButton({ item, onClick }: { item: NavItem; onClick?: () => void }) {
+  const sharedClassName =
+    `group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-2 text-ink-deep transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out ${navWidthClass(
+      item.label,
+    )} hover:bg-ink-deep/8 hover:text-ink-deep`;
+
+  const content = (
+    <span className="flex min-w-0 items-center gap-1.25">
+      <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">{item.icon}</span>
+      <span className="whitespace-nowrap font-display text-[10px] font-medium tracking-tight opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-hover:delay-75">
+        {item.label}
+      </span>
+    </span>
+  );
+
+  if (!item.external) {
+    return (
+      <a href={item.href} onClick={onClick} aria-label={item.label} className={sharedClassName}>
+        {content}
+      </a>
+    );
+  }
 
   return (
-    <a
-      href={item.href}
-      target={item.external ? "_blank" : undefined}
-      rel={item.external ? "noreferrer" : undefined}
-      onClick={onClick}
-      aria-label={item.label}
-      style={activeStyles}
-      className="group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-2 text-ink-deep transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out hover:w-[var(--nav-expand)] hover:bg-ink-deep/[0.08] hover:text-ink-deep"
-    >
-      <span className="flex min-w-0 items-center gap-1.25">
-        <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-[1px] group-hover:scale-110">
-          {item.icon}
-        </span>
-        <span className="whitespace-nowrap font-display text-[10px] font-medium tracking-tight opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-hover:delay-75">
-          {item.label}
-        </span>
-      </span>
+    <a href={item.href} target="_blank" rel="noreferrer" onClick={onClick} aria-label={item.label} className={sharedClassName}>
+      {content}
     </a>
   );
 }
 
-function PageLink({
-  to,
-  label,
-  icon,
-}: {
-  to: "/" | "/projects" | "/blog" | "/experience";
-  label: string;
-  icon: ReactNode;
-}) {
+function PageLink({ to, label, icon }: { to: "/" | "/projects" | "/blog" | "/experience"; label: string; icon: ReactNode }) {
   const { pathname } = useLocation();
   const active = pathname === to;
-  const navStyles = getNavStyles(label);
+
   return (
     <Link
       to={to}
-      style={navStyles}
-      className={`group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-2 font-display text-[10px] font-medium tracking-tight transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out hover:w-[var(--nav-expand)] hover:bg-ink-deep/[0.08] hover:text-ink-deep ${
-        active
-          ? "bg-ink-deep/[0.12] text-ink-deep"
-          : "bg-transparent text-ink-deep"
-      }`}
+      className={`group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-2 font-display text-[10px] font-medium tracking-tight transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
     >
       <span className="flex min-w-0 items-center gap-1.25">
-        <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-[1px] group-hover:scale-110">
-          {icon}
-        </span>
+        <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">{icon}</span>
         <span className="whitespace-nowrap opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
           {label}
         </span>
@@ -279,17 +142,13 @@ export function Nav() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
-      <div className="pointer-events-auto w-auto max-w-[780px]">
+      <div className="pointer-events-auto w-auto max-w-195">
         <div className="flex flex-nowrap items-center justify-center gap-1.25 overflow-visible rounded-full bg-background/88 px-1.5 py-1 shadow-[0_22px_54px_-28px_rgba(0,0,0,0.32)] backdrop-blur-2xl backdrop-saturate-150 md:px-2.5 md:py-1.5">
           <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
             <PageLink to="/blog" label="Blog" icon={Icon.blog} />
-            <PageLink
-              to="/experience"
-              label="Experience"
-              icon={Icon.experience}
-            />
+            <PageLink to="/experience" label="Experience" icon={Icon.experience} />
           </nav>
 
           <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
@@ -297,12 +156,7 @@ export function Nav() {
           <div className="flex flex-nowrap items-center gap-0.5">
             {socialNav.map((item, index) => (
               <Fragment key={item.label}>
-                {index > 0 && (
-                  <span
-                    className="mx-0.5 h-5 w-px bg-ink-deep/12"
-                    aria-hidden
-                  />
-                )}
+                {index > 0 && <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />}
                 <SocialButton item={item} />
               </Fragment>
             ))}
@@ -311,10 +165,10 @@ export function Nav() {
 
             <button
               onClick={() => setSeason(season === "sunny" ? "night" : "sunny")}
-              aria-label="Change seasonal mode"
-              className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-colors hover:bg-ink-deep/[0.08] hover:text-ink-deep"
+              aria-label="Toggle light and dark mode"
+              className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-colors hover:bg-ink-deep/8 hover:text-ink-deep"
             >
-              <span className="size-4 transition-transform duration-300 group-hover:-translate-y-[1px] group-hover:scale-110">
+              <span className="size-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">
                 {seasonGlyph[season]}
               </span>
             </button>

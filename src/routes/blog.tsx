@@ -19,7 +19,7 @@ function BlogPage() {
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
       <VerticalTimeline sections={sections} />
-      <main className="relative z-10 mx-auto w-full max-w-[1120px] pt-28 md:pt-32 md:pl-16 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-280 pt-28 md:pt-32 md:pl-16 lg:pl-28 xl:pl-36">
         <section id="blog" className="py-10 md:py-16">
           <div className="container-edge">
             <SectionHeader
@@ -30,6 +30,11 @@ function BlogPage() {
             />
           </div>
         </section>
+        <div className="container-edge">
+          <div className="rounded-4xl border border-ink-deep/10 bg-background/70 p-4 text-[12px] uppercase tracking-[0.18em] opacity-70">
+            Latest notes and experiments are listed below. The page now has a clear two-part structure: overview and notes.
+          </div>
+        </div>
         <Notes />
       </main>
     </div>
