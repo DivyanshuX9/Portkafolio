@@ -99,7 +99,9 @@ function RootComponent() {
       <QueryClientProvider client={queryClient}>
         <SeasonalBackdrop />
         <Nav />
-        <Outlet />
+        <div className="relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
+          <Outlet />
+        </div>
       </QueryClientProvider>
     </SeasonProvider>
   );

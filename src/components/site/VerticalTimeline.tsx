@@ -17,7 +17,11 @@ const defaultSections: TimelineSection[] = [
   { id: "contact", label: "Contact" },
 ];
 
-export function VerticalTimeline({ sections = defaultSections }: { sections?: TimelineSection[] }) {
+export function VerticalTimeline({
+  sections = defaultSections,
+}: {
+  sections?: TimelineSection[];
+}) {
   const [active, setActive] = useState(sections[0]?.id ?? "top");
   const [progress, setProgress] = useState(0);
 
@@ -61,10 +65,10 @@ export function VerticalTimeline({ sections = defaultSections }: { sections?: Ti
           {sections.map((s, i) => {
             const isActive = active === s.id;
             return (
-              <li key={s.id} className="group flex items-center gap-3">
+              <li key={s.id} className="group flex flex-col items-start gap-3">
                 <a
                   href={`#${s.id}`}
-                  className="flex items-center gap-3 text-ink-deep/50 transition-colors hover:text-ink-deep"
+                  className="flex items-center gap-3 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <span
                     className={`flex h-3 items-center justify-center transition-all ${
@@ -74,19 +78,24 @@ export function VerticalTimeline({ sections = defaultSections }: { sections?: Ti
                     <span
                       className={`block h-px transition-all ${
                         isActive
-                          ? "w-6 bg-ink-deep"
-                          : "w-3 bg-ink-deep/30 group-hover:bg-ink-deep/60"
+                          ? "w-6 bg-foreground"
+                          : "w-3 bg-muted-foreground/30 group-hover:bg-muted-foreground/60"
                       }`}
                     />
                   </span>
                   <span
                     className={`tabular-nums transition-opacity ${
-                      isActive ? "opacity-100 text-ink-deep" : "opacity-0 group-hover:opacity-70"
+                      isActive
+                        ? "opacity-100 text-foreground"
+                        : "opacity-0 group-hover:opacity-70"
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")} · {s.label}
                   </span>
                 </a>
+                {s.id === "github" && (
+                  <div className="h-px w-4 bg-border/30 ml-1.5" />
+                )}
               </li>
             );
           })}

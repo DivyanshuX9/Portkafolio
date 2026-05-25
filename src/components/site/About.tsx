@@ -2,7 +2,7 @@ import { Reveal } from "./Reveal";
 
 export function About() {
   return (
-    <section id="about" className="py-32 md:py-44">
+    <section id="about" className="py-24 md:py-32">
       <div className="container-edge">
         <Reveal>
           <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">

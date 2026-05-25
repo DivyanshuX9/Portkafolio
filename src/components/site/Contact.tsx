@@ -1,23 +1,23 @@
 import { Reveal } from "./Reveal";
 
 const socials = [
-  { label: "Email",    href: "mailto:divyanshu88999@gmail.com" },
-  { label: "GitHub",   href: "https://github.com/DivyanshuX9" },
+  { label: "Email", href: "mailto:divyanshu88999@gmail.com" },
+  { label: "GitHub", href: "https://github.com/DivyanshuX9" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu" },
-  { label: "Read.cv",  href: "#" },
-  { label: "Resume",   href: "#" },
+  { label: "Schedule a meeting", href: "/schedule" },
+  { label: "Projects", href: "/projects" },
 ];
 
 export function Contact() {
   return (
-    <section id="contact" className="border-t border-surface pt-20 pb-10">
+    <section id="contact" className="border-t border-surface pt-16 pb-8">
       <div className="container-edge">
         <Reveal>
           <p className="eyebrow mb-12">[ Sec. 07 ] Get in touch</p>
         </Reveal>
 
         <Reveal delay={0.05}>
-          <p className="font-display max-w-[18ch] text-4xl font-medium leading-[1] tracking-tight text-ink-deep md:text-7xl">
+          <p className="font-display max-w-[18ch] text-4xl font-medium leading-none tracking-tight text-ink-deep md:text-7xl">
             Let's build something <span className="italic font-light opacity-70">meaningful.</span>
           </p>
         </Reveal>
@@ -25,7 +25,7 @@ export function Contact() {
         <Reveal delay={0.1}>
           <a
             href="mailto:divyanshu88999@gmail.com"
-            className="group mt-12 inline-block max-w-full break-words font-display text-[clamp(2rem,7vw,6.5rem)] font-bold leading-[0.95] tracking-tighter text-ink-deep transition-opacity hover:opacity-60"
+            className="group mt-12 inline-block max-w-full wrap-break-word font-display text-[clamp(2rem,7vw,6.5rem)] font-bold leading-[0.95] tracking-tighter text-ink-deep transition-opacity hover:opacity-60"
           >
             divyanshu88999@gmail.com
             <span aria-hidden className="ml-3 inline-block translate-y-[-0.15em] text-3xl opacity-60 transition-transform group-hover:translate-x-2 md:text-5xl">↗</span>
@@ -37,9 +37,15 @@ export function Contact() {
             <ul className="flex flex-wrap gap-x-8 gap-y-3 text-[11px] uppercase tracking-[0.22em]">
               {socials.map((s) => (
                 <li key={s.label}>
-                  <a href={s.href} className="hover:opacity-50 transition-opacity">
-                    {s.label}
-                  </a>
+                  {s.href.startsWith("/") ? (
+                    <a href={s.href} className="transition-opacity hover:opacity-50">
+                      {s.label}
+                    </a>
+                  ) : (
+                    <a href={s.href} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-50">
+                      {s.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
