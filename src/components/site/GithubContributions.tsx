@@ -387,13 +387,13 @@ export function GithubContributions() {
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     Contributions
                   </p>
-                  <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">
+                  <div className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">
                     {contributionData ? (
                       graph.lastYearTotal.toLocaleString()
                     ) : (
                       <Skeleton className="h-8 w-16 rounded-none" />
                     )}
-                  </p>
+                  </div>
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                   Last 365 days
@@ -489,21 +489,21 @@ export function GithubContributions() {
                   <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                     Peak day
                   </p>
-                  <p className="mt-2 font-display text-3xl font-semibold text-foreground">
+                  <div className="mt-2 font-display text-3xl font-semibold text-foreground">
                     {contributionData ? (
                       (graph.peakDay?.count ?? 0)
                     ) : (
                       <StatSkeleton />
                     )}
-                  </p>
+                  </div>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                     Tracked days
                   </p>
-                  <p className="mt-2 font-display text-3xl font-semibold text-foreground">
+                  <div className="mt-2 font-display text-3xl font-semibold text-foreground">
                     {contributionData ? graph.totalDays : <StatSkeleton />}
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

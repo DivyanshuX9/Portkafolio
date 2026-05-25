@@ -1,47 +1,60 @@
-import { useMemo } from "react";
 import { motion } from "motion/react";
+import { useMemo } from "react";
 import { useSeason } from "./SeasonContext";
+
+function createSeededRandom(seed: number) {
+  let state = seed >>> 0;
+  return () => {
+    state = (1664525 * state + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function hashSeason(season: string) {
+  let hash = 0;
+  for (let index = 0; index < season.length; index += 1) {
+    hash = (hash * 31 + season.charCodeAt(index)) >>> 0;
+  }
+  return hash || 1;
+}
 
 export function SeasonalBackdrop() {
   const { season } = useSeason();
 
   // Pre-generate particle positions, stable per season
-  const rainDrops = useMemo(
-    () =>
-      Array.from({ length: 80 }, (_, i) => ({
-        left: Math.random() * 100,
-        delay: Math.random() * 1.6,
-        duration: 0.7 + Math.random() * 0.8,
-        opacity: 0.15 + Math.random() * 0.35,
-        length: 30 + Math.random() * 40,
-      })),
-    [],
-  );
+  const rainDrops = useMemo(() => {
+    const rand = createSeededRandom(hashSeason(`${season}-rain`));
+    return Array.from({ length: 80 }, () => ({
+      left: rand() * 100,
+      delay: rand() * 1.6,
+      duration: 0.7 + rand() * 0.8,
+      opacity: 0.15 + rand() * 0.35,
+      length: 30 + rand() * 40,
+    }));
+  }, [season]);
 
-  const stars = useMemo(
-    () =>
-      Array.from({ length: 90 }, () => ({
-        left: Math.random() * 100,
-        top: Math.random() * 100,
-        size: Math.random() < 0.85 ? 1 : 2,
-        delay: Math.random() * 4,
-        duration: 1.8 + Math.random() * 3.2,
-      })),
-    [],
-  );
+  const stars = useMemo(() => {
+    const rand = createSeededRandom(hashSeason(`${season}-stars`));
+    return Array.from({ length: 90 }, () => ({
+      left: rand() * 100,
+      top: rand() * 100,
+      size: rand() < 0.85 ? 1 : 2,
+      delay: rand() * 4,
+      duration: 1.8 + rand() * 3.2,
+    }));
+  }, [season]);
 
-  const leaves = useMemo(
-    () =>
-      Array.from({ length: 14 }, () => ({
-        left: Math.random() * 100,
-        delay: Math.random() * 10,
-        duration: 14 + Math.random() * 10,
-        size: 8 + Math.random() * 10,
-        rot: Math.random() * 360,
-        drift: -40 + Math.random() * 80,
-      })),
-    [],
-  );
+  const leaves = useMemo(() => {
+    const rand = createSeededRandom(hashSeason(`${season}-leaves`));
+    return Array.from({ length: 14 }, () => ({
+      left: rand() * 100,
+      delay: rand() * 10,
+      duration: 14 + rand() * 10,
+      size: 8 + rand() * 10,
+      rot: rand() * 360,
+      drift: -40 + rand() * 80,
+    }));
+  }, [season]);
 
   return (
     <div
@@ -118,7 +131,8 @@ export function SeasonalBackdrop() {
                 top: `${s.top}%`,
                 width: s.size,
                 height: s.size,
-                boxShadow: s.size > 1 ? "0 0 4px rgba(240,234,218,0.8)" : "none",
+                boxShadow:
+                  s.size > 1 ? "0 0 4px rgba(240,234,218,0.8)" : "none",
               }}
               animate={{ opacity: [0.15, 1, 0.15] }}
               transition={{
