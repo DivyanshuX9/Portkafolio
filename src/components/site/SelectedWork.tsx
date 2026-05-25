@@ -15,6 +15,7 @@ type Project = {
   image: string;
   side: "left" | "right";
   aspect: string;
+  imageLightness: "light" | "dark";
 };
 
 const projects: Project[] = [
@@ -31,6 +32,7 @@ const projects: Project[] = [
     image: p1,
     side: "left",
     aspect: "aspect-[4/5]",
+    imageLightness: "light",
   },
   {
     num: "02",
@@ -45,6 +47,7 @@ const projects: Project[] = [
     image: p2,
     side: "right",
     aspect: "aspect-video",
+    imageLightness: "light",
   },
   {
     num: "03",
@@ -59,6 +62,7 @@ const projects: Project[] = [
     image: p3,
     side: "left",
     aspect: "aspect-[5/4]",
+    imageLightness: "light",
   },
 ];
 
@@ -87,6 +91,10 @@ export function SelectedWork() {
 
 function ProjectBlock({ project }: { project: Project }) {
   const isLeft = project.side === "left";
+  const textColor = project.imageLightness === "light" ? "text-ink-deep" : "text-foreground";
+  const borderColor = project.imageLightness === "light" ? "border-ink-deep" : "border-foreground";
+  const accentColor = project.imageLightness === "light" ? "text-ink-deep" : "text-foreground";
+  
   return (
     <article className="container-edge relative">
       {/* Giant numeral */}
@@ -117,7 +125,7 @@ function ProjectBlock({ project }: { project: Project }) {
               loading="lazy"
               width={1600}
               height={1100}
-              className="size-full object-cover grayscale transition-all duration-[1400ms] ease-out hover:grayscale-0 hover:scale-[1.02]"
+              className="size-full object-cover grayscale transition-all duration-1400 ease-out hover:grayscale-0 hover:scale-[1.02]"
             />
             <span className="absolute left-4 top-4 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-background mix-blend-difference">
               FR_{project.num}
@@ -128,7 +136,7 @@ function ProjectBlock({ project }: { project: Project }) {
         {/* Caption — slipped over and into the opposite margin */}
         <Reveal
           delay={0.1}
-          className={`relative z-20 mt-[-3rem] max-w-xl md:mt-[-7rem] ${
+          className={`relative z-20 -mt-12 max-w-xl md:-mt-28 ${
             isLeft ? "ml-auto md:mr-12 lg:mr-24" : "mr-auto md:ml-12 lg:ml-24"
           }`}
         >
@@ -136,26 +144,26 @@ function ProjectBlock({ project }: { project: Project }) {
             <p className="eyebrow mb-4">
               {project.year} · {project.role}
             </p>
-            <h3 className="font-display text-4xl font-medium tracking-tight text-ink-deep md:text-6xl lg:text-7xl">
+            <h3 className={`font-display text-4xl font-medium tracking-tight ${textColor} md:text-6xl lg:text-7xl`}>
               {project.name}
             </h3>
-            <p className="mt-4 inline-block border-b border-ink-deep pb-1 text-[11px] uppercase tracking-[0.2em]">
+            <p className={`mt-4 inline-block border-b ${borderColor} pb-1 text-[11px] uppercase tracking-[0.2em] ${textColor}`}>
               {project.tag}
             </p>
-            <p className="mt-6 text-[17px] leading-relaxed text-ink">
+            <p className={`mt-6 text-[17px] leading-relaxed ${accentColor}`}>
               {project.summary}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-end justify-between gap-6 border-t border-ink-deep/20 pt-6">
+            <div className={`mt-8 flex flex-wrap items-end justify-between gap-6 border-t ${borderColor}/20 pt-6`}>
               <div>
-                <p className="font-display text-4xl font-medium tracking-tight text-ink-deep md:text-5xl">
+                <p className={`font-display text-4xl font-medium tracking-tight ${textColor} md:text-5xl`}>
                   {project.metric.value}
                 </p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] opacity-60">
+                <p className={`mt-1 text-[10px] uppercase tracking-[0.2em] ${textColor} opacity-60`}>
                   {project.metric.label}
                 </p>
               </div>
-              <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.18em] opacity-70">
+              <ul className={`flex flex-wrap gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.18em] ${textColor} opacity-70`}>
                 {project.stack.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
@@ -164,9 +172,9 @@ function ProjectBlock({ project }: { project: Project }) {
 
             <a
               href="/schedule"
-              className="group mt-8 inline-flex items-center gap-3 font-display text-base font-medium text-ink-deep"
+              className={`group mt-8 inline-flex items-center gap-3 font-display text-base font-medium ${textColor}`}
             >
-              <span className="border-b border-ink-deep pb-0.5">Discuss this project</span>
+              <span className={`border-b ${borderColor} pb-0.5`}>Discuss this project</span>
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </a>
           </div>

@@ -32,7 +32,8 @@ function BlogPage() {
         </section>
         <div className="container-edge">
           <div className="rounded-4xl border border-ink-deep/10 bg-background/70 p-4 text-[12px] uppercase tracking-[0.18em] opacity-70">
-            Latest notes and experiments are listed below. The page now has a clear two-part structure: overview and notes.
+            Latest notes and experiments are listed below. The page now has a
+            clear two-part structure: overview and notes.
           </div>
         </div>
         <Notes />

@@ -6,7 +6,8 @@
 
 @theme inline {
   --font-sans: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display:
+    "Space Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-sm: 0px;
@@ -48,7 +49,9 @@
   --accent-foreground: #ffffff;
   --muted-foreground: rgba(5, 5, 5, 0.56);
   --border: rgba(5, 5, 5, 0.14);
-  transition: background-color 700ms ease, color 700ms ease;
+  transition:
+    background-color 700ms ease,
+    color 700ms ease;
 }
 
 html[data-season="sunny"] {
@@ -74,15 +77,15 @@ html[data-season="rain"] {
 }
 
 html[data-season="night"] {
-  --background: #000000;
-  --surface: #101010;
-  --foreground: #ffffff;
-  --ink: #ffffff;
+  --background: #07090c;
+  --surface: #13161c;
+  --foreground: #f5f2ea;
+  --ink: #efe8da;
   --ink-deep: #ffffff;
-  --accent: #ffffff;
-  --accent-foreground: #000000;
-  --muted-foreground: rgba(255, 255, 255, 0.64);
-  --border: rgba(255, 255, 255, 0.16);
+  --accent: #f5f2ea;
+  --accent-foreground: #07090c;
+  --muted-foreground: rgba(245, 242, 234, 0.72);
+  --border: rgba(245, 242, 234, 0.18);
 }
 
 html[data-season="autumn"] {
@@ -97,10 +100,15 @@ html[data-season="autumn"] {
   --border: rgba(5, 5, 5, 0.12);
 }
 
-html, body { background-color: var(--background); }
+html,
+body {
+  background-color: var(--background);
+}
 
 @layer base {
-  * { border-color: var(--color-border); }
+  * {
+    border-color: var(--color-border);
+  }
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -122,9 +130,28 @@ html, body { background-color: var(--background); }
   }
 }
 
-@utility font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
-@utility eyebrow { @apply text-[11px] uppercase tracking-[0.2em] opacity-60 font-medium; }
-@utility container-edge { @apply mx-auto w-full max-w-[1440px] px-5 md:px-10; }
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+@utility eyebrow {
+  @apply text-[11px] uppercase tracking-[0.2em] opacity-60 font-medium;
+}
+@utility container-edge {
+  @apply mx-auto w-full max-w-360 px-5 md:px-10;
+}
+
+.github-contribution-week {
+  /* Keep every week column fixed so month labels can't shift column alignment. */
+  width: 0.625rem; /* mobile: size-2.5 */
+}
+
+@media (min-width: 768px) {
+  /* Desktop: square=3.5 * 0.25rem */
+  .github-contribution-week {
+    width: 0.875rem; /* md:size-3.5 */
+  }
+}
 
 /* Scoped white surface utility: apply this to a component wrapper to force a white card/look */
 .white-surface {

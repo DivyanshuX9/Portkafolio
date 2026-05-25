@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
+} from "react";
 
 export type Season = "sunny" | "rain" | "night" | "autumn";
 
@@ -18,12 +25,27 @@ type Ctx = {
 const SeasonCtx = createContext<Ctx | null>(null);
 
 export function SeasonProvider({ children }: { children: ReactNode }) {
-  const [season, setSeason] = useState<Season>("sunny");
+  const [season, setSeason] = useState<Season>(() => {
+    if (typeof window === "undefined") return "night";
+    const stored = localStorage.getItem("season");
+    return (stored as Season) || "night";
+  });
 
   useEffect(() => {
     const root = document.documentElement;
     root.dataset.season = season;
+    localStorage.setItem("season", season);
   }, [season]);
+
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== "season" || !event.newValue) return;
+      setSeason(event.newValue as Season);
+    };
+
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
 
   const value = useMemo<Ctx>(
     () => ({

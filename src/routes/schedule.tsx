@@ -2,7 +2,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { Calendar } from "@/components/ui/calendar";
 import { createFileRoute } from "@tanstack/react-router";
-import { format } from "date-fns";
+import { format, startOfToday } from "date-fns";
 import { useMemo, useState } from "react";
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
@@ -21,8 +21,13 @@ function SchedulePage() {
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("Project introduction");
 
-  const googleCalendarId = import.meta.env.VITE_GOOGLE_CALENDAR_ID as string | undefined;
-  const googleCalendarApiKey = import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY as string | undefined;
+  const googleCalendarId = import.meta.env.VITE_GOOGLE_CALENDAR_ID as
+    | string
+    | undefined;
+  const googleCalendarApiKey = import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY as
+    | string
+    | undefined;
+  const today = startOfToday();
 
   const meetingUrl = useMemo(() => {
     const selectedDate = date ?? new Date();
@@ -66,96 +71,133 @@ function SchedulePage() {
           />
         </section>
 
-        <section className="container-edge grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
-          <Reveal className="rounded-4xl border border-ink-deep/12 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.28)] md:p-6">
-            <div className="flex items-center justify-between border-b border-ink-deep/10 pb-4">
-              <div>
-                <p className="eyebrow">Meeting calendar</p>
-                <p className="mt-2 text-sm opacity-60">Choose a slot for a 30 minute conversation.</p>
-              </div>
-              <span className="rounded-full border border-ink-deep/10 px-3 py-1 text-[11px] uppercase tracking-[0.18em] opacity-60">
-                {date ? format(date, "MMM d, yyyy") : "Select a date"}
-              </span>
+        <section className="border-t border-border bg-background py-20 md:py-24">
+          <div className="container-edge space-y-8 md:space-y-12">
+            <div>
+              <p className="eyebrow mb-2">Meeting calendar</p>
+              <p className="text-base text-muted-foreground">
+                Choose a slot for a 30 minute conversation.
+              </p>
             </div>
 
-            <div className="mt-5 overflow-hidden rounded-3xl border border-ink-deep/10 bg-background/50 p-3">
-              <Calendar mode="single" selected={date} onSelect={setDate} className="w-full" />
+            <div className="grid gap-8 md:grid-cols-[1.5fr_1fr]">
+              <Reveal>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between rounded-lg border border-border bg-surface/30 p-4">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">
+                        Selected date
+                      </p>
+                      <p className="mt-1 text-muted-foreground text-[13px]">
+                        {date ? format(date, "EEEE, MMMM d") : "Pick a date"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="overflow-x-auto rounded-lg border border-border bg-surface/20 p-3">
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      fromMonth={today}
+                      disabled={{ before: today }}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </Reveal>
+
+              <Reveal delay={0.1}>
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-foreground">
+                    Time slots
+                  </p>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    {timeSlots.map((slot) => (
+                      <button
+                        key={slot}
+                        type="button"
+                        onClick={() => setTime(slot)}
+                        className={`rounded-lg border px-3 py-2 text-[12px] font-medium uppercase tracking-[0.18em] transition-colors ${
+                          time === slot
+                            ? "border-accent bg-accent text-background"
+                            : "border-border text-foreground hover:bg-surface/50"
+                        }`}
+                      >
+                        {slot}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
             </div>
 
-            <div className="mt-6 grid gap-3 md:grid-cols-3">
-              {timeSlots.map((slot) => (
-                <button
-                  key={slot}
-                  type="button"
-                  onClick={() => setTime(slot)}
-                  className={`rounded-full border px-4 py-2 text-[12px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                    time === slot
-                      ? "border-ink-deep bg-ink-deep text-background"
-                      : "border-ink-deep/15 bg-transparent text-ink-deep hover:bg-ink-deep/5"
-                  }`}
+            <Reveal delay={0.05}>
+              <div className="space-y-4 border-t border-border pt-8 md:pt-12">
+                <p className="eyebrow mb-4">Booking details</p>
+
+                <div className="grid gap-4 md:grid-cols-3">
+                  <label className="block">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                      Name
+                    </p>
+                    <input
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
+                      placeholder="Your name"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                      Email
+                    </p>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
+                      placeholder="you@example.com"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                      Topic
+                    </p>
+                    <input
+                      value={topic}
+                      onChange={(event) => setTopic(event.target.value)}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
+                      placeholder="What should we discuss?"
+                    />
+                  </label>
+                </div>
+
+                <div className="mt-6 rounded-lg border border-border bg-surface/30 p-4 text-sm leading-relaxed">
+                  <p className="font-medium text-foreground">Selected slot</p>
+                  <p className="mt-2 text-muted-foreground">
+                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at{" "}
+                    {time}
+                  </p>
+                  <p className="mt-3 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+                    {calendarSyncHint}
+                  </p>
+                </div>
+
+                <a
+                  href={meetingUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 rounded-lg bg-accent px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-90"
                 >
-                  {slot}
-                </button>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.05} className="rounded-4xl border border-ink-deep/12 bg-white p-5 shadow-[0_24px_60px_-40px_rgba(0,0,0,0.28)] md:p-6">
-            <p className="eyebrow">Booking details</p>
-
-            <div className="mt-5 space-y-4">
-              <label className="block text-[11px] uppercase tracking-[0.18em] opacity-60">
-                Name
-                <input
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  className="mt-2 w-full rounded-full border border-ink-deep/15 bg-background px-4 py-3 text-sm text-ink-deep outline-none transition-colors placeholder:text-ink-deep/40 focus:border-ink-deep"
-                  placeholder="Your name"
-                />
-              </label>
-
-              <label className="block text-[11px] uppercase tracking-[0.18em] opacity-60">
-                Email
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  className="mt-2 w-full rounded-full border border-ink-deep/15 bg-background px-4 py-3 text-sm text-ink-deep outline-none transition-colors placeholder:text-ink-deep/40 focus:border-ink-deep"
-                  placeholder="you@example.com"
-                />
-              </label>
-
-              <label className="block text-[11px] uppercase tracking-[0.18em] opacity-60">
-                Topic
-                <input
-                  value={topic}
-                  onChange={(event) => setTopic(event.target.value)}
-                  className="mt-2 w-full rounded-full border border-ink-deep/15 bg-background px-4 py-3 text-sm text-ink-deep outline-none transition-colors placeholder:text-ink-deep/40 focus:border-ink-deep"
-                  placeholder="What should we discuss?"
-                />
-              </label>
-            </div>
-
-            <div className="mt-6 rounded-3xl border border-ink-deep/10 bg-background/60 p-4 text-sm leading-relaxed">
-              <p className="font-medium text-ink-deep">Selected slot</p>
-              <p className="mt-2 opacity-70">
-                {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at {time}
-              </p>
-              <p className="mt-3 text-[12px] uppercase tracking-[0.18em] opacity-55">
-                {calendarSyncHint}
-              </p>
-            </div>
-
-            <a
-              href={meetingUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-3 rounded-full bg-ink-deep px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-85"
-            >
-              Open Google Calendar
-              <span aria-hidden>↗</span>
-            </a>
-          </Reveal>
+                  Open Google Calendar
+                  <span aria-hidden>↗</span>
+                </a>
+              </div>
+            </Reveal>
+          </div>
         </section>
       </main>
     </div>

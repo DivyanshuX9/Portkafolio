@@ -78,26 +78,28 @@ const seasonGlyph: Record<Season, ReactNode> = {
 
 function navWidthClass(label: string) {
   return {
-    Home: "hover:w-20",
-    Projects: "hover:w-24",
-    Blog: "hover:w-20",
-    Experience: "hover:w-28",
-    GitHub: "hover:w-24",
-    LinkedIn: "hover:w-24",
-    "Schedule a meeting": "hover:w-32",
-  }[label] ?? "hover:w-24";
+    Home: "hover:w-24",
+    Projects: "hover:w-28",
+    Blog: "hover:w-24",
+    Experience: "hover:w-32",
+    GitHub: "hover:w-28",
+    LinkedIn: "hover:w-28",
+    "Schedule a meeting": "hover:w-36",
+  }[label] ?? "hover:w-28";
 }
 
 function SocialButton({ item, onClick }: { item: NavItem; onClick?: () => void }) {
   const sharedClassName =
-    `group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-2 text-ink-deep transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out ${navWidthClass(
+    `group inline-flex h-10 w-10 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-2 text-ink-deep transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 ${navWidthClass(
       item.label,
     )} hover:bg-ink-deep/8 hover:text-ink-deep`;
 
   const content = (
     <span className="flex min-w-0 items-center gap-1.25">
-      <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">{item.icon}</span>
-      <span className="whitespace-nowrap font-display text-[10px] font-medium tracking-tight opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100 group-hover:delay-75">
+      <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
+        {item.icon}
+      </span>
+      <span className="whitespace-nowrap font-display text-[11px] font-medium tracking-tight opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-hover:delay-75">
         {item.label}
       </span>
     </span>
@@ -125,11 +127,13 @@ function PageLink({ to, label, icon }: { to: "/" | "/projects" | "/blog" | "/exp
   return (
     <Link
       to={to}
-      className={`group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-2 font-display text-[10px] font-medium tracking-tight transition-[width,background-color,color,border-color,box-shadow] duration-300 ease-out ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
+      className={`group inline-flex h-10 w-10 items-center justify-start overflow-hidden rounded-full px-2 font-display text-[11px] font-medium tracking-tight transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
     >
       <span className="flex min-w-0 items-center gap-1.25">
-        <span className="size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">{icon}</span>
-        <span className="whitespace-nowrap opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+        <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
+          {icon}
+        </span>
+        <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
           {label}
         </span>
       </span>
@@ -142,8 +146,8 @@ export function Nav() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
-      <div className="pointer-events-auto w-auto max-w-195">
-        <div className="flex flex-nowrap items-center justify-center gap-1.25 overflow-visible rounded-full bg-background/88 px-1.5 py-1 shadow-[0_22px_54px_-28px_rgba(0,0,0,0.32)] backdrop-blur-2xl backdrop-saturate-150 md:px-2.5 md:py-1.5">
+      <div className="pointer-events-auto w-auto max-w-240">
+        <div className="flex flex-nowrap items-center justify-center gap-1.5 overflow-visible rounded-full bg-background/92 px-2 py-1.5 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-transform duration-500 md:px-3 md:py-2">
           <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
@@ -166,9 +170,9 @@ export function Nav() {
             <button
               onClick={() => setSeason(season === "sunny" ? "night" : "sunny")}
               aria-label="Toggle light and dark mode"
-              className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-colors hover:bg-ink-deep/8 hover:text-ink-deep"
+              className="group flex size-10 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:size-11"
             >
-              <span className="size-4 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110">
+              <span className="size-4 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
                 {seasonGlyph[season]}
               </span>
             </button>
