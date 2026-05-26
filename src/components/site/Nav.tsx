@@ -90,7 +90,7 @@ function navWidthClass(label: string) {
 
 function SocialButton({ item, onClick }: { item: NavItem; onClick?: () => void }) {
   const sharedClassName =
-    `group inline-flex h-10 w-10 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-2 text-ink-deep transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 ${navWidthClass(
+    `group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-1.5 text-ink-deep transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 md:pl-2 ${navWidthClass(
       item.label,
     )} hover:bg-ink-deep/8 hover:text-ink-deep`;
 
@@ -127,7 +127,7 @@ function PageLink({ to, label, icon }: { to: "/" | "/projects" | "/blog" | "/exp
   return (
     <Link
       to={to}
-      className={`group inline-flex h-10 w-10 items-center justify-start overflow-hidden rounded-full px-2 font-display text-[11px] font-medium tracking-tight transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
+      className={`group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 md:px-2 ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
     >
       <span className="flex min-w-0 items-center gap-1.25">
         <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
@@ -146,8 +146,8 @@ export function Nav() {
 
   return (
     <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
-      <div className="pointer-events-auto w-auto max-w-240">
-        <div className="flex flex-nowrap items-center justify-center gap-1.5 overflow-visible rounded-full bg-background/92 px-2 py-1.5 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-transform duration-500 md:px-3 md:py-2">
+      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-2rem)] overflow-x-auto md:max-w-240 touch-pan-x">
+        <div className="flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full bg-background/92 px-1.5 py-1 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-transform duration-500 md:w-auto md:justify-center md:gap-1.5 md:px-3 md:py-2">
           <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
@@ -155,22 +155,24 @@ export function Nav() {
             <PageLink to="/experience" label="Experience" icon={Icon.experience} />
           </nav>
 
-          <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
+          <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
 
           <div className="flex flex-nowrap items-center gap-0.5">
             {socialNav.map((item, index) => (
               <Fragment key={item.label}>
-                {index > 0 && <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />}
+                {index > 0 && (
+                  <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
+                )}
                 <SocialButton item={item} />
               </Fragment>
             ))}
 
-            <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
+          <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
 
             <button
               onClick={() => setSeason(season === "sunny" ? "night" : "sunny")}
               aria-label="Toggle light and dark mode"
-              className="group flex size-10 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:size-11"
+              className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:size-11"
             >
               <span className="size-4 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
                 {seasonGlyph[season]}

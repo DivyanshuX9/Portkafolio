@@ -60,7 +60,7 @@ export function Notes() {
                 target="_blank"
                 rel="noreferrer"
                 className={`group grid grid-cols-12 items-baseline gap-4 py-6 transition-[padding,background-color] hover:bg-surface/60 hover:pl-4 md:py-8 ${
-                  i % 2 === 1 ? "md:pl-[8%]" : ""
+                  i % 2 === 1 ? "lg:pl-[8%]" : ""
                 }`}
               >
                 <span className="col-span-2 font-display text-xs tabular-nums opacity-40">

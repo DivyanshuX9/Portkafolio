@@ -137,7 +137,7 @@ function ProjectBlock({ project }: { project: Project }) {
         <Reveal
           delay={0.1}
           className={`relative z-20 -mt-12 max-w-xl md:-mt-28 ${
-            isLeft ? "ml-auto md:mr-12 lg:mr-24" : "mr-auto md:ml-12 lg:ml-24"
+            isLeft ? "ml-auto lg:mr-24" : "mr-auto lg:ml-24"
           }`}
         >
           <div className="bg-background/0 px-6 py-6 md:px-0">

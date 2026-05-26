@@ -25,7 +25,7 @@ export function Contact() {
         <Reveal delay={0.1}>
           <a
             href="mailto:divyanshu88999@gmail.com"
-            className="group mt-12 inline-block max-w-full wrap-break-word font-display text-[clamp(2rem,7vw,6.5rem)] font-bold leading-[0.95] tracking-tighter text-ink-deep transition-opacity hover:opacity-60"
+            className="group mt-12 inline-block max-w-full break-words font-display text-[clamp(2rem,7vw,6.5rem)] font-bold leading-[0.95] tracking-tighter text-ink-deep transition-opacity hover:opacity-60"
           >
             divyanshu88999@gmail.com
             <span aria-hidden className="ml-3 inline-block translate-y-[-0.15em] text-3xl opacity-60 transition-transform group-hover:translate-x-2 md:text-5xl">↗</span>

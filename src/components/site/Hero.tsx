@@ -28,12 +28,12 @@ export function Hero() {
 
       {/* Slipping headline */}
       <div className="container-edge relative z-10 mt-16 md:mt-28">
-        <h1 className="font-display max-w-[16ch] text-[clamp(3rem,11vw,10rem)] font-bold leading-[0.88] tracking-[-0.04em] text-ink-deep">
+        <h1 className="font-display max-w-[16ch] text-[clamp(2.5rem,8vw,10rem)] font-bold leading-[0.88] tracking-[-0.04em] text-ink-deep">
           <SlipLine delay={0}>Building digital</SlipLine>
-          <SlipLine delay={0.08} className="block md:ml-[8%]">
+          <SlipLine delay={0.08} className="block lg:ml-[8%]">
             products people
           </SlipLine>
-          <SlipLine delay={0.16} className="block md:ml-[22%]">
+          <SlipLine delay={0.16} className="block lg:ml-[22%]">
             actually enjoy.
           </SlipLine>
         </h1>
@@ -42,7 +42,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-16 max-w-md text-lg leading-relaxed text-ink md:ml-[22%]"
+          className="mt-12 max-w-md text-base leading-relaxed text-ink md:mt-16 md:text-lg lg:ml-[22%]"
         >
           Software engineer focused on AI systems, scalable web applications,
           and the unreasonable amount of detail that makes an interface feel
@@ -53,7 +53,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.8 }}
-          className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 md:ml-[22%]"
+          className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm md:mt-12 md:gap-x-8 md:gap-y-4 lg:ml-[22%]"
         >
           <a
             href="/projects#work"
@@ -77,7 +77,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="container-edge mt-20 flex items-end justify-end gap-3 text-[10px] uppercase tracking-[0.3em] opacity-50"
+        className="container-edge mt-12 flex items-end justify-end gap-3 text-[9px] uppercase tracking-[0.2em] opacity-50 md:mt-20 md:text-[10px] md:tracking-[0.3em]"
       >
           <span>Scroll</span>
         <span className="relative block h-8 w-px overflow-hidden bg-ink/30">
