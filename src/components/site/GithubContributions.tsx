@@ -4,11 +4,11 @@ import yoloBadge from "@/assests/badges/yolo.png";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import {
-    eachDayOfInterval,
-    formatDistanceToNow,
-    startOfDay,
-    startOfWeek,
-    subDays,
+  eachDayOfInterval,
+  formatDistanceToNow,
+  startOfDay,
+  startOfWeek,
+  subDays,
 } from "date-fns";
 import { useMemo } from "react";
 import { Reveal } from "./Reveal";
@@ -217,11 +217,11 @@ export function GithubContributions() {
   return (
     <section
       id="github"
-      className="relative border-t border-border bg-background pt-20 pb-14 md:pt-24"
+      className="relative border-t border-border bg-background pt-16 pb-10 sm:pt-20 sm:pb-14 md:pt-24"
     >
       <div className="container-edge">
         <Reveal>
-          <div className="flex items-baseline justify-between border-b border-border pb-6">
+          <div className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4 sm:pb-6">
             <p className="eyebrow">[ Sec. 06 ] Live GitHub profile</p>
             <p className="hidden text-[11px] uppercase tracking-[0.2em] text-muted-foreground md:block">
               @{githubUsername} ·{" "}
@@ -230,7 +230,7 @@ export function GithubContributions() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-12">
+        <div className="mt-8 grid gap-8 sm:mt-12 sm:gap-12">
           <Reveal>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
@@ -304,7 +304,7 @@ export function GithubContributions() {
                 )}
               </div>
 
-              <div className="grid gap-6 border-t border-border pt-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
+              <div className="grid gap-4 border-t border-border pt-4 sm:gap-6 sm:pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start">
                 <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
                   <div>
                     <dt className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -344,25 +344,25 @@ export function GithubContributions() {
                   </div>
                 </dl>
 
-                <div className="flex items-center gap-3 lg:justify-end">
+                <div className="flex flex-wrap items-center gap-3 lg:justify-end">
                   {profileBadges.map((badge) => (
                     <img
                       key={badge.src}
                       src={badge.src}
                       alt={badge.alt}
-                      className="size-14 rounded-full border border-border object-cover md:size-16"
+                      className="size-12 rounded-full border border-border object-cover md:size-16"
                       loading="lazy"
                     />
                   ))}
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="grid gap-3 sm:grid-cols-2 lg:flex">
                 <a
                   href={repoLink}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center rounded-full border border-ink-deep/15 bg-ink-deep px-4 py-2 text-[12px] font-medium uppercase tracking-[0.18em] text-background transition-opacity hover:opacity-85"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-ink-deep/15 bg-ink-deep px-4 py-2 text-[12px] font-medium uppercase tracking-[0.12em] text-background transition-opacity hover:opacity-85 sm:tracking-[0.18em] lg:w-auto"
                 >
                   Open profile
                 </a>
@@ -371,7 +371,7 @@ export function GithubContributions() {
                     href={website}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center rounded-full border border-border bg-surface px-4 py-2 text-[12px] font-medium uppercase tracking-[0.18em] text-foreground transition-opacity hover:opacity-70"
+                    className="inline-flex w-full items-center justify-center rounded-full border border-border bg-surface px-4 py-2 text-[12px] font-medium uppercase tracking-[0.12em] text-foreground transition-opacity hover:opacity-70 sm:tracking-[0.18em] lg:w-auto"
                   >
                     Website
                   </a>
@@ -382,7 +382,7 @@ export function GithubContributions() {
 
           <Reveal delay={0.1}>
             <div className="space-y-5">
-              <div className="flex items-baseline justify-between gap-4 border-b border-border pb-4">
+              <div className="flex flex-col gap-2 border-b border-border pb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     Contributions
@@ -400,15 +400,15 @@ export function GithubContributions() {
                 </p>
               </div>
 
-              <div className="overflow-x-auto pb-4 -mb-4">
-                <div className="min-w-max pr-4">
-                  <div className="mb-3 flex gap-2">
+              <div className="github-scroll overflow-x-auto pb-4 -mb-4 touch-pan-x">
+                <div className="min-w-max pr-4 mx-auto">
+                  <div className="mb-3 flex gap-2 justify-start sm:justify-center">
                     <div className="w-7 shrink-0" />
                     <div className="flex gap-0.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
                       {graph.monthLabels.map((month, index) => (
                         <div
                           key={index}
-                          className="github-contribution-week h-5 shrink-0 flex items-end justify-start"
+                          className="github-contribution-week flex h-5 shrink-0 items-end justify-start"
                         >
                           {month && (
                             <span className="whitespace-nowrap">{month}</span>
@@ -418,7 +418,7 @@ export function GithubContributions() {
                     </div>
                   </div>
                   {contributionData ? (
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 justify-start sm:justify-center">
                       <div className="w-7 shrink-0">
                         <div className="flex flex-col gap-0.5 text-[10px] leading-none text-muted-foreground">
                           {dayAxisLabels.map((label, index) => (
@@ -439,7 +439,7 @@ export function GithubContributions() {
                               <span
                                 key={day.date.toISOString()}
                                 title={`${day.date.toDateString()} · ${day.count} contributions`}
-                                className={`size-2.5 rounded-[3px] md:size-3.5 ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110`}
+                                className={`size-2.5 rounded-[3px] md:size-3.5 ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110 active:scale-110`}
                               />
                             ))}
                           </div>
@@ -447,7 +447,7 @@ export function GithubContributions() {
                       </div>
                     </div>
                   ) : (
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-2 justify-start sm:justify-center">
                       <div className="w-7 shrink-0">
                         <div className="flex flex-col gap-0.5 text-[10px] leading-none text-muted-foreground">
                           {dayAxisLabels.map((label, index) => (
@@ -468,8 +468,10 @@ export function GithubContributions() {
                     </div>
                   )}
 
-                  <div className="mt-4 flex items-center justify-between gap-4 text-[10px] tracking-[0.02em] text-muted-foreground">
-                    <span>Learn how we count contributions</span>
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[10px] tracking-[0.02em] text-muted-foreground">
+                    <span className="whitespace-normal">
+                      Learn how we count contributions
+                    </span>
                     <div className="flex items-center gap-2 uppercase tracking-[0.22em]">
                       <span>Less</span>
                       {levelStyle.map((className, index) => (

@@ -103,6 +103,7 @@ html[data-season="autumn"] {
 html,
 body {
   background-color: var(--background);
+  overflow-x: hidden;
 }
 
 @layer base {
@@ -146,6 +147,42 @@ body {
   width: 0.625rem; /* mobile: size-2.5 */
 }
 
+.github-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.github-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.github-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.github-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.nav-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.nav-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.nav-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 @media (min-width: 768px) {
   /* Desktop: square=3.5 * 0.25rem */
   .github-contribution-week {
@@ -153,12 +190,3 @@ body {
   }
 }
 
-/* Scoped white surface utility: apply this to a component wrapper to force a white card/look */
-.white-surface {
-  --background: #ffffff;
-  --surface: #ffffff;
-  --foreground: #050505;
-  --ink: #050505;
-  --ink-deep: #000000;
-  --border: rgba(5, 5, 5, 0.08);
-}

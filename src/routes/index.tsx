@@ -28,9 +28,9 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div id="top" className="relative min-h-dvh bg-background text-foreground transition-colors duration-700 [&[data-season=night]]:text-foreground">
+    <div id="top" className="relative min-h-dvh overflow-x-hidden bg-background text-foreground transition-colors duration-700 [&[data-season=night]]:text-foreground">
       <VerticalTimeline sections={sections} />
-      <main className="relative z-10 mx-auto w-full max-w-[1280px] pt-28 md:pt-32 md:pl-16 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-full px-4 pt-28 sm:px-5 sm:max-w-[95vw] md:pt-32 md:px-0 lg:max-w-[calc(100%-4rem)] lg:pl-24 xl:max-w-[calc(100%-6rem)] xl:pl-32">
         <Hero />
         <GithubContributions />
         <CurrentWorkTimeline />

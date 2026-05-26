@@ -75,23 +75,23 @@ export function CurrentWorkTimeline() {
           </div>
         </Reveal>
 
-        <ol className="mt-16 space-y-8">
+        <ol className="mt-12 space-y-8 sm:mt-16 sm:space-y-10">
           {entries.map((entry, index) => (
             <li key={entry.title} className="list-none">
               <Reveal delay={index * 0.05}>
-                <article className="flex gap-6 md:gap-8">
+                <article className="flex min-w-0 flex-col gap-4 sm:flex-row sm:gap-8">
                   <div className="flex flex-col items-center gap-4 shrink-0">
                     <div className="flex size-10 items-center justify-center rounded-full border border-border bg-surface text-xs font-bold uppercase tracking-[0.2em] text-foreground">
                       {entry.initials}
                     </div>
-                    <div className="h-24 w-px bg-foreground/35" />
+                    <div className="h-10 w-px bg-foreground/35 sm:h-24" />
                   </div>
 
-                  <div className="pb-4">
+                  <div className="min-w-0 pb-4">
                     <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                       {entry.date}
                     </p>
-                    <h3 className="mt-2 font-display text-2xl font-medium tracking-tight text-foreground md:text-3xl">
+                    <h3 className="mt-2 break-words font-display text-2xl font-medium tracking-tight text-foreground md:text-3xl">
                       {entry.title}
                     </h3>
                     <p className="mt-1 text-sm uppercase tracking-[0.18em] text-muted-foreground">

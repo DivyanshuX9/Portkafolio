@@ -50,7 +50,7 @@ export function VerticalTimeline({
       initial={{ opacity: 0, x: -12 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-      className="pointer-events-none fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 md:block lg:left-8"
+      className="pointer-events-none fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 lg:block lg:left-8"
       aria-label="Section index"
     >
       <div className="pointer-events-auto relative flex overflow-visible">

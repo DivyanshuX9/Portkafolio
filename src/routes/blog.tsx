@@ -19,7 +19,7 @@ function BlogPage() {
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
       <VerticalTimeline sections={sections} />
-      <main className="relative z-10 mx-auto w-full max-w-280 pt-28 md:pt-32 md:pl-16 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-280 pt-28 md:pt-32 lg:pl-28 xl:pl-36">
         <section id="blog" className="py-10 md:py-16">
           <div className="container-edge">
             <SectionHeader

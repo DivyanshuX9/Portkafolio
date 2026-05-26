@@ -61,7 +61,7 @@ function SchedulePage() {
 
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
-      <main className="relative z-10 mx-auto w-full max-w-280 px-5 pt-28 pb-20 md:px-10 md:pt-32 md:pl-16 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-280 px-5 pt-28 pb-20 md:px-10 md:pt-32 lg:pl-28 xl:pl-36">
         <section className="container-edge pb-10">
           <SectionHeader
             index="01"
