@@ -14,6 +14,8 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogNabhaRouteImport } from './routes/blog.nabha'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
 const ScheduleRoute = ScheduleRouteImport.update({
   id: '/schedule',
@@ -40,40 +42,78 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogNabhaRoute = BlogNabhaRouteImport.update({
+  id: '/nabha',
+  path: '/nabha',
+  getParentRoute: () => BlogRoute,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/experience': typeof ExperienceRoute
   '/projects': typeof ProjectsRoute
   '/schedule': typeof ScheduleRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/nabha': typeof BlogNabhaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/experience': typeof ExperienceRoute
   '/projects': typeof ProjectsRoute
   '/schedule': typeof ScheduleRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/nabha': typeof BlogNabhaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/blog': typeof BlogRoute
+  '/blog': typeof BlogRouteWithChildren
   '/experience': typeof ExperienceRoute
   '/projects': typeof ProjectsRoute
   '/schedule': typeof ScheduleRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/nabha': typeof BlogNabhaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/blog' | '/experience' | '/projects' | '/schedule'
+  fullPaths:
+    | '/'
+    | '/blog'
+    | '/experience'
+    | '/projects'
+    | '/schedule'
+    | '/blog/$slug'
+    | '/blog/nabha'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/blog' | '/experience' | '/projects' | '/schedule'
-  id: '__root__' | '/' | '/blog' | '/experience' | '/projects' | '/schedule'
+  to:
+    | '/'
+    | '/blog'
+    | '/experience'
+    | '/projects'
+    | '/schedule'
+    | '/blog/$slug'
+    | '/blog/nabha'
+  id:
+    | '__root__'
+    | '/'
+    | '/blog'
+    | '/experience'
+    | '/projects'
+    | '/schedule'
+    | '/blog/$slug'
+    | '/blog/nabha'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BlogRoute: typeof BlogRoute
+  BlogRoute: typeof BlogRouteWithChildren
   ExperienceRoute: typeof ExperienceRoute
   ProjectsRoute: typeof ProjectsRoute
   ScheduleRoute: typeof ScheduleRoute
@@ -116,12 +156,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/nabha': {
+      id: '/blog/nabha'
+      path: '/nabha'
+      fullPath: '/blog/nabha'
+      preLoaderRoute: typeof BlogNabhaRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
+    }
   }
 }
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogNabhaRoute: typeof BlogNabhaRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+  BlogNabhaRoute: BlogNabhaRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BlogRoute: BlogRoute,
+  BlogRoute: BlogRouteWithChildren,
   ExperienceRoute: ExperienceRoute,
   ProjectsRoute: ProjectsRoute,
   ScheduleRoute: ScheduleRoute,

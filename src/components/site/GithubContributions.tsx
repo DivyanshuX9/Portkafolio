@@ -4,13 +4,13 @@ import yoloBadge from "@/assests/badges/yolo.png";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import {
-  eachDayOfInterval,
-  formatDistanceToNow,
-  startOfDay,
-  startOfWeek,
-  subDays,
+    eachDayOfInterval,
+    formatDistanceToNow,
+    startOfDay,
+    startOfWeek,
+    subDays,
 } from "date-fns";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
 
 type GitHubProfile = {
@@ -148,7 +148,20 @@ export function GithubContributions() {
   const followers = profile?.followers ?? 0;
   const stars = data?.stars ?? 0;
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const graph = useMemo(() => {
+    if (!mounted) {
+      return {
+        weeks: [],
+        monthLabels: [],
+        lastYearTotal: 0,
+        activeDays: 0,
+        peakDay: null,
+        totalDays: 0,
+      };
+    }
     const endDate = startOfDay(new Date());
     const startDate = startOfWeek(subDays(endDate, 364), { weekStartsOn: 0 });
     const days = eachDayOfInterval({ start: startDate, end: endDate });
@@ -210,7 +223,7 @@ export function GithubContributions() {
       peakDay,
       totalDays: contributionData?.contributions.length ?? 0,
     };
-  }, [contributionData]);
+  }, [contributionData, mounted]);
 
   const isReady = Boolean(data && contributionData);
 
@@ -235,26 +248,36 @@ export function GithubContributions() {
             <div className="space-y-6">
               <div className="flex items-start gap-4">
                 {isReady ? (
-                  <img
-                    src={
-                      profile?.avatar_url ??
-                      `https://github.com/${githubUsername}.png`
-                    }
-                    alt={`${name} GitHub avatar`}
-                    className="size-16 shrink-0 rounded-full border border-border object-cover shadow-sm"
-                    loading="lazy"
-                  />
+                  <button
+                    onClick={() => window.open(repoLink, "_blank")}
+                    onDoubleClick={() => window.open(repoLink, "_blank")}
+                    className="cursor-pointer hover:opacity-80 transition-opacity"
+                  >
+                    <img
+                      src={
+                        profile?.avatar_url ??
+                        `https://github.com/${githubUsername}.png`
+                      }
+                      alt={`${name} GitHub avatar`}
+                      className="size-16 shrink-0 rounded-full border border-border object-cover shadow-sm"
+                      loading="lazy"
+                    />
+                  </button>
                 ) : (
                   <Skeleton className="size-16 rounded-full" />
                 )}
 
-                <div className="min-w-0">
+                <button
+                  onClick={() => window.open(repoLink, "_blank")}
+                  onDoubleClick={() => window.open(repoLink, "_blank")}
+                  className="min-w-0 text-left cursor-pointer hover:opacity-80 transition-opacity"
+                >
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     GitHub user
                   </p>
                   {isReady ? (
                     <>
-                      <h3 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground">
+                      <h3 className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
                         {name}
                       </h3>
                       <p className="mt-1 text-[12px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -267,7 +290,7 @@ export function GithubContributions() {
                       <Skeleton className="mt-2 h-3 w-24 rounded-none" />
                     </>
                   )}
-                </div>
+                </button>
               </div>
 
               {isReady ? (
@@ -346,36 +369,21 @@ export function GithubContributions() {
 
                 <div className="flex flex-wrap items-center gap-3 lg:justify-end">
                   {profileBadges.map((badge) => (
-                    <img
+                    <a
                       key={badge.src}
-                      src={badge.src}
-                      alt={badge.alt}
-                      className="size-12 rounded-full border border-border object-cover md:size-16"
-                      loading="lazy"
-                    />
+                      href={repoLink}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={badge.src}
+                        alt={badge.alt}
+                        className="size-12 rounded-full border border-border object-cover md:size-16"
+                        loading="lazy"
+                      />
+                    </a>
                   ))}
                 </div>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-2 lg:flex">
-                <a
-                  href={repoLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex w-full items-center justify-center rounded-full border border-ink-deep/15 bg-ink-deep px-4 py-2 text-[12px] font-medium uppercase tracking-[0.12em] text-background transition-opacity hover:opacity-85 sm:tracking-[0.18em] lg:w-auto"
-                >
-                  Open profile
-                </a>
-                {website && (
-                  <a
-                    href={website}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-full items-center justify-center rounded-full border border-border bg-surface px-4 py-2 text-[12px] font-medium uppercase tracking-[0.12em] text-foreground transition-opacity hover:opacity-70 sm:tracking-[0.18em] lg:w-auto"
-                  >
-                    Website
-                  </a>
-                )}
               </div>
             </div>
           </Reveal>
@@ -387,9 +395,9 @@ export function GithubContributions() {
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                     Contributions
                   </p>
-                  <div className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">
+                  <div className="mt-1 font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
                     {contributionData ? (
-                      graph.lastYearTotal.toLocaleString()
+                      graph.lastYearTotal.toLocaleString("en-US")
                     ) : (
                       <Skeleton className="h-8 w-16 rounded-none" />
                     )}
@@ -400,92 +408,107 @@ export function GithubContributions() {
                 </p>
               </div>
 
-              <div className="github-scroll overflow-x-auto pb-4 -mb-4 touch-pan-x">
-                <div className="min-w-max pr-4 mx-auto">
-                  <div className="mb-3 flex gap-2 justify-start sm:justify-center">
-                    <div className="w-7 shrink-0" />
-                    <div className="flex gap-0.5 text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                      {graph.monthLabels.map((month, index) => (
-                        <div
-                          key={index}
-                          className="github-contribution-week flex h-5 shrink-0 items-end justify-start"
-                        >
-                          {month && (
-                            <span className="whitespace-nowrap">{month}</span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {contributionData ? (
-                    <div className="flex items-start gap-2 justify-start sm:justify-center">
-                      <div className="w-7 shrink-0">
-                        <div className="flex flex-col gap-0.5 text-[10px] leading-none text-muted-foreground">
-                          {dayAxisLabels.map((label, index) => (
-                            <span key={index} className="h-2.5 md:h-3.5">
-                              {label}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="flex gap-0.5">
-                        {graph.weeks.map((week, weekIndex) => (
+              <div className="max-w-full">
+                <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:hidden">
+                  ← Swipe to scroll →
+                </p>
+                <div
+                  className="github-scroll overflow-x-scroll overflow-y-hidden pb-3"
+                  style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+                >
+                  <div className="w-max">
+                    <div className="mb-3 flex gap-2">
+                      <div className="w-7 shrink-0" />
+                      <div className="flex gap-0.5 text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                        {graph.monthLabels.map((month, index) => (
                           <div
-                            key={weekIndex}
-                            className="github-contribution-week flex shrink-0 flex-col gap-0.5"
+                            key={index}
+                            className="github-contribution-week flex h-5 items-end justify-start lg:shrink-0"
                           >
-                            {week.map((day) => (
-                              <span
-                                key={day.date.toISOString()}
-                                title={`${day.date.toDateString()} · ${day.count} contributions`}
-                                className={`size-2.5 rounded-[3px] md:size-3.5 ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110 active:scale-110`}
-                              />
-                            ))}
+                            {month && (
+                              <span className="whitespace-nowrap text-[8px] sm:text-[10px]">
+                                {month}
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
                     </div>
-                  ) : (
-                    <div className="flex items-start gap-2 justify-start sm:justify-center">
-                      <div className="w-7 shrink-0">
-                        <div className="flex flex-col gap-0.5 text-[10px] leading-none text-muted-foreground">
-                          {dayAxisLabels.map((label, index) => (
-                            <span key={index} className="h-2.5 md:h-3.5">
-                              {label}
-                            </span>
+                    {contributionData ? (
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 shrink-0">
+                          <div className="flex flex-col gap-0.5 text-[9px] sm:text-[10px] leading-none text-muted-foreground">
+                            {dayAxisLabels.map((label, index) => (
+                              <span key={index} className="h-2 sm:h-2.5 md:h-3.5">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex gap-0.5 flex-nowrap">
+                          {graph.weeks.map((week, weekIndex) => (
+                            <div
+                              key={weekIndex}
+                              className="github-contribution-week flex flex-col gap-0.5 lg:shrink-0"
+                            >
+                              {week.map((day) => {
+                                const iso = day.date.toISOString().slice(0, 10);
+                                const searchUrl = `https://github.com/search?q=author%3A${encodeURIComponent(githubUsername)}+committer-date%3A${encodeURIComponent(iso)}&type=commits`;
+                                return (
+                                  <a
+                                    key={iso}
+                                    href={searchUrl}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    title={`${day.date.toDateString()} · ${day.count} contributions`}
+                                    className={`inline-block ${day.count > 0 ? "cursor-pointer" : "cursor-default"}`}
+                                  >
+                                    <span
+                                      className={`block w-2 sm:w-[0.625rem] md:w-[0.75rem] lg:w-[0.875rem] h-2 sm:h-[0.625rem] md:h-[0.75rem] lg:h-[0.875rem] rounded-[2px] sm:rounded-[3px] border border-border ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110 active:scale-110`}
+                                    />
+                                  </a>
+                                );
+                              })}
+                            </div>
                           ))}
                         </div>
                       </div>
-                      <div className="grid grid-cols-8 gap-0.5">
-                        {Array.from({ length: 64 }).map((_, index) => (
-                          <Skeleton
+                    ) : (
+                      <div className="flex items-start gap-2">
+                        <div className="w-7 shrink-0">
+                          <div className="flex flex-col gap-0.5 text-[10px] leading-none text-muted-foreground">
+                            {dayAxisLabels.map((label, index) => (
+                              <span key={index} className="h-2.5 md:h-3.5">
+                                {label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-8 gap-0.5">
+                          {Array.from({ length: 64 }).map((_, index) => (
+                            <Skeleton key={index} className="size-2 sm:size-2.5 rounded-[2px] md:size-3.5" />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[10px] tracking-[0.02em] text-muted-foreground">
+                      <span className="whitespace-normal max-w-[26ch] sm:max-w-none">
+                        Learn how we count contributions
+                      </span>
+                      <div className="flex items-center gap-2 uppercase tracking-[0.22em]">
+                        <span>Less</span>
+                        {levelStyle.map((cls, index) => (
+                          <span
                             key={index}
-                            className="size-2.5 rounded-[3px] md:size-3.5"
+                            className={`inline-block w-[0.625rem] h-[0.625rem] md:w-[0.75rem] md:h-[0.75rem] rounded-[3px] border border-border ${cls}`}
                           />
                         ))}
+                        <span>More</span>
                       </div>
-                    </div>
-                  )}
-
-                  <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-[10px] tracking-[0.02em] text-muted-foreground">
-                    <span className="whitespace-normal">
-                      Learn how we count contributions
-                    </span>
-                    <div className="flex items-center gap-2 uppercase tracking-[0.22em]">
-                      <span>Less</span>
-                      {levelStyle.map((className, index) => (
-                        <span
-                          key={index}
-                          className={`size-2.5 rounded-[3px] md:size-3.5 ${className}`}
-                        />
-                      ))}
-                      <span>More</span>
                     </div>
                   </div>
                 </div>
               </div>
-
               <div className="grid gap-6 border-t border-border pt-5 md:grid-cols-3">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">

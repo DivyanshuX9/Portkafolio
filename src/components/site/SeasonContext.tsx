@@ -1,19 +1,17 @@
 import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
+    createContext,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
 } from "react";
 
-export type Season = "sunny" | "rain" | "night" | "autumn";
+export type Season = "light" | "dark";
 
-export const SEASONS: { id: Season; label: string; hint: string }[] = [
-  { id: "sunny", label: "Sunny", hint: "Paper & light" },
-  { id: "rain", label: "Rain", hint: "Soft drizzle" },
-  { id: "night", label: "Night", hint: "Stars twinkling" },
-  { id: "autumn", label: "Autumn", hint: "Beige evening" },
+const SEASONS: { id: Season; label: string; hint: string }[] = [
+  { id: "light", label: "Light", hint: "Bright" },
+  { id: "dark", label: "Dark", hint: "Dim" },
 ];
 
 type Ctx = {
@@ -25,22 +23,43 @@ type Ctx = {
 const SeasonCtx = createContext<Ctx | null>(null);
 
 export function SeasonProvider({ children }: { children: ReactNode }) {
-  const [season, setSeason] = useState<Season>(() => {
-    if (typeof window === "undefined") return "sunny";
-    const stored = localStorage.getItem("season");
-    return (stored as Season) || "sunny";
-  });
+  // Initialize to a deterministic value so server and client match during
+  // hydration. Load stored preference only after mount to avoid hydration
+  // mismatches when localStorage differs from the server default.
+  const [season, setSeason] = useState<Season>(() => "light");
+
+  // After mount, read stored season (if any) and apply it.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("season");
+      if (stored) {
+        // Normalize legacy season values to our simplified light/dark theme.
+        let normalized: Season = "light";
+        if (stored === "night" || stored === "dark") normalized = "dark";
+        setSeason((prev) => (normalized !== prev ? normalized : prev));
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.dataset.season = season;
+    if (season === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
     localStorage.setItem("season", season);
   }, [season]);
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== "season" || !event.newValue) return;
-      setSeason(event.newValue as Season);
+      const stored = event.newValue;
+      let normalized: Season = "light";
+      if (stored === "night" || stored === "dark") normalized = "dark";
+      setSeason(normalized);
     };
 
     window.addEventListener("storage", handleStorage);

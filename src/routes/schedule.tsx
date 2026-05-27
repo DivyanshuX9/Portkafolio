@@ -3,7 +3,7 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { Calendar } from "@/components/ui/calendar";
 import { createFileRoute } from "@tanstack/react-router";
 import { format, startOfToday } from "date-fns";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
 
@@ -15,7 +15,9 @@ export const Route = createFileRoute("/schedule")({
 });
 
 function SchedulePage() {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+  // Initialize date as undefined to avoid SSR/client mismatch (server and
+  // client mount times will differ). Set the current date after mount.
+  const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState(timeSlots[1]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +30,19 @@ function SchedulePage() {
     | string
     | undefined;
   const today = startOfToday();
+
+  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    setDate(new Date());
+    try {
+      setClientTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+    } catch (e) {
+      setClientTimeZone(undefined);
+    }
+  }, []);
 
   const meetingUrl = useMemo(() => {
     const selectedDate = date ?? new Date();
@@ -48,7 +63,7 @@ function SchedulePage() {
         .filter(Boolean)
         .join("\n"),
       dates: `${format(start, "yyyyMMdd'T'HHmmss")}/${format(end, "yyyyMMdd'T'HHmmss")}`,
-      ctz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      ctz: clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
 
     return `https://calendar.google.com/calendar/render?${params.toString()}`;

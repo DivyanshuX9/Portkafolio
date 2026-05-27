@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Fragment, type ReactNode } from "react";
-import { useSeason, type Season } from "./SeasonContext";
+import { useSeason, type Season } from "./theme";
 
 type NavItem = {
   href: string;
@@ -11,26 +11,58 @@ type NavItem = {
 
 const Icon = {
   home: (
-    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      className="block size-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M3 11.5 12 4l9 7.5" />
       <path d="M5 10v10h14V10" />
     </svg>
   ),
   experience: (
-    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      className="block size-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="7" width="18" height="13" rx="2" />
       <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
       <path d="M3 12h18" />
     </svg>
   ),
   project: (
-    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      className="block size-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <polyline points="8 6 2 12 8 18" />
       <polyline points="16 6 22 12 16 18" />
     </svg>
   ),
   blog: (
-    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      className="block size-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z" />
       <path d="M5 17a3 3 0 0 0 3 3" />
       <path d="M9 8h7M9 12h7" />
@@ -47,7 +79,15 @@ const Icon = {
     </svg>
   ),
   calendar: (
-    <svg className="block size-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      className="block size-full"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="5" width="18" height="16" rx="2" />
       <path d="M3 10h18M8 3v4M16 3v4" />
       <circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none" />
@@ -56,84 +96,105 @@ const Icon = {
 };
 
 const socialNav: NavItem[] = [
-  { href: "https://github.com/DivyanshuX9", label: "GitHub", icon: Icon.github, external: true },
-  { href: "https://www.linkedin.com/in/mr-divyanshu", label: "LinkedIn", icon: Icon.linkedin, external: true },
-  { href: "/schedule", label: "Schedule a meeting", icon: Icon.calendar, external: false },
+  {
+    href: "https://github.com/DivyanshuX9",
+    label: "GitHub",
+    icon: Icon.github,
+    external: true,
+  },
+  {
+    href: "https://www.linkedin.com/in/mr-divyanshu",
+    label: "LinkedIn",
+    icon: Icon.linkedin,
+    external: true,
+  },
+  {
+    href: "/schedule",
+    label: "Schedule a meeting",
+    icon: Icon.calendar,
+    external: false,
+  },
 ];
 
 const seasonGlyph: Record<Season, ReactNode> = {
-  sunny: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" /></svg>
+  light: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
   ),
-  rain: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M7 14a5 5 0 1 1 1.5-9.78A6 6 0 0 1 19 9a4 4 0 0 1 0 8H7a3 3 0 0 1 0-6" /><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2" /></svg>
-  ),
-  night: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
-  ),
-  autumn: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21V9" /><path d="M12 9c-3 0-6-2-6-5 4 0 6 2 6 5z" /><path d="M12 11c3 0 6-2 6-5-4 0-6 2-6 5z" /><path d="M12 14c-3 0-5-1.5-5-4 3 0 5 1.5 5 4z" /></svg>
+  dark: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+    </svg>
   ),
 };
 
 function navWidthClass(label: string) {
-  return {
-    Home: "hover:w-24",
-    Projects: "hover:w-28",
-    Blog: "hover:w-24",
-    Experience: "hover:w-32",
-    GitHub: "hover:w-28",
-    LinkedIn: "hover:w-28",
-    "Schedule a meeting": "hover:w-36",
-  }[label] ?? "hover:w-28";
+  if (label.length > 10) return "hover:w-44";
+  if (label.length > 6) return "hover:w-32";
+  return "hover:w-24";
 }
 
-function SocialButton({ item, onClick }: { item: NavItem; onClick?: () => void }) {
-  const sharedClassName =
-    `group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full border border-transparent bg-transparent pl-1.5 text-ink-deep transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 md:pl-2 ${navWidthClass(
-      item.label,
-    )} hover:bg-ink-deep/8 hover:text-ink-deep`;
+const navBaseClass = "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-11 md:w-11 md:px-2 md:hover:pr-3.5";
+
+const navActiveClass = "hover:bg-ink-deep/8 hover:text-ink-deep";
+
+function SocialButton({ item }: { item: NavItem }) {
+  const cls = `${navBaseClass} ${navActiveClass} ${navWidthClass(item.label)} bg-transparent text-ink-deep`;
 
   const content = (
-    <span className="flex min-w-0 items-center gap-1.25">
+    <span className="flex min-w-0 items-center gap-1.5">
       <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
         {item.icon}
       </span>
-      <span className="whitespace-nowrap font-display text-[11px] font-medium tracking-tight opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-hover:delay-75">
+      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
         {item.label}
       </span>
     </span>
   );
 
   if (!item.external) {
-    return (
-      <a href={item.href} onClick={onClick} aria-label={item.label} className={sharedClassName}>
-        {content}
-      </a>
-    );
+    return <a href={item.href} aria-label={item.label} className={cls}>{content}</a>;
   }
-
-  return (
-    <a href={item.href} target="_blank" rel="noreferrer" onClick={onClick} aria-label={item.label} className={sharedClassName}>
-      {content}
-    </a>
-  );
+  return <a href={item.href} target="_blank" rel="noreferrer" aria-label={item.label} className={cls}>{content}</a>;
 }
 
-function PageLink({ to, label, icon }: { to: "/" | "/projects" | "/blog" | "/experience"; label: string; icon: ReactNode }) {
+function PageLink({
+  to,
+  label,
+  icon,
+}: {
+  to: "/" | "/projects" | "/blog" | "/experience";
+  label: string;
+  icon: ReactNode;
+}) {
   const { pathname } = useLocation();
   const active = pathname === to;
+  const cls = `${navBaseClass} ${navActiveClass} ${navWidthClass(label)} ${
+    active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"
+  }`;
 
   return (
-    <Link
-      to={to}
-      className={`group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 md:h-11 md:w-11 md:px-2 ${navWidthClass(label)} hover:bg-ink-deep/8 hover:text-ink-deep ${active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"}`}
-    >
-      <span className="flex min-w-0 items-center gap-1.25">
+    <Link to={to} className={cls}>
+      <span className="flex min-w-0 items-center gap-1.5">
         <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
           {icon}
         </span>
-        <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
+        <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
           {label}
         </span>
       </span>
@@ -152,25 +213,38 @@ export function Nav() {
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
             <PageLink to="/blog" label="Blog" icon={Icon.blog} />
-            <PageLink to="/experience" label="Experience" icon={Icon.experience} />
+            <PageLink
+              to="/experience"
+              label="Experience"
+              icon={Icon.experience}
+            />
           </nav>
 
-          <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
+          <span
+            className="mx-0.5 h-5 w-px bg-ink-deep/12"
+            aria-hidden
+          />
 
           <div className="flex flex-nowrap items-center gap-0.5">
             {socialNav.map((item, index) => (
               <Fragment key={item.label}>
                 {index > 0 && (
-                  <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
+                  <span
+                    className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block"
+                    aria-hidden
+                  />
                 )}
                 <SocialButton item={item} />
               </Fragment>
             ))}
 
-          <span className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block" aria-hidden />
+            <span
+              className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block"
+              aria-hidden
+            />
 
             <button
-              onClick={() => setSeason(season === "sunny" ? "night" : "sunny")}
+              onClick={() => setSeason(season === "light" ? "dark" : "light")}
               aria-label="Toggle light and dark mode"
               className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:size-11"
             >

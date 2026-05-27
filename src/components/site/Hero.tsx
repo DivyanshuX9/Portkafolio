@@ -2,7 +2,10 @@ import { motion } from "motion/react";
 
 export function Hero() {
   return (
-    <section id="top" className="relative min-h-[88vh] w-full overflow-hidden pt-32 pb-20 md:pt-36 md:pb-24">
+    <section
+      id="top"
+      className="relative min-h-[88vh] w-full overflow-hidden pt-32 pb-20 md:pt-36 md:pb-24"
+    >
       {/* Massive AM watermark */}
       <div
         aria-hidden
@@ -60,7 +63,12 @@ export function Hero() {
             className="group inline-flex items-center gap-3 border-b border-ink-deep pb-1 font-display text-base font-medium tracking-tight text-ink-deep"
           >
             View work
-            <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
+            <span
+              aria-hidden
+              className="transition-transform group-hover:translate-x-1"
+            >
+              →
+            </span>
           </a>
           <a
             href="#contact"
@@ -79,7 +87,7 @@ export function Hero() {
         transition={{ delay: 1.2, duration: 1 }}
         className="container-edge mt-12 flex items-end justify-end gap-3 text-[9px] uppercase tracking-[0.2em] opacity-50 md:mt-20 md:text-[10px] md:tracking-[0.3em]"
       >
-          <span>Scroll</span>
+        <span>Scroll</span>
         <span className="relative block h-8 w-px overflow-hidden bg-ink/30">
           <motion.span
             className="absolute inset-x-0 top-0 block h-3 bg-ink-deep"
