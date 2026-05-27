@@ -60,7 +60,7 @@ export function FeaturedCaseStudy() {
           </div>
           <div className="md:col-span-5">
             <Reveal>
-                <div className="aspect-3/4 overflow-hidden bg-ink">
+              <div className="aspect-3/4 overflow-hidden bg-ink">
                 <img
                   src={cover}
                   alt="Quiet workspace with morning light"

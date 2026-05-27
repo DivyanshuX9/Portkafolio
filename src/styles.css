@@ -54,29 +54,7 @@
     color 700ms ease;
 }
 
-html[data-season="sunny"] {
-  --background: #ffffff;
-  --surface: #f4f4f4;
-  --foreground: #050505;
-  --ink: #050505;
-  --ink-deep: #000000;
-  --accent: #000000;
-  --accent-foreground: #ffffff;
-  --border: rgba(5, 5, 5, 0.14);
-}
-
-html[data-season="rain"] {
-  --background: #ffffff;
-  --surface: #efefef;
-  --foreground: #050505;
-  --ink: #050505;
-  --ink-deep: #000000;
-  --accent: #000000;
-  --accent-foreground: #ffffff;
-  --border: rgba(5, 5, 5, 0.12);
-}
-
-html[data-season="night"] {
+html.dark {
   --background: #07090c;
   --surface: #13161c;
   --foreground: #f5f2ea;
@@ -88,21 +66,12 @@ html[data-season="night"] {
   --border: rgba(245, 242, 234, 0.18);
 }
 
-html[data-season="autumn"] {
-  --background: #ffffff;
-  --surface: #f1f1f1;
-  --foreground: #050505;
-  --ink: #050505;
-  --ink-deep: #000000;
-  --accent: #000000;
-  --accent-foreground: #ffffff;
-  --muted-foreground: rgba(5, 5, 5, 0.6);
-  --border: rgba(5, 5, 5, 0.12);
+html {
+  background-color: var(--background);
 }
 
-html,
 body {
-  background-color: var(--background);
+  background-color: var(--color-background);
   overflow-x: hidden;
 }
 
@@ -110,24 +79,37 @@ body {
   * {
     border-color: var(--color-border);
   }
+
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
   }
+
   body {
-    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
+
   ::selection {
     background-color: var(--color-ink-deep);
     color: var(--color-background);
   }
+
   :focus-visible {
     outline: 2px solid var(--color-ink-deep);
     outline-offset: 3px;
+  }
+
+  img,
+  video,
+  canvas,
+  svg {
+    max-width: 100%;
+    height: auto;
   }
 }
 
@@ -135,21 +117,27 @@ body {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
 }
+
 @utility eyebrow {
   @apply text-[11px] uppercase tracking-[0.2em] opacity-60 font-medium;
 }
+
 @utility container-edge {
   @apply mx-auto w-full max-w-360 px-5 md:px-10;
 }
 
 .github-contribution-week {
   /* Keep every week column fixed so month labels can't shift column alignment. */
-  width: 0.625rem; /* mobile: size-2.5 */
+  width: 0.625rem;
+  /* mobile: size-2.5 */
 }
 
 .github-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
+  scrollbar-gutter: stable both-edges;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .github-scroll::-webkit-scrollbar {
@@ -186,7 +174,7 @@ body {
 @media (min-width: 768px) {
   /* Desktop: square=3.5 * 0.25rem */
   .github-contribution-week {
-    width: 0.875rem; /* md:size-3.5 */
+    width: 0.75rem;
+    /* adjusted for medium screens to reduce overflow */
   }
 }
-

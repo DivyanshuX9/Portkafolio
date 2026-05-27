@@ -1,185 +1,179 @@
-import p1 from "@/assests/project-1.jpg";
-import p2 from "@/assests/project-2.jpg";
-import p3 from "@/assests/project-3.jpg";
 import { Reveal } from "./Reveal";
 
 type Project = {
   num: string;
   year: string;
-  role: string;
-  name: string;
   tag: string;
+  name: string;
   summary: string;
   stack: string[];
   metric: { value: string; label: string };
-  image: string;
+  github: string;
   side: "left" | "right";
-  aspect: string;
-  imageLightness: "light" | "dark";
 };
 
-const projects: Project[] = [
+const sweProjects: Project[] = [
   {
     num: "01",
-    year: "2024 — Now",
-    role: "Founding engineer",
-    name: "Verol Analytics",
-    tag: "Product · AI workspace",
+    year: "2024 — 2025",
+    tag: "Full-stack · Ride aggregation",
+    name: "RideHub",
     summary:
-      "An analytics surface for product teams that replaces dashboards with a writeable, queryable workspace. Built from a blank file to 1,200 active teams.",
-    stack: ["Next.js", "ClickHouse", "tRPC", "OpenAI"],
-    metric: { value: "−68%", label: "Median query latency" },
-    image: p1,
+      "Unified ride aggregation platform combining five transport services — buses, cabs, metro, autos, and mixed routes — with real-road routing, booking history, and a FastAPI + PostgreSQL backend. Built to solve the transport unification problem in Indian cities.",
+    stack: ["Next.js 15", "FastAPI", "PostgreSQL", "React Native"],
+    metric: { value: "5×", label: "Transport services unified" },
+    github: "https://github.com/DivyanshuX9",
     side: "left",
-    aspect: "aspect-[4/5]",
-    imageLightness: "light",
   },
   {
     num: "02",
-    year: "2023",
-    role: "Tech lead",
-    name: "Quill Commands",
-    tag: "Internal tooling · Engineering",
+    year: "2025",
+    tag: "Security · Blockchain audit",
+    name: "RBAC-DocEncryption",
     summary:
-      "A keyboard-first command surface unifying ten scattered tools into one canvas. Used 42 times a day, on average, by every engineer on the team.",
-    stack: ["Electron", "Rust", "SQLite"],
-    metric: { value: "94%", label: "Weekly adoption" },
-    image: p2,
+      "Blockchain-audited document security system with AES-256-GCM field-level encryption, SHA-256 tamper detection, and role-based selective decryption. Designed for enterprise document workflows requiring immutable audit trails.",
+    stack: ["Python", "AES-256-GCM", "SHA-256", "Blockchain"],
+    metric: { value: "256-bit", label: "Field-level encryption" },
+    github: "https://github.com/DivyanshuX9/RBAC-DocEncryption",
     side: "right",
-    aspect: "aspect-video",
-    imageLightness: "light",
   },
   {
     num: "03",
-    year: "2022",
-    role: "Senior engineer",
-    name: "Northwind Pay",
-    tag: "Fintech · Payments console",
+    year: "2025",
+    tag: "Healthcare · SIH 2025",
+    name: "NABHA Health",
     summary:
-      "A payments console rebuilt from first principles — fast, calm, and honest about complexity. Reconciliation moved from nightly batch to real time.",
-    stack: ["React", "Go", "Postgres"],
-    metric: { value: "−41%", label: "Support tickets" },
-    image: p3,
+      "Telemedicine platform for rural India built for Smart India Hackathon 2025. Voice-based AI intake via Twilio + Bolna, adaptive wristband health monitoring, separate doctor and pharmacy interfaces, and offline-first design for low-connectivity areas.",
+    stack: ["React", "FastAPI", "Twilio", "Bolna AI", "Gemini API"],
+    metric: { value: "173", label: "Villages served (target)" },
+    github: "https://github.com/DivyanshuX9",
     side: "left",
-    aspect: "aspect-[5/4]",
-    imageLightness: "light",
   },
 ];
 
-export function SelectedWork() {
-  return (
-    <section id="work" className="relative pt-32 pb-12 md:pt-48">
-      <div className="container-edge">
-        <Reveal>
-          <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">
-            <p className="eyebrow">[ Sec. 02 ] Selected Work</p>
-            <p className="hidden text-[11px] uppercase tracking-[0.2em] opacity-60 md:block">
-              Three of fourteen · 2022 — 2025
-            </p>
-          </div>
-        </Reveal>
-      </div>
+const aiProjects: Project[] = [
+  {
+    num: "04",
+    year: "2025",
+    tag: "Data Science · Forecasting",
+    name: "Walmart Sales Prediction",
+    summary:
+      "Stacking regressor pipeline combining XGBoost and Random Forest with feature engineering and EDA. Achieved R² of 0.965 and strong MAE reduction over a linear baseline across seasonal segments.",
+    stack: ["Python", "XGBoost", "Random Forest", "Scikit-learn", "Pandas"],
+    metric: { value: "0.965", label: "R² score" },
+    github: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction",
+    side: "right",
+  },
+  {
+    num: "05",
+    year: "2024 — 2025",
+    tag: "Computer Vision · CNN",
+    name: "Traffic Sign Recognition",
+    summary:
+      "CNN trained on 43 traffic-sign classes using augmented GTSRB data. Deployed low-latency inference with OpenCV for real-time video streams, with identical preprocessing enforced between training and inference to eliminate the dominant error source.",
+    stack: ["Python", "TensorFlow", "OpenCV", "GTSRB", "NumPy"],
+    metric: { value: "43", label: "Sign classes" },
+    github: "https://github.com/DivyanshuX9/Traffic-Sign-Recognition",
+    side: "left",
+  },
+  {
+    num: "06",
+    year: "2025",
+    tag: "AI · Voice + RAG",
+    name: "NABHA Voice Intake",
+    summary:
+      "Voice-to-structured pipeline with retrieval-augmented summaries using Gemini API. Schema validation, confidence thresholds, and safe fallbacks ensure predictable UX. Error measured in user terms — time-to-correct and drop-off — not just model metrics.",
+    stack: ["Python", "Gemini API", "Twilio", "RAG", "FastAPI"],
+    metric: { value: "RAG", label: "Retrieval-augmented" },
+    github: "https://github.com/DivyanshuX9",
+    side: "right",
+  },
+];
 
-      <div className="mt-24 space-y-40 md:space-y-64">
-        {projects.map((p) => (
-          <ProjectBlock key={p.num} project={p} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ProjectBlock({ project }: { project: Project }) {
+function ProjectCard({ project }: { project: Project }) {
   const isLeft = project.side === "left";
-  const textColor = project.imageLightness === "light" ? "text-ink-deep" : "text-foreground";
-  const borderColor = project.imageLightness === "light" ? "border-ink-deep" : "border-foreground";
-  const accentColor = project.imageLightness === "light" ? "text-ink-deep" : "text-foreground";
-  
   return (
-    <article className="container-edge relative">
-      {/* Giant numeral */}
-      <div
-        aria-hidden
-        className={`pointer-events-none absolute -top-16 select-none font-display text-[14rem] font-bold leading-none text-surface md:-top-32 md:text-[18rem] ${
-          isLeft ? "left-0 md:-left-4" : "right-0 md:-right-4"
-        }`}
-      >
+    <article className="container-edge">
+      <div aria-hidden className={`pointer-events-none absolute -top-12 select-none font-display text-[10rem] font-bold leading-none text-surface md:-top-24 md:text-[14rem] ${isLeft ? "left-0" : "right-0"}`}>
         {project.num}
       </div>
-
-      <div
-        className={`relative flex flex-col ${
-          isLeft ? "items-start" : "items-end"
-        }`}
-      >
-        {/* Image plate */}
-        <Reveal
-          className={`relative z-10 w-full md:w-3/5 ${
-            isLeft ? "md:-ml-4" : "md:-mr-4"
-          }`}
-        >
-          <div className={`relative w-full overflow-hidden bg-surface ${project.aspect}`}>
-            <img
-              src={project.image}
-              alt={`${project.name} interface`}
-              loading="lazy"
-              width={1600}
-              height={1100}
-              className="size-full object-cover grayscale transition-all duration-1400 ease-out hover:grayscale-0 hover:scale-[1.02]"
-            />
-            <span className="absolute left-4 top-4 font-display text-[10px] font-bold uppercase tracking-[0.2em] text-background mix-blend-difference">
-              FR_{project.num}
-            </span>
-          </div>
-        </Reveal>
-
-        {/* Caption — slipped over and into the opposite margin */}
-        <Reveal
-          delay={0.1}
-          className={`relative z-20 -mt-12 max-w-xl md:-mt-28 ${
-            isLeft ? "ml-auto lg:mr-24" : "mr-auto lg:ml-24"
-          }`}
-        >
-          <div className="bg-background/0 px-6 py-6 md:px-0">
-            <p className="eyebrow mb-4">
-              {project.year} · {project.role}
-            </p>
-            <h3 className={`font-display text-4xl font-medium tracking-tight ${textColor} md:text-6xl lg:text-7xl`}>
+      <div className={`relative flex flex-col ${isLeft ? "items-start" : "items-end"}`}>
+        <Reveal delay={0.05} className={`relative z-20 w-full max-w-2xl ${isLeft ? "" : "ml-auto"}`}>
+          <div className="border border-border bg-background/80 p-6 md:p-8 backdrop-blur-sm">
+            <p className="eyebrow mb-3">{project.year} · {project.tag}</p>
+            <h3 className="font-display text-3xl font-medium tracking-tight text-foreground md:text-5xl">
               {project.name}
             </h3>
-            <p className={`mt-4 inline-block border-b ${borderColor} pb-1 text-[11px] uppercase tracking-[0.2em] ${textColor}`}>
-              {project.tag}
-            </p>
-            <p className={`mt-6 text-[17px] leading-relaxed ${accentColor}`}>
+            <p className="mt-5 text-[15px] leading-relaxed text-foreground/80">
               {project.summary}
             </p>
 
-            <div className={`mt-8 flex flex-wrap items-end justify-between gap-6 border-t ${borderColor}/20 pt-6`}>
+            <div className="mt-6 flex flex-wrap items-end justify-between gap-4 border-t border-border pt-5">
               <div>
-                <p className={`font-display text-4xl font-medium tracking-tight ${textColor} md:text-5xl`}>
+                <p className="font-display text-3xl font-medium tracking-tight text-foreground md:text-4xl">
                   {project.metric.value}
                 </p>
-                <p className={`mt-1 text-[10px] uppercase tracking-[0.2em] ${textColor} opacity-60`}>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   {project.metric.label}
                 </p>
               </div>
-              <ul className={`flex flex-wrap gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.18em] ${textColor} opacity-70`}>
-                {project.stack.map((t) => (
-                  <li key={t}>{t}</li>
-                ))}
+              <ul className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                {project.stack.map((t) => <li key={t}>{t}</li>)}
               </ul>
             </div>
 
             <a
-              href="/schedule"
-              className={`group mt-8 inline-flex items-center gap-3 font-display text-base font-medium ${textColor}`}
+              href={project.github}
+              target="_blank"
+              rel="noreferrer"
+              className="group mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-foreground border-b border-border pb-0.5 transition-colors hover:border-foreground"
             >
-              <span className={`border-b ${borderColor} pb-0.5`}>Discuss this project</span>
+              View on GitHub
               <span aria-hidden className="transition-transform group-hover:translate-x-1">→</span>
             </a>
           </div>
         </Reveal>
       </div>
     </article>
+  );
+}
+
+export function SelectedWork() {
+  return (
+    <>
+      {/* SWE Section */}
+      <section id="work" className="relative pt-20 pb-8 md:pt-32">
+        <div className="container-edge">
+          <Reveal>
+            <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">
+              <p className="eyebrow">[ Sec. 02 ] Software Engineering</p>
+              <p className="hidden text-[11px] uppercase tracking-[0.2em] opacity-60 md:block">
+                Full-stack · Security · Systems
+              </p>
+            </div>
+          </Reveal>
+        </div>
+        <div className="relative mt-16 space-y-20 md:space-y-32">
+          {sweProjects.map((p) => <ProjectCard key={p.num} project={p} />)}
+        </div>
+      </section>
+
+      {/* AI & DS Section */}
+      <section id="ai-projects" className="relative pt-20 pb-8 md:pt-32">
+        <div className="container-edge">
+          <Reveal>
+            <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">
+              <p className="eyebrow">[ Sec. 03 ] AI & Data Science</p>
+              <p className="hidden text-[11px] uppercase tracking-[0.2em] opacity-60 md:block">
+                ML · Computer Vision · Voice AI
+              </p>
+            </div>
+          </Reveal>
+        </div>
+        <div className="relative mt-16 space-y-20 md:space-y-32">
+          {aiProjects.map((p) => <ProjectCard key={p.num} project={p} />)}
+        </div>
+      </section>
+    </>
   );
 }

@@ -18,7 +18,8 @@ export function Contact() {
 
         <Reveal delay={0.05}>
           <p className="font-display max-w-[18ch] text-4xl font-medium leading-none tracking-tight text-ink-deep md:text-7xl">
-            Let's build something <span className="italic font-light opacity-70">meaningful.</span>
+            Let's build something{" "}
+            <span className="italic font-light opacity-70">meaningful.</span>
           </p>
         </Reveal>
 
@@ -28,7 +29,12 @@ export function Contact() {
             className="group mt-12 inline-block max-w-full break-words font-display text-[clamp(2rem,7vw,6.5rem)] font-bold leading-[0.95] tracking-tighter text-ink-deep transition-opacity hover:opacity-60"
           >
             divyanshu88999@gmail.com
-            <span aria-hidden className="ml-3 inline-block translate-y-[-0.15em] text-3xl opacity-60 transition-transform group-hover:translate-x-2 md:text-5xl">↗</span>
+            <span
+              aria-hidden
+              className="ml-3 inline-block translate-y-[-0.15em] text-3xl opacity-60 transition-transform group-hover:translate-x-2 md:text-5xl"
+            >
+              ↗
+            </span>
           </a>
         </Reveal>
 
@@ -38,11 +44,19 @@ export function Contact() {
               {socials.map((s) => (
                 <li key={s.label}>
                   {s.href.startsWith("/") ? (
-                    <a href={s.href} className="transition-opacity hover:opacity-50">
+                    <a
+                      href={s.href}
+                      className="transition-opacity hover:opacity-50"
+                    >
                       {s.label}
                     </a>
                   ) : (
-                    <a href={s.href} target="_blank" rel="noreferrer" className="transition-opacity hover:opacity-50">
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="transition-opacity hover:opacity-50"
+                    >
                       {s.label}
                     </a>
                   )}
