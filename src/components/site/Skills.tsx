@@ -206,10 +206,10 @@ const Logo = {
       <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">JNB</text>
     </svg>
   ),
-  azureml: (
+  aws: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#0078D4"/>
-      <text x="12" y="15" fontSize="6" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Azure</text>
+      <rect width="24" height="24" rx="4" fill="#FF9900"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#111" textAnchor="middle">AWS</text>
     </svg>
   ),
   vscode: (
@@ -306,7 +306,7 @@ const categories: { title: string; eyebrow: string; skills: Skill[] }[] = [
       { name: "Twilio", logo: "twilio" },
       { name: "AES-256", logo: "aes" },
       { name: "Jupyter Notebook", logo: "jupyter" },
-      { name: "Azure ML", logo: "azureml" },
+      { name: "AWS", logo: "aws" },
       { name: "VS Code", logo: "vscode" },
       { name: "MongoDB", logo: "mongodb" },
       { name: "MySQL", logo: "mysql" },
@@ -340,13 +340,13 @@ export function Skills() {
                 <p className="font-display text-base font-medium tracking-tight text-foreground mb-4">
                   {cat.title}
                 </p>
-                <ul className="flex flex-col gap-2.5">
+                <ul className="grid grid-cols-2 gap-2.5">
                   {cat.skills.map((skill) => (
-                    <li key={skill.name} className="flex items-center gap-2.5">
-                      <span className="size-5 shrink-0 flex items-center justify-center">
-                        {Logo[skill.logo]}
+                    <li key={skill.name} className="flex items-center gap-3">
+                      <span className="w-8 h-8 rounded-full bg-surface/20 flex items-center justify-center shrink-0">
+                        <span className="w-6 h-6">{Logo[skill.logo]}</span>
                       </span>
-                      <span className="text-[13px] text-foreground/80">
+                      <span className="text-[13px] text-foreground/90">
                         {skill.name}
                       </span>
                     </li>
