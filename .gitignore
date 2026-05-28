@@ -37,3 +37,20 @@ dist-ssr
 *.sw?
 .vercel
 .lovable/
+ 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.venv/
+env/
+ENV/
+
+# Ignore resume extraction and archives
+src/assests/resume.zip
+src/assests/resume_docx_extracted/
+
+# OS
+.DS_Store

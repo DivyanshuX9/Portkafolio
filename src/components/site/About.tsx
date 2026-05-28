@@ -25,24 +25,33 @@ export function About() {
             <Reveal>
               <div className="space-y-6 text-[19px] leading-[1.65] text-ink">
                 <p>
-                  I'm Divyanshu Sharma — a software engineer who fell in love
-                  with building the moment I shipped my first ugly side project
-                  at fifteen and watched a stranger use it.
+                  I'm Divyanshu Sharma, a developer who loves building systems
+                  around real human experiences. Most of my ideas begin with
+                  observation, whether it is getting lost in a new city,
+                  noticing gaps in healthcare accessibility, or wondering why
+                  digital experiences feel disconnected from the people using
+                  them.
                 </p>
+
                 <p>
-                  Most of my work sits at the seam between engineering and
-                  product: AI systems that have to feel honest, internal tools
-                  that have to feel inevitable, payments flows that have to feel
-                  boring in the best possible way.
+                  I enjoy working at the intersection of AI, full stack
+                  development, interactive design, and scalable systems. From
+                  mobility platforms and healthcare concepts to immersive web
+                  experiences, I care deeply about creating technology that
+                  feels intuitive, meaningful, and human.
                 </p>
+
                 <p>
-                  Curiosity is the engine. I read more than I write, run before
-                  the city wakes up, cook badly but enthusiastically, and keep a
-                  list of questions I haven't yet earned the right to answer.
+                  Beyond coding, I spend a lot of time exploring ideas,
+                  redesigning things that probably do not need redesigning, and
+                  thinking about how software can reduce friction in everyday
+                  life. I believe the best products are not just functional,
+                  they leave an impression.
                 </p>
+
                 <p className="opacity-60">
-                  Based in India. Available for a small number of partnerships
-                  in 2026.
+                  Based in India. Building, learning, and experimenting one
+                  project at a time.
                 </p>
               </div>
             </Reveal>
