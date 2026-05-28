@@ -15,7 +15,7 @@ import tableauLogo from "../../assets/logos/tableau.svg";
 import vscodeLogo from "../../assets/logos/vscode.svg";
 import { Reveal } from "./Reveal";
 
-// Inline SVG logos — no external deps
+// Inline SVG logos and imported assets mapping
 const Logo = {
   python: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
@@ -72,9 +72,7 @@ const Logo = {
       <path d="M9.5 12.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5z" fill="#3499CD"/>
     </svg>
   ),
-  pandas: (
-    <img src={pandasLogo} alt="Pandas logo" title="Pandas" aria-label="Pandas logo" className="w-6 h-6 object-contain" />
-  ),
+  pandas: <img src={pandasLogo} alt="Pandas logo" title="Pandas" aria-label="Pandas logo" className="w-6 h-6 object-contain" />,
   opencv: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <circle cx="12" cy="5" r="4" fill="#5C3EE8"/>
@@ -82,32 +80,10 @@ const Logo = {
       <circle cx="19" cy="17" r="4" fill="#4CAF50"/>
     </svg>
   ),
-  git: (
+  xgboost: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M23.546 10.93L13.067.452a1.55 1.55 0 0 0-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 0 1 2.327 2.341l2.658 2.66a1.838 1.838 0 1 1-1.1 1.04l-2.48-2.48v6.511a1.84 1.84 0 1 1-1.512-.036V9.227a1.84 1.84 0 0 1-.999-2.416L7.614 4.16 .45 11.32a1.55 1.55 0 0 0 0 2.189l10.48 10.477a1.55 1.55 0 0 0 2.187 0l10.43-10.43a1.55 1.55 0 0 0 0-2.187" fill="#F05032"/>
-    </svg>
-  ),
-  docker: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M13.5 9h2v2h-2V9zm-3 0h2v2h-2V9zm-3 0h2v2H7.5V9zm3-3h2v2h-2V6zm3 0h2v2h-2V6zm3 3h2v2h-2V9z" fill="#2496ED"/>
-      <path d="M22.5 10.5c-.5-.3-1.6-.4-2.5-.2-.1-.9-.7-1.7-1.7-2.2l-.6-.3-.3.6c-.4.7-.5 1.8-.1 2.6-.6.3-1.2.4-1.8.4H1.5c-.3 1.3 0 3 1 4.2.9 1.1 2.3 1.7 4.1 1.7 3.9 0 6.8-1.8 8.2-5h.7c1.4 0 2.3-.6 2.8-1.7.2-.3.3-.7.4-1.1h-.2z" fill="#2496ED"/>
-    </svg>
-  ),
-  linux: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M12 1C8.5 1 6 4 6 7.5c0 1.5.4 2.8 1 3.8L5.5 14c-.5 1 0 2 1 2.5l1 .5c0 1 .5 2 1.5 2.5l3 1.5 3-1.5c1-.5 1.5-1.5 1.5-2.5l1-.5c1-.5 1.5-1.5 1-2.5l-1.5-2.7c.6-1 1-2.3 1-3.8C18 4 15.5 1 12 1z" fill="#FCC624"/>
-      <circle cx="9.5" cy="8" r="1" fill="#000"/>
-      <circle cx="14.5" cy="8" r="1" fill="#000"/>
-      <path d="M10 11c.5.7 1.5.7 2 0" stroke="#000" strokeWidth=".8" fill="none"/>
-    </svg>
-  ),
-  twilio: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="12" r="11" fill="#F22F46"/>
-      <circle cx="8.5" cy="8.5" r="2" fill="#fff"/>
-      <circle cx="15.5" cy="8.5" r="2" fill="#fff"/>
-      <circle cx="8.5" cy="15.5" r="2" fill="#fff"/>
-      <circle cx="15.5" cy="15.5" r="2" fill="#fff"/>
+      <rect width="24" height="24" rx="4" fill="#189AB4"/>
+      <path d="M5 19L9.5 5h2L7 19H5zm8 0L17.5 5h2L13 19h-2zm-4-7h6" stroke="#fff" strokeWidth="1.5" fill="none"/>
     </svg>
   ),
   gemini: (
@@ -123,225 +99,33 @@ const Logo = {
       </defs>
     </svg>
   ),
-  xgboost: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#189AB4"/>
-      <path d="M5 19L9.5 5h2L7 19H5zm8 0L17.5 5h2L13 19h-2zm-4-7h6" stroke="#fff" strokeWidth="1.5" fill="none"/>
-    </svg>
-  ),
-  aes: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#2D3748"/>
-      <rect x="4" y="10" width="16" height="10" rx="2" fill="#4A5568"/>
-      <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#68D391" strokeWidth="1.5" fill="none"/>
-      <circle cx="12" cy="15" r="2" fill="#68D391"/>
-    </svg>
-  ),
-  // Added from resume
-  sql: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#264653"/>
-      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">SQL</text>
-    </svg>
-  ),
-  r_lang: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#276DC3"/>
-      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">R</text>
-    </svg>
-  ),
-  cpp: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#00599C"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">C++</text>
-    </svg>
-  ),
-  java: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#5382A1"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Java</text>
-    </svg>
-  ),
-  numpy: (
-    <img src={numpyLogo} alt="NumPy logo" title="NumPy" aria-label="NumPy logo" className="w-6 h-6 object-contain" />
-  ),
-  keras: (
-    <img src={kerasLogo} alt="Keras logo" title="Keras" aria-label="Keras logo" className="w-6 h-6 object-contain" />
-  ),
-  pytorch: (
-    <img src={pytorchLogo} alt="PyTorch logo" title="PyTorch" aria-label="PyTorch logo" className="w-6 h-6 object-contain" />
-  ),
+  numpy: <img src={numpyLogo} alt="NumPy logo" title="NumPy" aria-label="NumPy logo" className="w-6 h-6 object-contain" />,
+  keras: <img src={kerasLogo} alt="Keras logo" title="Keras" aria-label="Keras logo" className="w-6 h-6 object-contain" />,
+  pytorch: <img src={pytorchLogo} alt="PyTorch logo" title="PyTorch" aria-label="PyTorch logo" className="w-6 h-6 object-contain" />,
   statsmodels: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="4" fill="#6A994E"/>
       <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Stats</text>
     </svg>
   ),
-  matplotlib: (
-    <img src={matplotlibLogo} alt="Matplotlib logo" title="Matplotlib" aria-label="Matplotlib logo" className="w-6 h-6 object-contain" />
-  ),
-  seaborn: (
-    <img src={seabornLogo} alt="Seaborn logo" title="Seaborn" aria-label="Seaborn logo" className="w-6 h-6 object-contain" />
-  ),
-  plotly: (
-    <img src={plotlyLogo} alt="Plotly logo" title="Plotly" aria-label="Plotly logo" className="w-6 h-6 object-contain" />
-  ),
-  tableau: (
-    <img src={tableauLogo} alt="Tableau logo" title="Tableau" aria-label="Tableau logo" className="w-6 h-6 object-contain" />
-  ),
-  jupyter: (
-    <img src={jupyterLogo} alt="Jupyter logo" title="Jupyter" aria-label="Jupyter logo" className="w-6 h-6 object-contain" />
-  ),
-  aws: (
-    <img src={awsLogo} alt="AWS logo" title="AWS" aria-label="AWS logo" className="w-6 h-6 object-contain" />
-  ),
-  mongodb: (
-    <img src={mongodbLogo} alt="MongoDB logo" title="MongoDB" aria-label="MongoDB logo" className="w-6 h-6 object-contain" />
-  ),
-  mysql: (
-    <img src={mysqlLogo} alt="MySQL logo" title="MySQL" aria-label="MySQL logo" className="w-6 h-6 object-contain" />
-  ),
-  nodejs: (
-    <img src={nodejsLogo} alt="Node.js logo" title="Node.js" aria-label="Node.js logo" className="w-6 h-6 object-contain" />
-  ),
-  express: (
-    <img src={expressLogo} alt="Express.js logo" title="Express.js" aria-label="Express.js logo" className="w-6 h-6 object-contain" />
-  ),
-  vscode: (
-    <img src={vscodeLogo} alt="VS Code logo" title="VS Code" aria-label="VS Code logo" className="w-6 h-6 object-contain" />
-  ),
+  matplotlib: <img src={matplotlibLogo} alt="Matplotlib logo" title="Matplotlib" aria-label="Matplotlib logo" className="w-6 h-6 object-contain" />,
+  seaborn: <img src={seabornLogo} alt="Seaborn logo" title="Seaborn" aria-label="Seaborn logo" className="w-6 h-6 object-contain" />,
+  plotly: <img src={plotlyLogo} alt="Plotly logo" title="Plotly" aria-label="Plotly logo" className="w-6 h-6 object-contain" />,
+  tableau: <img src={tableauLogo} alt="Tableau logo" title="Tableau" aria-label="Tableau logo" className="w-6 h-6 object-contain" />,
+  jupyter: <img src={jupyterLogo} alt="Jupyter logo" title="Jupyter" aria-label="Jupyter logo" className="w-6 h-6 object-contain" />,
+  aws: <img src={awsLogo} alt="AWS logo" title="AWS" aria-label="AWS logo" className="w-6 h-6 object-contain" />,
+  mongodb: <img src={mongodbLogo} alt="MongoDB logo" title="MongoDB" aria-label="MongoDB logo" className="w-6 h-6 object-contain" />,
+  mysql: <img src={mysqlLogo} alt="MySQL logo" title="MySQL" aria-label="MySQL logo" className="w-6 h-6 object-contain" />,
+  nodejs: <img src={nodejsLogo} alt="Node.js logo" title="Node.js" aria-label="Node.js logo" className="w-6 h-6 object-contain" />,
+  express: <img src={expressLogo} alt="Express.js logo" title="Express.js" aria-label="Express.js logo" className="w-6 h-6 object-contain" />,
+  vscode: <img src={vscodeLogo} alt="VS Code logo" title="VS Code" aria-label="VS Code logo" className="w-6 h-6 object-contain" />,
 };
-  opencv: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="5" r="4" fill="#5C3EE8"/>
-      <circle cx="5" cy="17" r="4" fill="#E8433C"/>
-      <circle cx="19" cy="17" r="4" fill="#4CAF50"/>
-    </svg>
-  ),
-  git: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M23.546 10.93L13.067.452a1.55 1.55 0 0 0-2.188 0L8.708 2.627l2.76 2.76a1.838 1.838 0 0 1 2.327 2.341l2.658 2.66a1.838 1.838 0 1 1-1.1 1.04l-2.48-2.48v6.511a1.84 1.84 0 1 1-1.512-.036V9.227a1.84 1.84 0 0 1-.999-2.416L7.614 4.16 .45 11.32a1.55 1.55 0 0 0 0 2.189l10.48 10.477a1.55 1.55 0 0 0 2.187 0l10.43-10.43a1.55 1.55 0 0 0 0-2.187" fill="#F05032"/>
-    </svg>
-  ),
-  docker: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M13.5 9h2v2h-2V9zm-3 0h2v2h-2V9zm-3 0h2v2H7.5V9zm3-3h2v2h-2V6zm3 0h2v2h-2V6zm3 3h2v2h-2V9z" fill="#2496ED"/>
-      <path d="M22.5 10.5c-.5-.3-1.6-.4-2.5-.2-.1-.9-.7-1.7-1.7-2.2l-.6-.3-.3.6c-.4.7-.5 1.8-.1 2.6-.6.3-1.2.4-1.8.4H1.5c-.3 1.3 0 3 1 4.2.9 1.1 2.3 1.7 4.1 1.7 3.9 0 6.8-1.8 8.2-5h.7c1.4 0 2.3-.6 2.8-1.7.2-.3.3-.7.4-1.1h-.2z" fill="#2496ED"/>
-    </svg>
-  ),
-  linux: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M12 1C8.5 1 6 4 6 7.5c0 1.5.4 2.8 1 3.8L5.5 14c-.5 1 0 2 1 2.5l1 .5c0 1 .5 2 1.5 2.5l3 1.5 3-1.5c1-.5 1.5-1.5 1.5-2.5l1-.5c1-.5 1.5-1.5 1-2.5l-1.5-2.7c.6-1 1-2.3 1-3.8C18 4 15.5 1 12 1z" fill="#FCC624"/>
-      <circle cx="9.5" cy="8" r="1" fill="#000"/>
-      <circle cx="14.5" cy="8" r="1" fill="#000"/>
-      <path d="M10 11c.5.7 1.5.7 2 0" stroke="#000" strokeWidth=".8" fill="none"/>
-    </svg>
-  ),
-  twilio: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="12" r="11" fill="#F22F46"/>
-      <circle cx="8.5" cy="8.5" r="2" fill="#fff"/>
-      <circle cx="15.5" cy="8.5" r="2" fill="#fff"/>
-      <circle cx="8.5" cy="15.5" r="2" fill="#fff"/>
-      <circle cx="15.5" cy="15.5" r="2" fill="#fff"/>
-    </svg>
-  ),
-  gemini: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z" fill="url(#gem-grad)"/>
-      <path d="M12 5c0 3.87-3.13 7-7 7 3.87 0 7 3.13 7 7 0-3.87 3.13-7 7-7-3.87 0-7-3.13-7-7z" fill="#fff"/>
-      <defs>
-        <linearGradient id="gem-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#4285F4"/>
-          <stop offset=".5" stopColor="#9B72CB"/>
-          <stop offset="1" stopColor="#D96570"/>
-        </linearGradient>
-      </defs>
-    </svg>
-  ),
-  xgboost: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#189AB4"/>
-      <path d="M5 19L9.5 5h2L7 19H5zm8 0L17.5 5h2L13 19h-2zm-4-7h6" stroke="#fff" strokeWidth="1.5" fill="none"/>
-    </svg>
-  ),
-  aes: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#2D3748"/>
-      <rect x="4" y="10" width="16" height="10" rx="2" fill="#4A5568"/>
-      <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#68D391" strokeWidth="1.5" fill="none"/>
-      <circle cx="12" cy="15" r="2" fill="#68D391"/>
-    </svg>
-  ),
-  // Added from resume
-  sql: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#264653"/>
-      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">SQL</text>
-    </svg>
-  ),
-  r_lang: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#276DC3"/>
-      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">R</text>
-    </svg>
-  ),
-  cpp: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#00599C"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">C++</text>
-    </svg>
-  ),
-  java: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#5382A1"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Java</text>
-    </svg>
-  ),
-  numpy: (
-    <img src={pandasLogo} alt="Pandas logo" title="Pandas" aria-label="Pandas logo" className="w-6 h-6 object-contain" />
-      </g>
-    </svg>
-    <img src={numpyLogo} alt="NumPy logo" title="NumPy" aria-label="NumPy logo" className="w-6 h-6 object-contain" />
-      <rect width="24" height="24" rx="4" fill="#EE4C2C"/>
-      <path d="M6 16c0-4 6-6 9-9 1.5-1.5 4 0 2 2-3 3-5 9-11 11-1.2.4-2-.8-1-2 1-1.5 2-2 1-2z" fill="#fff" opacity="0.95"/>
-    <img src={kerasLogo} alt="Keras logo" title="Keras" aria-label="Keras logo" className="w-6 h-6 object-contain" />
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Stats</text>
-    </svg>
-    <img src={pytorchLogo} alt="PyTorch logo" title="PyTorch" aria-label="PyTorch logo" className="w-6 h-6 object-contain" />
-      <path d="M3 17c3-4 6-6 9-6s6 2 9 6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
-      <path d="M3 19c3-2 6-3 9-3s6 1 9 3" stroke="#61DAFB" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.9"/>
-    <img src={matplotlibLogo} alt="Matplotlib logo" title="Matplotlib" aria-label="Matplotlib logo" className="w-6 h-6 object-contain" />
-      <path d="M2 16c3-6 6-8 10-6s6 4 10 0" stroke="#fff" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.95"/>
-      <path d="M2 19c3-4 6-5 10-4s6 2 10-1" stroke="#FFD43B" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.85"/>
-    <img src={seabornLogo} alt="Seaborn logo" title="Seaborn" aria-label="Seaborn logo" className="w-6 h-6 object-contain" />
-      <path d="M4 18c4-6 8-8 12-6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
-      <circle cx="6" cy="14" r="1.2" fill="#FF5A5F"/>
-    <img src={plotlyLogo} alt="Plotly logo" title="Plotly" aria-label="Plotly logo" className="w-6 h-6 object-contain" />
-      <g transform="translate(8,6)">
-        <rect x="4" width="2" height="8" fill="#2E6DA4"/>
-    <img src={tableauLogo} alt="Tableau logo" title="Tableau" aria-label="Tableau logo" className="w-6 h-6 object-contain" />
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">JNB</text>
-    </svg>
-    <img src={jupyterLogo} alt="Jupyter logo" title="Jupyter" aria-label="Jupyter logo" className="w-6 h-6 object-contain" />
-      <text x="50%" y="57%" textAnchor="middle" fontSize="14" fontFamily="Inter, Arial, sans-serif" fontWeight="700" fill="#111">AWS</text>
-    </svg>
-    <img src={awsLogo} alt="AWS logo" title="AWS" aria-label="AWS logo" className="w-6 h-6 object-contain" />
-      <text x="12" y="15" fontSize="6" fontFamily="sans-serif" fill="#fff" textAnchor="middle">VS</text>
-    </svg>
-    <img src={mongodbLogo} alt="MongoDB logo" title="MongoDB" aria-label="MongoDB logo" className="w-6 h-6 object-contain" />
-    </svg>
-  ),
-    <img src={mysqlLogo} alt="MySQL logo" title="MySQL" aria-label="MySQL logo" className="w-6 h-6 object-contain" />
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#3C873A"/>
-    <img src={nodejsLogo} alt="Node.js logo" title="Node.js" aria-label="Node.js logo" className="w-6 h-6 object-contain" />
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#000000"/>
-    <img src={expressLogo} alt="Express.js logo" title="Express.js" aria-label="Express.js logo" className="w-6 h-6 object-contain" />
 
 type Skill = { name: string; logo: keyof typeof Logo };
-    <img src={vscodeLogo} alt="VS Code logo" title="VS Code" aria-label="VS Code logo" className="w-6 h-6 object-contain" />
+
+const categories = [
+  {
+    title: "Core",
     eyebrow: "Core",
     skills: [
       { name: "Python", logo: "python" },
