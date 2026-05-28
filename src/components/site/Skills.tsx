@@ -1,4 +1,19 @@
 import { Reveal } from "./Reveal";
+import mongodbLogo from "../../assets/logos/mongodb.svg";
+import mysqlLogo from "../../assets/logos/mysql.svg";
+import nodejsLogo from "../../assets/logos/nodejs.svg";
+import expressLogo from "../../assets/logos/express.svg";
+import vscodeLogo from "../../assets/logos/vscode.svg";
+import jupyterLogo from "../../assets/logos/jupyter.svg";
+import numpyLogo from "../../assets/logos/numpy.svg";
+import pandasLogo from "../../assets/logos/pandas.svg";
+import matplotlibLogo from "../../assets/logos/matplotlib.svg";
+import seabornLogo from "../../assets/logos/seaborn.svg";
+import plotlyLogo from "../../assets/logos/plotly.svg";
+import tableauLogo from "../../assets/logos/tableau.svg";
+import kerasLogo from "../../assets/logos/keras.svg";
+import pytorchLogo from "../../assets/logos/pytorch.svg";
+import awsLogo from "../../assets/logos/aws.svg";
 
 // Inline SVG logos — no external deps
 const Logo = {
@@ -155,119 +170,49 @@ const Logo = {
     </svg>
   ),
   numpy: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#013243"/>
-      <g transform="translate(3,4)">
-        <rect width="4" height="4" rx="0.5" fill="#FFD43B"/>
-        <rect x="5" width="4" height="4" rx="0.5" fill="#3776AB"/>
-        <rect x="10" width="4" height="4" rx="0.5" fill="#E76F51"/>
-        <rect y="5" width="4" height="4" rx="0.5" fill="#3776AB"/>
-        <rect x="5" y="5" width="4" height="4" rx="0.5" fill="#013243"/>
+    <img src={pandasLogo} alt="Pandas logo" title="Pandas" aria-label="Pandas logo" className="w-6 h-6 object-contain" />
       </g>
     </svg>
-  ),
-  keras: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#D00000"/>
-      <path d="M6 7c2-2 6-2 8 0v10c-2 2-6 2-8 0V7z" fill="#fff" opacity="0.95"/>
-      <text x="12" y="17" fontSize="7" fontFamily="Inter, Arial, sans-serif" fill="#D00000" textAnchor="middle">K</text>
-    </svg>
-  ),
-  pytorch: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
+    <img src={numpyLogo} alt="NumPy logo" title="NumPy" aria-label="NumPy logo" className="w-6 h-6 object-contain" />
       <rect width="24" height="24" rx="4" fill="#EE4C2C"/>
       <path d="M6 16c0-4 6-6 9-9 1.5-1.5 4 0 2 2-3 3-5 9-11 11-1.2.4-2-.8-1-2 1-1.5 2-2 1-2z" fill="#fff" opacity="0.95"/>
-    </svg>
-  ),
-  statsmodels: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#6A994E"/>
+    <img src={kerasLogo} alt="Keras logo" title="Keras" aria-label="Keras logo" className="w-6 h-6 object-contain" />
       <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Stats</text>
     </svg>
-  ),
-  matplotlib: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#2A2F45"/>
+    <img src={pytorchLogo} alt="PyTorch logo" title="PyTorch" aria-label="PyTorch logo" className="w-6 h-6 object-contain" />
       <path d="M3 17c3-4 6-6 9-6s6 2 9 6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
       <path d="M3 19c3-2 6-3 9-3s6 1 9 3" stroke="#61DAFB" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.9"/>
-    </svg>
-  ),
-  seaborn: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#4C6A92"/>
+    <img src={matplotlibLogo} alt="Matplotlib logo" title="Matplotlib" aria-label="Matplotlib logo" className="w-6 h-6 object-contain" />
       <path d="M2 16c3-6 6-8 10-6s6 4 10 0" stroke="#fff" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.95"/>
       <path d="M2 19c3-4 6-5 10-4s6 2 10-1" stroke="#FFD43B" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.85"/>
-    </svg>
-  ),
-  plotly: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#3B4CC0"/>
+    <img src={seabornLogo} alt="Seaborn logo" title="Seaborn" aria-label="Seaborn logo" className="w-6 h-6 object-contain" />
       <path d="M4 18c4-6 8-8 12-6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
       <circle cx="6" cy="14" r="1.2" fill="#FF5A5F"/>
-      <circle cx="12" cy="10" r="1.6" fill="#00A699"/>
-      <circle cx="16" cy="12" r="1" fill="#7B61FF"/>
-    </svg>
-  ),
-  tableau: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
-      <rect width="24" height="24" rx="4" fill="#E9761B"/>
+    <img src={plotlyLogo} alt="Plotly logo" title="Plotly" aria-label="Plotly logo" className="w-6 h-6 object-contain" />
       <g transform="translate(8,6)">
         <rect x="4" width="2" height="8" fill="#2E6DA4"/>
-        <rect x="1" y="2" width="2" height="6" fill="#E24A3E"/>
-        <rect x="7" y="2" width="2" height="6" fill="#F2C744"/>
-        <rect x="4" y="-2" width="2" height="2" fill="#2E6DA4"/>
-      </g>
-    </svg>
-  ),
-  jupyter: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#F37626"/>
+    <img src={tableauLogo} alt="Tableau logo" title="Tableau" aria-label="Tableau logo" className="w-6 h-6 object-contain" />
       <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">JNB</text>
     </svg>
-  ),
-  aws: (
-    <svg viewBox="0 0 48 48" className="size-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <rect width="48" height="48" rx="6" fill="#FF9900"/>
+    <img src={jupyterLogo} alt="Jupyter logo" title="Jupyter" aria-label="Jupyter logo" className="w-6 h-6 object-contain" />
       <text x="50%" y="57%" textAnchor="middle" fontSize="14" fontFamily="Inter, Arial, sans-serif" fontWeight="700" fill="#111">AWS</text>
     </svg>
-  ),
-  vscode: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#007ACC"/>
+    <img src={awsLogo} alt="AWS logo" title="AWS" aria-label="AWS logo" className="w-6 h-6 object-contain" />
       <text x="12" y="15" fontSize="6" fontFamily="sans-serif" fill="#fff" textAnchor="middle">VS</text>
     </svg>
-  ),
-  mongodb: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#47A248"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">MDB</text>
+    <img src={mongodbLogo} alt="MongoDB logo" title="MongoDB" aria-label="MongoDB logo" className="w-6 h-6 object-contain" />
     </svg>
   ),
-  mysql: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#00758F"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">MySQL</text>
-    </svg>
-  ),
-  nodejs: (
+    <img src={mysqlLogo} alt="MySQL logo" title="MySQL" aria-label="MySQL logo" className="w-6 h-6 object-contain" />
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="4" fill="#3C873A"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Node</text>
-    </svg>
-  ),
-  express: (
+    <img src={nodejsLogo} alt="Node.js logo" title="Node.js" aria-label="Node.js logo" className="w-6 h-6 object-contain" />
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="4" fill="#000000"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Express</text>
-    </svg>
-  ),
-};
+    <img src={expressLogo} alt="Express.js logo" title="Express.js" aria-label="Express.js logo" className="w-6 h-6 object-contain" />
 
 type Skill = { name: string; logo: keyof typeof Logo };
-
-const categories: { title: string; eyebrow: string; skills: Skill[] }[] = [
-  {
-    title: "Languages",
+    <img src={vscodeLogo} alt="VS Code logo" title="VS Code" aria-label="VS Code logo" className="w-6 h-6 object-contain" />
     eyebrow: "Core",
     skills: [
       { name: "Python", logo: "python" },

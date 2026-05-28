@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden>
+  <g fill="none" fillRule="evenodd">
+    <ellipse cx="32" cy="28" rx="22" ry="10" fill="#00758F"/>
+    <path d="M18 20c4 8 28 8 34 0v12c-10 6-28 6-34 0V20z" fill="#F29111" opacity="0.15"/>
+    <text x="32" y="36" fontSize="10" fontFamily="Arial, sans-serif" fill="#fff" textAnchor="middle">MySQL</text>
+  </g>
+</svg>
