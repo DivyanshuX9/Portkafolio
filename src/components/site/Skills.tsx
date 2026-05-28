@@ -9,9 +9,9 @@ const Logo = {
     </svg>
   ),
   javascript: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="2" fill="#F7DF1E"/>
-      <path d="M6.5 18.5c.4.7 1 1.2 2 1.2 1.1 0 1.7-.5 1.7-1.3 0-.9-.7-1.2-1.8-1.7l-.6-.3c-1.8-.8-3-1.7-3-3.7 0-1.8 1.4-3.2 3.5-3.2 1.5 0 2.6.5 3.4 1.9l-1.8 1.2c-.4-.7-.8-1-1.5-1-.7 0-1.1.4-1.1 1 0 .7.4 1 1.5 1.5l.6.3c2.1.9 3.3 1.8 3.3 3.9 0 2.2-1.7 3.4-4 3.4-2.2 0-3.7-1.1-4.4-2.5l1.9-1.1zm9.5.2c.5.8 1 1.4 2 1.4.9 0 1.5-.4 1.5-2V9.8h2.3v8.4c0 3.2-1.9 4.7-4.6 4.7-2.5 0-3.9-1.3-4.6-2.8l2.4-1.4z" fill="#000"/>
+    <svg viewBox="0 0 48 48" className="size-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect width="48" height="48" rx="6" fill="#F7DF1E"/>
+      <text x="50%" y="57%" textAnchor="middle" fontSize="22" fontFamily="Inter, Arial, sans-serif" fontWeight="700" fill="#000">JS</text>
     </svg>
   ),
   typescript: (
@@ -207,9 +207,9 @@ const Logo = {
     </svg>
   ),
   aws: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#FF9900"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#111" textAnchor="middle">AWS</text>
+    <svg viewBox="0 0 48 48" className="size-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <rect width="48" height="48" rx="6" fill="#FF9900"/>
+      <text x="50%" y="57%" textAnchor="middle" fontSize="14" fontFamily="Inter, Arial, sans-serif" fontWeight="700" fill="#111">AWS</text>
     </svg>
   ),
   vscode: (
