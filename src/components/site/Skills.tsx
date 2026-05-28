@@ -58,11 +58,13 @@ const Logo = {
     </svg>
   ),
   pandas: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect x="3" y="2" width="4" height="20" rx="2" fill="#150458"/>
-      <rect x="10" y="2" width="4" height="20" rx="2" fill="#E70488"/>
-      <rect x="17" y="2" width="4" height="20" rx="2" fill="#150458"/>
-      <rect x="3" y="9" width="18" height="4" rx="1" fill="#150458" opacity=".4"/>
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
+      <rect width="24" height="24" rx="4" fill="#150458"/>
+      <g transform="translate(4,4)">
+        <circle cx="4" cy="3" r="2" fill="#fff"/>
+        <circle cx="10" cy="3" r="2" fill="#000"/>
+        <path d="M3 10c2 1 6 1 8 0 1-1 1-2 0-3-1-1-3-1-4 0-1 1-2 1-4 3z" fill="#fff" opacity="0.95"/>
+      </g>
     </svg>
   ),
   opencv: (
@@ -153,21 +155,28 @@ const Logo = {
     </svg>
   ),
   numpy: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#013243"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">NumPy</text>
+      <g transform="translate(3,4)">
+        <rect width="4" height="4" rx="0.5" fill="#FFD43B"/>
+        <rect x="5" width="4" height="4" rx="0.5" fill="#3776AB"/>
+        <rect x="10" width="4" height="4" rx="0.5" fill="#E76F51"/>
+        <rect y="5" width="4" height="4" rx="0.5" fill="#3776AB"/>
+        <rect x="5" y="5" width="4" height="4" rx="0.5" fill="#013243"/>
+      </g>
     </svg>
   ),
   keras: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#D00000"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Keras</text>
+      <path d="M6 7c2-2 6-2 8 0v10c-2 2-6 2-8 0V7z" fill="#fff" opacity="0.95"/>
+      <text x="12" y="17" fontSize="7" fontFamily="Inter, Arial, sans-serif" fill="#D00000" textAnchor="middle">K</text>
     </svg>
   ),
   pytorch: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#EE4C2C"/>
-      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">PyTorch</text>
+      <path d="M6 16c0-4 6-6 9-9 1.5-1.5 4 0 2 2-3 3-5 9-11 11-1.2.4-2-.8-1-2 1-1.5 2-2 1-2z" fill="#fff" opacity="0.95"/>
     </svg>
   ),
   statsmodels: (
@@ -177,27 +186,37 @@ const Logo = {
     </svg>
   ),
   matplotlib: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#2A2F45"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">mpl</text>
+      <path d="M3 17c3-4 6-6 9-6s6 2 9 6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+      <path d="M3 19c3-2 6-3 9-3s6 1 9 3" stroke="#61DAFB" strokeWidth="1.6" fill="none" strokeLinecap="round" opacity="0.9"/>
     </svg>
   ),
   seaborn: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#4C6A92"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">sb</text>
+      <path d="M2 16c3-6 6-8 10-6s6 4 10 0" stroke="#fff" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.95"/>
+      <path d="M2 19c3-4 6-5 10-4s6 2 10-1" stroke="#FFD43B" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.85"/>
     </svg>
   ),
   plotly: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#3B4CC0"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">plt</text>
+      <path d="M4 18c4-6 8-8 12-6" stroke="#FFD43B" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+      <circle cx="6" cy="14" r="1.2" fill="#FF5A5F"/>
+      <circle cx="12" cy="10" r="1.6" fill="#00A699"/>
+      <circle cx="16" cy="12" r="1" fill="#7B61FF"/>
     </svg>
   ),
   tableau: (
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    <svg viewBox="0 0 24 24" className="size-full" fill="none" aria-hidden>
       <rect width="24" height="24" rx="4" fill="#E9761B"/>
-      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">T</text>
+      <g transform="translate(8,6)">
+        <rect x="4" width="2" height="8" fill="#2E6DA4"/>
+        <rect x="1" y="2" width="2" height="6" fill="#E24A3E"/>
+        <rect x="7" y="2" width="2" height="6" fill="#F2C744"/>
+        <rect x="4" y="-2" width="2" height="2" fill="#2E6DA4"/>
+      </g>
     </svg>
   ),
   jupyter: (
