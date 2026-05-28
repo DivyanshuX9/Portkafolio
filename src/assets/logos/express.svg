@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" aria-hidden>
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" aria-hidden="true">
   <rect width="200" height="50" rx="6" fill="#000"/>
-  <text x="100" y="34" fontSize="20" fontFamily="Inter, Arial, sans-serif" fill="#fff" textAnchor="middle">express</text>
+  <text x="100" y="34" font-size="20" font-family="Inter, Arial, sans-serif" fill="#fff" text-anchor="middle">express</text>
 </svg>
+

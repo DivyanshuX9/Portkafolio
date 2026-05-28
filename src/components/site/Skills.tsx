@@ -1,7 +1,13 @@
 import awsLogo from "../../assets/logos/aws.svg";
+import aesLogo from "../../assets/logos/aes.svg";
+import cppLogo from "../../assets/logos/cpp.svg";
+import dockerLogo from "../../assets/logos/docker.svg";
 import expressLogo from "../../assets/logos/express.svg";
+import gitLogo from "../../assets/logos/git.svg";
 import jupyterLogo from "../../assets/logos/jupyter.svg";
+import javaLogo from "../../assets/logos/java.svg";
 import kerasLogo from "../../assets/logos/keras.svg";
+import linuxLogo from "../../assets/logos/linux.svg";
 import matplotlibLogo from "../../assets/logos/matplotlib.svg";
 import mongodbLogo from "../../assets/logos/mongodb.svg";
 import mysqlLogo from "../../assets/logos/mysql.svg";
@@ -10,7 +16,10 @@ import numpyLogo from "../../assets/logos/numpy.svg";
 import pandasLogo from "../../assets/logos/pandas.svg";
 import plotlyLogo from "../../assets/logos/plotly.svg";
 import pytorchLogo from "../../assets/logos/pytorch.svg";
+import rLogo from "../../assets/logos/r.svg";
 import seabornLogo from "../../assets/logos/seaborn.svg";
+import sqlLogo from "../../assets/logos/sql.svg";
+import twilioLogo from "../../assets/logos/twilio.svg";
 import tableauLogo from "../../assets/logos/tableau.svg";
 import vscodeLogo from "../../assets/logos/vscode.svg";
 import { Reveal } from "./Reveal";
@@ -23,6 +32,10 @@ const Logo = {
       <path d="M12.086 24c6.094 0 5.714-2.656 5.714-2.656l-.007-2.752H12v-.826h8.131S24 18.211 24 12.031c0-6.18-3.403-5.96-3.403-5.96h-2.031v2.867s.109 3.403-3.347 3.403H9.454s-3.236-.052-3.236 3.127v5.325S5.72 24 12.086 24zm3.2-1.799a1.047 1.047 0 1 1 0-2.094 1.047 1.047 0 0 1 0 2.094z" fill="#FFD43B"/>
     </svg>
   ),
+  sql: <img src={sqlLogo} alt="SQL logo" title="SQL" aria-label="SQL logo" className="w-6 h-6 object-contain" />,
+  r_lang: <img src={rLogo} alt="R logo" title="R" aria-label="R logo" className="w-6 h-6 object-contain" />,
+  cpp: <img src={cppLogo} alt="C++ logo" title="C++" aria-label="C++ logo" className="w-6 h-6 object-contain" />,
+  java: <img src={javaLogo} alt="Java logo" title="Java" aria-label="Java logo" className="w-6 h-6 object-contain" />,
   javascript: (
     <svg viewBox="0 0 48 48" className="size-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <rect width="48" height="48" rx="6" fill="#F7DF1E"/>
@@ -60,6 +73,11 @@ const Logo = {
       <path d="M14.5 3.5c.1.7-.1 1.4-.6 2.1-.5.7-1.1 1.1-1.8 1.05-.1-.65.1-1.35.55-2.05.45-.7 1.1-1.1 1.85-1.1z" fill="#336791"/>
     </svg>
   ),
+  git: <img src={gitLogo} alt="Git logo" title="Git" aria-label="Git logo" className="w-6 h-6 object-contain" />,
+  docker: <img src={dockerLogo} alt="Docker logo" title="Docker" aria-label="Docker logo" className="w-6 h-6 object-contain" />,
+  linux: <img src={linuxLogo} alt="Linux logo" title="Linux" aria-label="Linux logo" className="w-6 h-6 object-contain" />,
+  twilio: <img src={twilioLogo} alt="Twilio logo" title="Twilio" aria-label="Twilio logo" className="w-6 h-6 object-contain" />,
+  aes: <img src={aesLogo} alt="AES logo" title="AES" aria-label="AES logo" className="w-6 h-6 object-contain" />,
   tensorflow: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path d="M1.292 5.856L11.54 0v24l-4.095-2.378V7.603l-6.168 3.564.015-5.31zM22.708 8.117l-6.168-3.564v13.02L12.46 20V0l10.248 5.856v2.26z" fill="#FF6F00"/>

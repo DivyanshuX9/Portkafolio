@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" aria-hidden>
-  <g fill="none" fillRule="evenodd">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" aria-hidden="true">
+  <g fill="none" fill-rule="evenodd">
     <path d="M25 2c-3 6-10 9-10 18 0 10 12 16 12 28 6-8 10-14 10-23C37 11 30 8 25 2z" fill="#47A248"/>
   </g>
 </svg>
+
