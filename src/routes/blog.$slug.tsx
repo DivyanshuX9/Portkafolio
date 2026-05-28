@@ -14,7 +14,8 @@ type Token =
 
 function tokenize(md: string): Token[] {
   const tokens: Token[] = [];
-  const blocks = md.split(/\n{2,}/);
+  // Split on any blank line (handles LF, CRLF and lines with spaces)
+  const blocks = md.split(/\r?\n\s*\r?\n/);
 
   for (const raw of blocks) {
     const block = raw.trim();
@@ -33,9 +34,15 @@ function tokenize(md: string): Token[] {
     } else {
       const lines = block.split("\n");
       if (lines.length > 1 && lines.every((l) => /^[-*]\s/.test(l.trim()))) {
-        tokens.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()) });
+        tokens.push({
+          type: "ul",
+          items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()),
+        });
       } else if (lines.every((l) => /^[-*]\s/.test(l.trim()))) {
-        tokens.push({ type: "ul", items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()) });
+        tokens.push({
+          type: "ul",
+          items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()),
+        });
       } else {
         tokens.push({ type: "p", text: block.replace(/\n/g, " ") });
       }
@@ -50,11 +57,26 @@ function Inline({ text }: { text: string }) {
     <>
       {parts.map((part, i) => {
         if (part.startsWith("**") && part.endsWith("**"))
-          return <strong key={i} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+          return (
+            <strong key={i} className="font-semibold text-foreground">
+              {part.slice(2, -2)}
+            </strong>
+          );
         if (part.startsWith("*") && part.endsWith("*"))
-          return <em key={i} className="italic">{part.slice(1, -1)}</em>;
+          return (
+            <em key={i} className="italic">
+              {part.slice(1, -1)}
+            </em>
+          );
         if (part.startsWith("`") && part.endsWith("`"))
-          return <code key={i} className="rounded bg-surface px-1.5 py-0.5 font-mono text-[13px]">{part.slice(1, -1)}</code>;
+          return (
+            <code
+              key={i}
+              className="rounded bg-surface px-1.5 py-0.5 font-mono text-[13px]"
+            >
+              {part.slice(1, -1)}
+            </code>
+          );
         return <span key={i}>{part}</span>;
       })}
     </>
@@ -70,19 +92,28 @@ function MarkdownArticle({ content }: { content: string }) {
         switch (tok.type) {
           case "h1":
             return (
-              <h1 key={i} className="pt-10 pb-3 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+              <h1
+                key={i}
+                className="pt-10 pb-3 font-display text-3xl font-semibold tracking-tight text-foreground md:text-4xl"
+              >
                 <Inline text={tok.text} />
               </h1>
             );
           case "h2":
             return (
-              <h2 key={i} className="pt-8 pb-2 font-display text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+              <h2
+                key={i}
+                className="pt-8 pb-2 font-display text-xl font-semibold tracking-tight text-foreground md:text-2xl"
+              >
                 <Inline text={tok.text} />
               </h2>
             );
           case "h3":
             return (
-              <h3 key={i} className="pt-6 pb-2 font-display text-lg font-medium tracking-tight text-foreground">
+              <h3
+                key={i}
+                className="pt-6 pb-2 font-display text-lg font-medium tracking-tight text-foreground"
+              >
                 <Inline text={tok.text} />
               </h3>
             );
@@ -90,7 +121,10 @@ function MarkdownArticle({ content }: { content: string }) {
             return <hr key={i} className="my-8 border-border" />;
           case "blockquote":
             return (
-              <blockquote key={i} className="my-4 border-l-2 border-ink-deep/30 pl-4 text-[15px] italic text-muted-foreground">
+              <blockquote
+                key={i}
+                className="my-4 border-l-2 border-ink-deep/30 pl-4 text-[15px] italic text-muted-foreground"
+              >
                 <Inline text={tok.text} />
               </blockquote>
             );
@@ -98,7 +132,10 @@ function MarkdownArticle({ content }: { content: string }) {
             return (
               <ul key={i} className="my-4 space-y-2 pl-5">
                 {tok.items.map((item, j) => (
-                  <li key={j} className="flex gap-2 text-[15px] leading-relaxed text-foreground/85">
+                  <li
+                    key={j}
+                    className="flex gap-2 text-[15px] leading-relaxed text-foreground/85"
+                  >
                     <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink-deep/40" />
                     <Inline text={item} />
                   </li>
@@ -107,7 +144,10 @@ function MarkdownArticle({ content }: { content: string }) {
             );
           case "p":
             return (
-              <p key={i} className="py-2 text-[15px] leading-[1.8] text-foreground/85">
+              <p
+                key={i}
+                className="py-2 text-[15px] leading-[1.8] text-foreground/85"
+              >
                 <Inline text={tok.text} />
               </p>
             );
@@ -122,14 +162,14 @@ function MarkdownArticle({ content }: { content: string }) {
 /** Strip markdown syntax so the browser reads clean prose */
 function stripMarkdown(md: string): string {
   return md
-    .replace(/^#{1,6}\s+/gm, "")   // headings
-    .replace(/^-{3,}$/gm, "")       // hr
-    .replace(/^>\s+/gm, "")         // blockquotes
-    .replace(/^[-*]\s+/gm, "")      // list items
+    .replace(/^#{1,6}\s+/gm, "") // headings
+    .replace(/^-{3,}$/gm, "") // hr
+    .replace(/^>\s+/gm, "") // blockquotes
+    .replace(/^[-*]\s+/gm, "") // list items
     .replace(/\*\*([^*]+)\*\*/g, "$1") // bold
-    .replace(/\*([^*]+)\*/g, "$1")  // italic
-    .replace(/`([^`]+)`/g, "$1")    // inline code
-    .replace(/\n{2,}/g, " ")        // paragraph breaks → space
+    .replace(/\*([^*]+)\*/g, "$1") // italic
+    .replace(/`([^`]+)`/g, "$1") // inline code
+    .replace(/\n{2,}/g, " ") // paragraph breaks → space
     .replace(/\n/g, " ")
     .trim();
 }
@@ -160,11 +200,16 @@ function useSpeech(rawText: string) {
 
   useEffect(() => {
     setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
-    return () => { window.speechSynthesis?.cancel(); };
+    return () => {
+      window.speechSynthesis?.cancel();
+    };
   }, []);
 
   function speakChunk(chunks: string[], index: number) {
-    if (index >= chunks.length) { setStatus("idle"); return; }
+    if (index >= chunks.length) {
+      setStatus("idle");
+      return;
+    }
     const u = new SpeechSynthesisUtterance(chunks[index]);
     u.rate = 0.95;
     activeUttRef.current = u;
@@ -305,7 +350,9 @@ function BlogPostPage() {
                   <>
                     <button
                       type="button"
-                      onClick={speech.status === "playing" ? speech.pause : speech.play}
+                      onClick={
+                        speech.status === "playing" ? speech.pause : speech.play
+                      }
                       className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-surface/70"
                     >
                       {speech.status === "playing" ? (
@@ -321,7 +368,11 @@ function BlogPostPage() {
                         "Resume"
                       ) : (
                         <>
-                          <svg className="size-3" viewBox="0 0 24 24" fill="currentColor">
+                          <svg
+                            className="size-3"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
                             <path d="M8 5v14l11-7z" />
                           </svg>
                           Listen
@@ -356,7 +407,13 @@ function BlogPostPage() {
                   to="/blog"
                   className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  <svg className="size-3 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    className="size-3 transition-transform group-hover:-translate-x-0.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M19 12H5M12 5l-7 7 7 7" />
                   </svg>
                   All posts
