@@ -127,6 +127,121 @@ const Logo = {
       <circle cx="12" cy="15" r="2" fill="#68D391"/>
     </svg>
   ),
+  // Added from resume
+  sql: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#264653"/>
+      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">SQL</text>
+    </svg>
+  ),
+  r_lang: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#276DC3"/>
+      <text x="12" y="15" fontSize="9" fontFamily="sans-serif" fill="#fff" textAnchor="middle">R</text>
+    </svg>
+  ),
+  cpp: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#00599C"/>
+      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">C++</text>
+    </svg>
+  ),
+  java: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#5382A1"/>
+      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Java</text>
+    </svg>
+  ),
+  numpy: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#013243"/>
+      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">NumPy</text>
+    </svg>
+  ),
+  keras: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#D00000"/>
+      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Keras</text>
+    </svg>
+  ),
+  pytorch: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#EE4C2C"/>
+      <text x="12" y="15" fontSize="8" fontFamily="sans-serif" fill="#fff" textAnchor="middle">PyTorch</text>
+    </svg>
+  ),
+  statsmodels: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#6A994E"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Stats</text>
+    </svg>
+  ),
+  matplotlib: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#2A2F45"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">mpl</text>
+    </svg>
+  ),
+  seaborn: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#4C6A92"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">sb</text>
+    </svg>
+  ),
+  plotly: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#3B4CC0"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">plt</text>
+    </svg>
+  ),
+  tableau: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#E9761B"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">T</text>
+    </svg>
+  ),
+  jupyter: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#F37626"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">JNB</text>
+    </svg>
+  ),
+  azureml: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#0078D4"/>
+      <text x="12" y="15" fontSize="6" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Azure</text>
+    </svg>
+  ),
+  vscode: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#007ACC"/>
+      <text x="12" y="15" fontSize="6" fontFamily="sans-serif" fill="#fff" textAnchor="middle">VS</text>
+    </svg>
+  ),
+  mongodb: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#47A248"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">MDB</text>
+    </svg>
+  ),
+  mysql: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#00758F"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">MySQL</text>
+    </svg>
+  ),
+  nodejs: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#3C873A"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Node</text>
+    </svg>
+  ),
+  express: (
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="4" fill="#000000"/>
+      <text x="12" y="15" fontSize="7" fontFamily="sans-serif" fill="#fff" textAnchor="middle">Express</text>
+    </svg>
+  ),
 };
 
 type Skill = { name: string; logo: keyof typeof Logo };
@@ -139,6 +254,10 @@ const categories: { title: string; eyebrow: string; skills: Skill[] }[] = [
       { name: "Python", logo: "python" },
       { name: "JavaScript", logo: "javascript" },
       { name: "TypeScript", logo: "typescript" },
+      { name: "SQL", logo: "sql" },
+      { name: "R", logo: "r_lang" },
+      { name: "C/C++", logo: "cpp" },
+      { name: "Java", logo: "java" },
     ],
   },
   {
@@ -161,6 +280,20 @@ const categories: { title: string; eyebrow: string; skills: Skill[] }[] = [
       { name: "OpenCV", logo: "opencv" },
       { name: "XGBoost", logo: "xgboost" },
       { name: "Gemini API", logo: "gemini" },
+      { name: "NumPy", logo: "numpy" },
+      { name: "Keras", logo: "keras" },
+      { name: "PyTorch", logo: "pytorch" },
+      { name: "Statsmodels", logo: "statsmodels" },
+    ],
+  },
+  {
+    title: "Visualization",
+    eyebrow: "Charts",
+    skills: [
+      { name: "Matplotlib", logo: "matplotlib" },
+      { name: "Seaborn", logo: "seaborn" },
+      { name: "Plotly", logo: "plotly" },
+      { name: "Tableau", logo: "tableau" },
     ],
   },
   {
@@ -172,6 +305,13 @@ const categories: { title: string; eyebrow: string; skills: Skill[] }[] = [
       { name: "Linux", logo: "linux" },
       { name: "Twilio", logo: "twilio" },
       { name: "AES-256", logo: "aes" },
+      { name: "Jupyter Notebook", logo: "jupyter" },
+      { name: "Azure ML", logo: "azureml" },
+      { name: "VS Code", logo: "vscode" },
+      { name: "MongoDB", logo: "mongodb" },
+      { name: "MySQL", logo: "mysql" },
+      { name: "Node.js", logo: "nodejs" },
+      { name: "Express.js", logo: "express" },
     ],
   },
 ];
