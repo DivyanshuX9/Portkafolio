@@ -1,19 +1,19 @@
-import { Reveal } from "./Reveal";
+import awsLogo from "../../assets/logos/aws.svg";
+import expressLogo from "../../assets/logos/express.svg";
+import jupyterLogo from "../../assets/logos/jupyter.svg";
+import kerasLogo from "../../assets/logos/keras.svg";
+import matplotlibLogo from "../../assets/logos/matplotlib.svg";
 import mongodbLogo from "../../assets/logos/mongodb.svg";
 import mysqlLogo from "../../assets/logos/mysql.svg";
 import nodejsLogo from "../../assets/logos/nodejs.svg";
-import expressLogo from "../../assets/logos/express.svg";
-import vscodeLogo from "../../assets/logos/vscode.svg";
-import jupyterLogo from "../../assets/logos/jupyter.svg";
 import numpyLogo from "../../assets/logos/numpy.svg";
 import pandasLogo from "../../assets/logos/pandas.svg";
-import matplotlibLogo from "../../assets/logos/matplotlib.svg";
-import seabornLogo from "../../assets/logos/seaborn.svg";
 import plotlyLogo from "../../assets/logos/plotly.svg";
-import tableauLogo from "../../assets/logos/tableau.svg";
-import kerasLogo from "../../assets/logos/keras.svg";
 import pytorchLogo from "../../assets/logos/pytorch.svg";
-import awsLogo from "../../assets/logos/aws.svg";
+import seabornLogo from "../../assets/logos/seaborn.svg";
+import tableauLogo from "../../assets/logos/tableau.svg";
+import vscodeLogo from "../../assets/logos/vscode.svg";
+import { Reveal } from "./Reveal";
 
 // Inline SVG logos — no external deps
 const Logo = {
