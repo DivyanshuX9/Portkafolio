@@ -6,6 +6,9 @@ import { format, startOfToday } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
+const backendBaseUrl = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
+
+type BookingState = "idle" | "sending" | "sent" | "error";
 
 export const Route = createFileRoute("/schedule")({
   head: () => ({
@@ -15,31 +18,22 @@ export const Route = createFileRoute("/schedule")({
 });
 
 function SchedulePage() {
-  // Initialize date as undefined to avoid SSR/client mismatch (server and
-  // client mount times will differ). Set the current date after mount.
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState(timeSlots[1]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("Project introduction");
-
-  const googleCalendarId = import.meta.env.VITE_GOOGLE_CALENDAR_ID as
-    | string
-    | undefined;
-  const googleCalendarApiKey = import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY as
-    | string
-    | undefined;
+  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(undefined);
+  const [bookingState, setBookingState] = useState<BookingState>("idle");
+  const [availabilityStatus, setAvailabilityStatus] = useState<"idle" | "loading" | "ready" | "unavailable" | "error">("idle");
+  const [busySlots, setBusySlots] = useState<string[]>([]);
   const today = startOfToday();
-
-  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(
-    undefined,
-  );
 
   useEffect(() => {
     setDate(new Date());
     try {
       setClientTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-    } catch (e) {
+    } catch {
       setClientTimeZone(undefined);
     }
   }, []);
@@ -67,22 +61,81 @@ function SchedulePage() {
     });
 
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }, [date, email, name, time, topic]);
+  }, [clientTimeZone, date, email, name, time, topic]);
 
-  const calendarSyncHint =
-    googleCalendarId && googleCalendarApiKey
-      ? "Google Calendar API credentials are present. You can wire a public calendar sync with the calendar ID for live availability."
-      : "Set VITE_GOOGLE_CALENDAR_ID and VITE_GOOGLE_CALENDAR_API_KEY to sync public availability with Google Calendar.";
+  useEffect(() => {
+    const selectedDate = date ?? new Date();
+    const queryDate = format(selectedDate, "yyyy-MM-dd");
+
+    const controller = new AbortController();
+    setAvailabilityStatus("loading");
+
+    void fetch(
+      `${backendBaseUrl}/calendar/availability?date=${encodeURIComponent(queryDate)}&time_zone=${encodeURIComponent(clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)}`,
+      { signal: controller.signal },
+    )
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("availability fetch failed");
+        }
+
+        return response.json() as Promise<{ busy_slots: string[] }>;
+      })
+      .then((data) => {
+        setBusySlots(data.busy_slots ?? []);
+        setAvailabilityStatus("ready");
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        setBusySlots([]);
+        setAvailabilityStatus("error");
+      });
+
+    return () => controller.abort();
+  }, [clientTimeZone, date]);
+
+  function handleBookingClick() {
+    setBookingState("sending");
+
+    const selectedDate = date ?? new Date();
+    const payload = {
+      name: name.trim() || "Guest",
+      email: email.trim() || null,
+      date: format(selectedDate, "EEEE, MMMM d, yyyy"),
+      time,
+      topic: topic.trim() || "Meeting request",
+      time_zone: clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+      meeting_url: meetingUrl,
+    };
+
+    void fetch(`${backendBaseUrl}/booking/notify`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    })
+      .then((response) => {
+        setBookingState(response.ok ? "sent" : "error");
+      })
+      .catch(() => {
+        setBookingState("error");
+      });
+  }
 
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
-      <main className="relative z-10 mx-auto w-full max-w-280 px-5 pt-28 pb-20 md:px-10 md:pt-32 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-280 px-5 pb-20 pt-28 md:px-10 md:pt-32 lg:pl-28 xl:pl-36">
         <section className="container-edge pb-10">
           <SectionHeader
             index="01"
             eyebrow="Schedule"
             title="Pick a date, choose a time, and open the meeting in Google Calendar."
-            description="This page uses the built-in calendar and a Google Calendar event template. Public availability can be synced when the API key and calendar ID are provided."
+            description="This page uses the built-in calendar and a Google Calendar event template. When a meeting is opened, the backend sends you an email notification."
           />
         </section>
 
@@ -100,10 +153,8 @@ function SchedulePage() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between rounded-lg border border-border bg-surface/30 p-4">
                     <div>
-                      <p className="text-sm font-medium text-foreground">
-                        Selected date
-                      </p>
-                      <p className="mt-1 text-muted-foreground text-[13px]">
+                      <p className="text-sm font-medium text-foreground">Selected date</p>
+                      <p className="mt-1 text-[13px] text-muted-foreground">
                         {date ? format(date, "EEEE, MMMM d") : "Pick a date"}
                       </p>
                     </div>
@@ -124,17 +175,18 @@ function SchedulePage() {
 
               <Reveal delay={0.1}>
                 <div className="space-y-4">
-                  <p className="text-sm font-medium text-foreground">
-                    Time slots
-                  </p>
+                  <p className="text-sm font-medium text-foreground">Time slots</p>
                   <div className="grid gap-2 md:grid-cols-2">
                     {timeSlots.map((slot) => (
                       <button
                         key={slot}
                         type="button"
+                        disabled={busySlots.includes(slot)}
                         onClick={() => setTime(slot)}
                         className={`rounded-lg border px-3 py-2 text-[12px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                          time === slot
+                          busySlots.includes(slot)
+                            ? "cursor-not-allowed border-border/60 bg-surface/20 text-muted-foreground opacity-60"
+                            : time === slot
                             ? "border-accent bg-accent text-background"
                             : "border-border text-foreground hover:bg-surface/50"
                         }`}
@@ -153,7 +205,7 @@ function SchedulePage() {
 
                 <div className="grid gap-4 md:grid-cols-3">
                   <label className="block">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       Name
                     </p>
                     <input
@@ -165,7 +217,7 @@ function SchedulePage() {
                   </label>
 
                   <label className="block">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       Email
                     </p>
                     <input
@@ -178,7 +230,7 @@ function SchedulePage() {
                   </label>
 
                   <label className="block">
-                    <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-2">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       Topic
                     </p>
                     <input
@@ -193,11 +245,25 @@ function SchedulePage() {
                 <div className="mt-6 rounded-lg border border-border bg-surface/30 p-4 text-sm leading-relaxed">
                   <p className="font-medium text-foreground">Selected slot</p>
                   <p className="mt-2 text-muted-foreground">
-                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at{" "}
-                    {time}
+                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at {time}
                   </p>
                   <p className="mt-3 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-                    {calendarSyncHint}
+                    {availabilityStatus === "loading"
+                      ? "Checking your calendar for open slots..."
+                      : availabilityStatus === "error"
+                        ? "Calendar availability could not be fetched. The booking link still works."
+                        : busySlots.length > 0
+                          ? `${busySlots.length} slots are already booked on this day.`
+                          : "No conflicting events were found for the selected day."}
+                  </p>
+                  <p className="mt-2 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+                    {bookingState === "sending"
+                      ? "Sending your booking email..."
+                      : bookingState === "sent"
+                        ? "Booking email sent. Check your inbox if you want to confirm it arrived."
+                        : bookingState === "error"
+                          ? "Email notification failed. The calendar link still opens, but the mailer needs setup."
+                          : "Open Google Calendar to send the meeting request email and create the event."}
                   </p>
                 </div>
 
@@ -205,6 +271,7 @@ function SchedulePage() {
                   href={meetingUrl}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={handleBookingClick}
                   className="inline-flex items-center gap-3 rounded-lg bg-accent px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-90"
                 >
                   Open Google Calendar

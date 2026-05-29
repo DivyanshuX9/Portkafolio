@@ -11,6 +11,7 @@ import { nitro } from "nitro/vite";
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
 export default defineConfig({
   vite: {
+    assetsInclude: ["**/*.docx"],
     plugins: [nitro()],
   },
   tanstackStart: {

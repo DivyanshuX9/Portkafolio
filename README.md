@@ -15,6 +15,12 @@ npm install
 npm run dev
 ```
 
+Run the frontend and backend together:
+
+```bash
+npm run dev:all
+```
+
 Build and preview:
 
 ```bash
@@ -28,6 +34,18 @@ npm run preview
 pip install -r backend/requirements.txt
 uvicorn backend.main:app --reload
 ```
+
+The backend is small enough that it can be deployed separately from the frontend. For this FastAPI app, Vercel is possible only if you adapt it to a serverless Python function setup; otherwise a Python-friendly host is usually the simpler choice.
+
+Booking email setup:
+
+- `RESEND_API_KEY`
+- `MAILER_FROM_EMAIL`
+- `BOOKING_NOTIFICATION_EMAIL`
+
+Frontend booking setup:
+
+- `VITE_BACKEND_URL` if the frontend is not talking to `http://localhost:8000`
 
 ## Environment
 

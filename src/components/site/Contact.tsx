@@ -1,5 +1,23 @@
 import { Reveal } from "./Reveal";
 
+import dataScientistResume from "../../assests/Divyanshu_Sharma_Resume_Data_Scientist.docx";
+import sweResume from "../../assests/Divyanshu_Sharma_SWE_Intern.docx";
+
+const resumeLinks = [
+  {
+    label: "Download DS Resume",
+    href: dataScientistResume,
+    note: "Data science focused version",
+    downloadName: "Divyanshu_Sharma_Data_Scientist_Resume.docx",
+  },
+  {
+    label: "Download SWE Resume",
+    href: sweResume,
+    note: "Software engineering version",
+    downloadName: "Divyanshu_Sharma_SWE_Resume.docx",
+  },
+];
+
 const socials = [
   { label: "Email", href: "mailto:divyanshu88999@gmail.com" },
   { label: "GitHub", href: "https://github.com/DivyanshuX9" },
@@ -36,6 +54,30 @@ export function Contact() {
               ↗
             </span>
           </a>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <div className="mt-10 grid gap-3 md:max-w-3xl md:grid-cols-2">
+            {resumeLinks.map((resume) => (
+              <a
+                key={resume.label}
+                href={resume.href}
+                download={resume.downloadName}
+                className="group rounded-2xl border border-border bg-surface/40 p-4 transition-colors hover:bg-surface"
+              >
+                <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                  Resume
+                </p>
+                <p className="mt-2 font-display text-xl font-medium tracking-tight text-ink-deep">
+                  {resume.label}
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{resume.note}</p>
+                <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-ink-deep transition-transform group-hover:translate-x-1">
+                  Download now →
+                </p>
+              </a>
+            ))}
+          </div>
         </Reveal>
 
         <Reveal delay={0.15}>

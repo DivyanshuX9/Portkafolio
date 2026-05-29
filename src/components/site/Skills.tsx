@@ -1,11 +1,11 @@
-import awsLogo from "../../assets/logos/aws.svg";
 import aesLogo from "../../assets/logos/aes.svg";
+import awsLogo from "../../assets/logos/aws.svg";
 import cppLogo from "../../assets/logos/cpp.svg";
 import dockerLogo from "../../assets/logos/docker.svg";
 import expressLogo from "../../assets/logos/express.svg";
 import gitLogo from "../../assets/logos/git.svg";
-import jupyterLogo from "../../assets/logos/jupyter.svg";
 import javaLogo from "../../assets/logos/java.svg";
+import jupyterLogo from "../../assets/logos/jupyter.svg";
 import kerasLogo from "../../assets/logos/keras.svg";
 import linuxLogo from "../../assets/logos/linux.svg";
 import matplotlibLogo from "../../assets/logos/matplotlib.svg";
@@ -19,8 +19,8 @@ import pytorchLogo from "../../assets/logos/pytorch.svg";
 import rLogo from "../../assets/logos/r.svg";
 import seabornLogo from "../../assets/logos/seaborn.svg";
 import sqlLogo from "../../assets/logos/sql.svg";
-import twilioLogo from "../../assets/logos/twilio.svg";
 import tableauLogo from "../../assets/logos/tableau.svg";
+import twilioLogo from "../../assets/logos/twilio.svg";
 import vscodeLogo from "../../assets/logos/vscode.svg";
 import { Reveal } from "./Reveal";
 

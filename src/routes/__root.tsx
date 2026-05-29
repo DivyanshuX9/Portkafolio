@@ -118,7 +118,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
             __html: `(function () {
   try {
     var stored = localStorage.getItem("season");
-    if (stored === 'dark') document.documentElement.classList.add('dark');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = stored === 'dark' || (!stored && prefersDark);
+    document.documentElement.classList.toggle('dark', isDark);
   } catch (_) {}
 })();`,
           }}
