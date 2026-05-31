@@ -1,6 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Fragment, type ReactNode } from "react";
-import { useSeason, type Season } from "./theme";
+import { useSeason, type Season } from "./season-context";
 
 type NavItem = {
   href: string;
@@ -149,7 +149,8 @@ function navWidthClass(label: string) {
   return "hover:w-24";
 }
 
-const navBaseClass = "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-11 md:w-11 md:px-2 md:hover:pr-3.5";
+const navBaseClass =
+  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-11 md:w-11 md:px-2 md:hover:pr-3.5";
 
 const navActiveClass = "hover:bg-ink-deep/8 hover:text-ink-deep";
 
@@ -168,9 +169,23 @@ function SocialButton({ item }: { item: NavItem }) {
   );
 
   if (!item.external) {
-    return <a href={item.href} aria-label={item.label} className={cls}>{content}</a>;
+    return (
+      <a href={item.href} aria-label={item.label} className={cls}>
+        {content}
+      </a>
+    );
   }
-  return <a href={item.href} target="_blank" rel="noreferrer" aria-label={item.label} className={cls}>{content}</a>;
+  return (
+    <a
+      href={item.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={item.label}
+      className={cls}
+    >
+      {content}
+    </a>
+  );
 }
 
 function PageLink({
@@ -220,10 +235,7 @@ export function Nav() {
             />
           </nav>
 
-          <span
-            className="mx-0.5 h-5 w-px bg-ink-deep/12"
-            aria-hidden
-          />
+          <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
 
           <div className="flex flex-nowrap items-center gap-0.5">
             {socialNav.map((item, index) => (

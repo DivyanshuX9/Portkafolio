@@ -1,13 +1,10 @@
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { flushSync } from "react-dom";
 import {
-    createContext,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-    type ReactNode,
-} from "react";
-
-export type Season = "light" | "dark";
+  SeasonCtx,
+  type Season,
+  type SeasonContextValue,
+} from "./season-context";
 
 type Preference = Season | "system";
 
@@ -16,17 +13,11 @@ const SEASONS: { id: Season; label: string; hint: string }[] = [
   { id: "dark", label: "Dark", hint: "Dim" },
 ];
 
-type Ctx = {
-  season: Season;
-  setSeason: (s: Season) => void;
-  cycle: () => void;
-};
-
-const SeasonCtx = createContext<Ctx | null>(null);
-
 function getSystemSeason(): Season {
   if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 function readStoredPreference(): Preference {
@@ -40,9 +31,30 @@ function readStoredPreference(): Preference {
 }
 
 export function SeasonProvider({ children }: { children: ReactNode }) {
-  const [preference, setPreference] = useState<Preference>(() => readStoredPreference());
-  const [systemSeason, setSystemSeason] = useState<Season>(() => getSystemSeason());
+  const [preference, setPreference] = useState<Preference>(() =>
+    readStoredPreference(),
+  );
+  const [systemSeason, setSystemSeason] = useState<Season>(() =>
+    getSystemSeason(),
+  );
   const season = preference === "system" ? systemSeason : preference;
+
+  useEffect(() => {
+    document.documentElement.dataset.themeReady = "true";
+  }, []);
+
+  const applyPreference = (nextPreference: Preference) => {
+    if (typeof document.startViewTransition === "function") {
+      document.startViewTransition(() => {
+        flushSync(() => {
+          setPreference(nextPreference);
+        });
+      });
+      return;
+    }
+
+    setPreference(nextPreference);
+  };
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -65,6 +77,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle("dark", season === "dark");
+    root.style.colorScheme = season;
 
     if (preference === "system") {
       localStorage.removeItem("season");
@@ -89,24 +102,18 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
-  const value = useMemo<Ctx>(
+  const value = useMemo<SeasonContextValue>(
     () => ({
       season,
-      setSeason: (nextSeason: Season) => setPreference(nextSeason),
+      setSeason: (nextSeason: Season) => applyPreference(nextSeason),
       cycle: () => {
         const ids = SEASONS.map((s) => s.id);
         const i = ids.indexOf(season);
-        setPreference(ids[(i + 1) % ids.length]);
+        applyPreference(ids[(i + 1) % ids.length]);
       },
     }),
     [season],
   );
 
   return <SeasonCtx.Provider value={value}>{children}</SeasonCtx.Provider>;
-}
-
-export function useSeason() {
-  const ctx = useContext(SeasonCtx);
-  if (!ctx) throw new Error("useSeason must be used inside SeasonProvider");
-  return ctx;
 }

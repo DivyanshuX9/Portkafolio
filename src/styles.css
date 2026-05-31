@@ -49,9 +49,6 @@
   --accent-foreground: #ffffff;
   --muted-foreground: rgba(5, 5, 5, 0.56);
   --border: rgba(5, 5, 5, 0.14);
-  transition:
-    background-color 700ms ease,
-    color 700ms ease;
 }
 
 html.dark {
@@ -70,9 +67,21 @@ html {
   background-color: var(--background);
 }
 
+html[data-theme-ready="true"] {
+  transition:
+    background-color 700ms ease,
+    color 700ms ease;
+}
+
 body {
   background-color: var(--color-background);
   overflow-x: hidden;
+}
+
+html[data-theme-ready="true"] body {
+  transition:
+    background-color 700ms ease,
+    color 700ms ease;
 }
 
 @layer base {
@@ -126,33 +135,6 @@ body {
   @apply mx-auto w-full max-w-360 px-5 md:px-10;
 }
 
-.github-contribution-week {
-  /* Keep every week column fixed so month labels can't shift column alignment. */
-  width: 0.625rem;
-  /* mobile: size-2.5 */
-}
-
-.github-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
-  scrollbar-gutter: stable both-edges;
-  overscroll-behavior-x: contain;
-  -webkit-overflow-scrolling: touch;
-}
-
-.github-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-
-.github-scroll::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 999px;
-}
-
-.github-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 .nav-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
@@ -169,12 +151,4 @@ body {
 
 .nav-scroll::-webkit-scrollbar-track {
   background: transparent;
-}
-
-@media (min-width: 768px) {
-  /* Desktop: square=3.5 * 0.25rem */
-  .github-contribution-week {
-    width: 0.75rem;
-    /* adjusted for medium screens to reduce overflow */
-  }
 }

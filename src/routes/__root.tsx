@@ -1,11 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-    HeadContent,
-    Link,
-    Outlet,
-    Scripts,
-    createRootRouteWithContext,
-    useRouter,
+  HeadContent,
+  Link,
+  Outlet,
+  Scripts,
+  createRootRouteWithContext,
+  useRouter,
 } from "@tanstack/react-router";
 
 import { Nav } from "@/components/site/Nav";
@@ -120,7 +120,9 @@ function RootShell({ children }: { children: React.ReactNode }) {
     var stored = localStorage.getItem("season");
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     var isDark = stored === 'dark' || (!stored && prefersDark);
-    document.documentElement.classList.toggle('dark', isDark);
+    var root = document.documentElement;
+    root.classList.toggle('dark', isDark);
+    root.style.colorScheme = isDark ? 'dark' : 'light';
   } catch (_) {}
 })();`,
           }}

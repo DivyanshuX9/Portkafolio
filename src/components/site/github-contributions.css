@@ -1,0 +1,41 @@
+.github-contributions-scroll {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  scrollbar-gutter: stable both-edges;
+}
+
+.github-contributions-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.github-contributions-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
+}
+
+.github-contributions-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.github-contributions-graph {
+  display: inline-block;
+  width: max-content;
+  min-width: max-content;
+}
+
+.github-contribution-week {
+  width: 1rem;
+  flex: 0 0 auto;
+}
+
+@media (min-width: 768px) {
+  .github-contribution-week {
+    width: 0.875rem;
+  }
+}

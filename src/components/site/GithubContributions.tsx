@@ -12,6 +12,7 @@ import {
 } from "date-fns";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Reveal } from "./Reveal";
+import "./github-contributions.css";
 
 type GitHubProfile = {
   login: string;
@@ -104,6 +105,8 @@ const profileBadges = [
 ];
 
 export function GithubContributions() {
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
   const { data, isLoading, isError, dataUpdatedAt } = useQuery({
     queryKey: ["github-profile", githubUsername],
     queryFn: async () => {
@@ -226,6 +229,16 @@ export function GithubContributions() {
   }, [contributionData, mounted]);
 
   const isReady = Boolean(data && contributionData);
+
+  const scrollGraph = (direction: -1 | 1) => {
+    const node = scrollRef.current;
+    if (!node) return;
+
+    node.scrollBy({
+      left: direction * Math.max(node.clientWidth * 0.75, 280),
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
@@ -388,8 +401,8 @@ export function GithubContributions() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <div className="space-y-5">
+          <Reveal delay={0.1} className="min-w-0">
+            <div className="space-y-5 min-w-0">
               <div className="flex flex-col gap-2 border-b border-border pb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -408,15 +421,35 @@ export function GithubContributions() {
                 </p>
               </div>
 
-              <div className="max-w-full">
-                <p className="mb-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground md:hidden">
-                  ← Swipe to scroll →
-                </p>
+              <div className="max-w-full min-w-0">
+                <div className="mb-2 flex items-center justify-between gap-3 md:hidden">
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                    Swipe or tap arrows
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => scrollGraph(-1)}
+                      className="rounded-full border border-border bg-surface px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-ink-deep hover:text-background"
+                      aria-label="Scroll contribution graph left"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollGraph(1)}
+                      className="rounded-full border border-border bg-surface px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-foreground transition-colors hover:bg-ink-deep hover:text-background"
+                      aria-label="Scroll contribution graph right"
+                    >
+                      →
+                    </button>
+                  </div>
+                </div>
                 <div
-                  className="github-scroll overflow-x-scroll overflow-y-hidden pb-3"
-                  style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+                  ref={scrollRef}
+                  className="github-contributions-scroll pb-3"
                 >
-                  <div className="w-max">
+                  <div className="github-contributions-graph">
                     <div className="mb-3 flex gap-2">
                       <div className="w-7 shrink-0" />
                       <div className="flex gap-0.5 text-[9px] sm:text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -439,7 +472,10 @@ export function GithubContributions() {
                         <div className="w-7 shrink-0">
                           <div className="flex flex-col gap-0.5 text-[9px] sm:text-[10px] leading-none text-muted-foreground">
                             {dayAxisLabels.map((label, index) => (
-                              <span key={index} className="h-2 sm:h-2.5 md:h-3.5">
+                              <span
+                                key={index}
+                                className="h-2 sm:h-2.5 md:h-3.5"
+                              >
                                 {label}
                               </span>
                             ))}
@@ -464,7 +500,7 @@ export function GithubContributions() {
                                     className={`inline-block ${day.count > 0 ? "cursor-pointer" : "cursor-default"}`}
                                   >
                                     <span
-                                      className={`block w-2 sm:w-[0.625rem] md:w-[0.75rem] lg:w-[0.875rem] h-2 sm:h-[0.625rem] md:h-[0.75rem] lg:h-[0.875rem] rounded-[2px] sm:rounded-[3px] border border-border ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110 active:scale-110`}
+                                      className={`block size-4 sm:size-4 md:size-3.5 lg:size-3.5 rounded-xs sm:rounded-[3px] border border-border ${levelStyle[day.level]} transition-transform duration-300 hover:scale-110 active:scale-110`}
                                     />
                                   </a>
                                 );
@@ -486,7 +522,10 @@ export function GithubContributions() {
                         </div>
                         <div className="grid grid-cols-8 gap-0.5">
                           {Array.from({ length: 64 }).map((_, index) => (
-                            <Skeleton key={index} className="size-2 sm:size-2.5 rounded-[2px] md:size-3.5" />
+                            <Skeleton
+                              key={index}
+                              className="size-4 sm:size-4 rounded-xs md:size-3.5"
+                            />
                           ))}
                         </div>
                       </div>
@@ -500,7 +539,7 @@ export function GithubContributions() {
                         {levelStyle.map((cls, index) => (
                           <span
                             key={index}
-                            className={`inline-block w-[0.625rem] h-[0.625rem] md:w-[0.75rem] md:h-[0.75rem] rounded-[3px] border border-border ${cls}`}
+                            className={`inline-block size-4 sm:size-4 md:size-3.5 rounded-[3px] border border-border ${cls}`}
                           />
                         ))}
                         <span>More</span>
