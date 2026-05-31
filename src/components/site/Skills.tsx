@@ -3,7 +3,7 @@ import awsLogo from "../../assets/logos/aws.svg";
 import cppLogo from "../../assets/logos/cpp.svg";
 import dockerLogo from "../../assets/logos/docker.svg";
 import expressLogo from "../../assets/logos/express.svg";
-import gitLogo from "../../assets/logos/git.svg";
+import gitLogo from "../../assets/logos/git.jpg";
 import javaLogo from "../../assets/logos/java.svg";
 import jupyterLogo from "../../assets/logos/jupyter.svg";
 import kerasLogo from "../../assets/logos/keras.svg";
