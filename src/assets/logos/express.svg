@@ -1,5 +1,1 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" aria-hidden="true">
-  <rect width="200" height="50" rx="6" fill="#000"/>
-  <text x="100" y="34" font-size="20" font-family="Inter, Arial, sans-serif" fill="#fff" text-anchor="middle">express</text>
-</svg>
-
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 200 50"><rect width="200" height="50" rx="6"/><text x="100" y="34" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="20" text-anchor="middle">express</text></svg>

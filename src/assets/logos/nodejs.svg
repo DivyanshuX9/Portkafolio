@@ -1,5 +1,1 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" aria-hidden="true">
-  <path fill="#3C873A" d="M64 2l54 31v56L64 126 10 89V33z"/>
-  <text x="64" y="82" font-size="34" font-family="Inter, Arial, sans-serif" fill="#fff" text-anchor="middle">node</text>
-</svg>
-
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 128 128"><path fill="#3c873a" d="m64 2 54 31v56l-54 37-54-37V33z"/><text x="64" y="82" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="34" text-anchor="middle">node</text></svg>
