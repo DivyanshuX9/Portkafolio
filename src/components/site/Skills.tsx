@@ -549,7 +549,7 @@ export function Skills() {
                     {cat.skills.map((skill) => (
                       <li key={skill.name}>
                         <span className="group inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-2 text-[13px] text-foreground transition-colors duration-300 hover:bg-ink-deep hover:text-background">
-                          <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-colors duration-300 group-hover:border-background/20 group-hover:bg-background/10 [&_svg]:size-5 [&_svg]:shrink-0 [&_img]:size-5 [&_img]:object-contain">
+                          <span className="flex size-8 shrink-0 items-center justify-center bg-surface text-foreground transition-colors duration-300 group-hover:bg-background/10 [&_svg]:size-5 [&_svg]:shrink-0 [&_img]:size-5 [&_img]:object-contain">
                             {Logo[skill.logo]}
                           </span>
                           <span className="whitespace-nowrap font-medium tracking-tight">
