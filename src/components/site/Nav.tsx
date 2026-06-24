@@ -156,9 +156,9 @@ const iconWrap =
   "size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110 md:size-5";
 
 const labelBase =
-  "whitespace-nowrap opacity-0 -translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100";
+  "max-w-0 whitespace-nowrap overflow-hidden opacity-0 translate-x-1 transition-[max-width,margin,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:max-w-40 group-hover:translate-x-0 group-hover:opacity-100";
 
-const labelSpacing = "ml-2 md:ml-2.5";
+const labelSpacing = "ml-0 group-hover:ml-2 md:group-hover:ml-2.5";
 
 function PageLink({
   to,
