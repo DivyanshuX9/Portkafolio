@@ -71,7 +71,9 @@ export function Contact() {
                 <p className="mt-2 font-display text-xl font-medium tracking-tight text-ink-deep">
                   {resume.label}
                 </p>
-                <p className="mt-2 text-sm text-muted-foreground">{resume.note}</p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {resume.note}
+                </p>
                 <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-ink-deep transition-transform group-hover:translate-x-1">
                   Download now →
                 </p>

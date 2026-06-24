@@ -60,7 +60,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       meta: [
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: "Divyanshu Sharma — Software engineer & product builder" },
+        { title: "Divyanshu Sharma - Software engineer & product builder" },
         {
           name: "description",
           content:
@@ -69,7 +69,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { name: "author", content: "Divyanshu Sharma" },
         {
           property: "og:title",
-          content: "Divyanshu Sharma — Software engineer & product builder",
+          content: "Divyanshu Sharma - Software engineer & product builder",
         },
         {
           property: "og:description",
@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         { name: "twitter:card", content: "summary_large_image" },
         {
           name: "twitter:title",
-          content: "Divyanshu Sharma — Software engineer & product builder",
+          content: "Divyanshu Sharma - Software engineer & product builder",
         },
         {
           name: "twitter:description",
