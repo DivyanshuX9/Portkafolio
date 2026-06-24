@@ -143,29 +143,51 @@ const seasonGlyph: Record<Season, ReactNode> = {
   ),
 };
 
-function navWidthClass(label: string) {
-  if (label.length > 10) return "hover:w-44";
-  if (label.length > 6) return "hover:w-32";
-  return "hover:w-24";
+const navLinkBase =
+  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-10 md:w-auto md:justify-center md:overflow-visible md:px-3.5";
+
+const navLinkIdle =
+  "bg-transparent text-ink-deep md:border md:border-transparent md:hover:border-border/60 md:hover:bg-surface/75";
+
+const navLinkActive =
+  "bg-ink-deep/12 text-ink-deep md:border md:border-ink-deep md:bg-ink-deep md:text-background md:shadow-sm";
+
+const iconWrap =
+  "size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110 md:size-5";
+
+function PageLink({
+  to,
+  label,
+  icon,
+}: {
+  to: "/" | "/projects" | "/blog" | "/experience";
+  label: string;
+  icon: ReactNode;
+}) {
+  const { pathname } = useLocation();
+  const active = pathname === to;
+  const cls = `${navLinkBase} ${active ? navLinkActive : navLinkIdle}`;
+
+  return (
+    <Link to={to} className={cls} aria-current={active ? "page" : undefined}>
+      <span className={iconWrap}>{icon}</span>
+      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100 md:opacity-100">
+        {label}
+      </span>
+    </Link>
+  );
 }
 
-const navBaseClass =
-  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-11 md:w-11 md:px-2 md:hover:pr-3.5";
-
-const navActiveClass = "hover:bg-ink-deep/8 hover:text-ink-deep";
-
 function SocialButton({ item }: { item: NavItem }) {
-  const cls = `${navBaseClass} ${navActiveClass} ${navWidthClass(item.label)} bg-transparent text-ink-deep`;
+  const cls = `${navLinkBase} ${navLinkIdle} md:px-3`;
 
   const content = (
-    <span className="flex min-w-0 items-center gap-1.5">
-      <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
-        {item.icon}
-      </span>
-      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
+    <>
+      <span className={iconWrap}>{item.icon}</span>
+      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100 md:opacity-100">
         {item.label}
       </span>
-    </span>
+    </>
   );
 
   if (!item.external) {
@@ -175,6 +197,7 @@ function SocialButton({ item }: { item: NavItem }) {
       </a>
     );
   }
+
   return (
     <a
       href={item.href}
@@ -188,42 +211,13 @@ function SocialButton({ item }: { item: NavItem }) {
   );
 }
 
-function PageLink({
-  to,
-  label,
-  icon,
-}: {
-  to: "/" | "/projects" | "/blog" | "/experience";
-  label: string;
-  icon: ReactNode;
-}) {
-  const { pathname } = useLocation();
-  const active = pathname === to;
-  const cls = `${navBaseClass} ${navActiveClass} ${navWidthClass(label)} ${
-    active ? "bg-ink-deep/12 text-ink-deep" : "bg-transparent text-ink-deep"
-  }`;
-
-  return (
-    <Link to={to} className={cls}>
-      <span className="flex min-w-0 items-center gap-1.5">
-        <span className="size-4 shrink-0 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
-          {icon}
-        </span>
-        <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
-          {label}
-        </span>
-      </span>
-    </Link>
-  );
-}
-
 export function Nav() {
   const { season, setSeason } = useSeason();
 
   return (
     <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
-      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-2rem)] overflow-x-auto md:max-w-240 touch-pan-x">
-        <div className="flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full bg-background/92 px-1.5 py-1 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-transform duration-500 md:w-auto md:justify-center md:gap-1.5 md:px-3 md:py-2">
+      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-2rem)] touch-pan-x overflow-x-auto md:max-w-240">
+        <div className="flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full bg-background/92 px-1.5 py-1 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-transform duration-500 md:justify-center md:gap-1.5 md:px-3 md:py-2">
           <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
@@ -258,10 +252,11 @@ export function Nav() {
             <button
               onClick={() => setSeason(season === "light" ? "dark" : "light")}
               aria-label="Toggle light and dark mode"
-              className="group flex size-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:size-11"
+              className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-11 md:w-auto md:gap-2 md:px-3.5"
             >
-              <span className="size-4 transition-transform duration-500 group-hover:-translate-y-px group-hover:scale-110 md:size-5">
-                {seasonGlyph[season]}
+              <span className={iconWrap}>{seasonGlyph[season]}</span>
+              <span className="hidden md:inline whitespace-nowrap">
+                {season === "light" ? "Light" : "Dark"}
               </span>
             </button>
           </div>
