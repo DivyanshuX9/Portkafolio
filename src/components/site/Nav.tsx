@@ -155,6 +155,11 @@ const navLinkActive =
 const iconWrap =
   "size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110 md:size-5";
 
+const labelBase =
+  "whitespace-nowrap opacity-0 -translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100";
+
+const labelSpacing = "ml-2 md:ml-2.5";
+
 function PageLink({
   to,
   label,
@@ -171,7 +176,7 @@ function PageLink({
   return (
     <Link to={to} className={cls} aria-current={active ? "page" : undefined}>
       <span className={iconWrap}>{icon}</span>
-      <span className="whitespace-nowrap opacity-0 -translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100">
+      <span className={`${labelBase} ${labelSpacing}`}>
         {label}
       </span>
     </Link>
@@ -184,7 +189,7 @@ function SocialButton({ item }: { item: NavItem }) {
   const content = (
     <>
       <span className={iconWrap}>{item.icon}</span>
-      <span className="whitespace-nowrap opacity-0 -translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100">
+      <span className={`${labelBase} ${labelSpacing}`}>
         {item.label}
       </span>
     </>
@@ -245,19 +250,16 @@ export function Nav() {
             ))}
 
             <span
-              className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block"
+              className="mx-1 hidden h-5 w-px bg-ink-deep/12 md:mx-2 md:block"
               aria-hidden
             />
 
             <button
               onClick={() => setSeason(season === "light" ? "dark" : "light")}
               aria-label="Toggle light and dark mode"
-              className="group inline-flex h-9 w-11 items-center justify-center gap-0 rounded-full bg-transparent px-2 text-ink-deep transition-[width,padding,transform,background-color,color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-12 md:px-2.5 md:hover:w-auto md:hover:gap-2 md:hover:px-4"
+              className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent px-0 text-ink-deep transition-[transform,background-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-10"
             >
               <span className={iconWrap}>{seasonGlyph[season]}</span>
-              <span className="whitespace-nowrap opacity-0 -translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100">
-                {season === "light" ? "Light" : "Dark"}
-              </span>
             </button>
           </div>
         </div>
