@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { flushSync } from "react-dom";
 import {
   SeasonCtx,
@@ -43,8 +49,11 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.themeReady = "true";
   }, []);
 
-  const applyPreference = (nextPreference: Preference) => {
-    if (typeof document.startViewTransition === "function") {
+  const applyPreference = useCallback((nextPreference: Preference) => {
+    if (
+      typeof document.startViewTransition === "function" &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       document.startViewTransition(() => {
         flushSync(() => {
           setPreference(nextPreference);
@@ -54,7 +63,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
     }
 
     setPreference(nextPreference);
-  };
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -112,7 +121,7 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
         applyPreference(ids[(i + 1) % ids.length]);
       },
     }),
-    [season],
+    [season, applyPreference],
   );
 
   return <SeasonCtx.Provider value={value}>{children}</SeasonCtx.Provider>;
