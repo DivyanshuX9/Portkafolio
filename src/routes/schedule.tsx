@@ -19,8 +19,11 @@ const sectionOptions = [
   "Other",
 ] as const;
 
-const backendBaseUrl =
-  import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
+const backendBaseUrl = import.meta.env.VITE_BACKEND_URL ?? "/api";
+
+function apiUrl(path: string) {
+  return `${backendBaseUrl.replace(/\/$/, "")}${path}`;
+}
 
 type BookingState = "idle" | "sending" | "sent" | "error";
 
@@ -99,7 +102,7 @@ function SchedulePage() {
     setAvailabilityStatus("loading");
 
     void fetch(
-      `${backendBaseUrl}/calendar/availability?date=${encodeURIComponent(queryDate)}&time_zone=${encodeURIComponent(clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)}`,
+      `${apiUrl("/calendar/availability")}?date=${encodeURIComponent(queryDate)}&time_zone=${encodeURIComponent(clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)}`,
       { signal: controller.signal },
     )
       .then(async (response) => {
@@ -147,7 +150,7 @@ function SchedulePage() {
       meeting_url: meetingUrl,
     };
 
-    void fetch(`${backendBaseUrl}/booking/notify`, {
+    void fetch(apiUrl("/booking/notify"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

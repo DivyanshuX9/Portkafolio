@@ -86,7 +86,7 @@ LINKEDIN_PROFILE_URL = os.getenv(
 )
 BOOKING_NOTIFICATION_EMAIL = os.getenv(
     "BOOKING_NOTIFICATION_EMAIL",
-    "divyanshu88999@gmail.com",
+    "symdromearmy@gmail.com",
 )
 WEB3FORMS_API_KEY = _get_env("WEB3FORMS_API_KEY", "web3forms_api_key")
 GOOGLE_CALENDAR_ID = _normalize_google_calendar_id(
