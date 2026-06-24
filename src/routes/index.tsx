@@ -1,15 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { About } from "../components/site/About";
 import { Contact } from "../components/site/Contact";
 import { CurrentWorkTimeline } from "../components/site/CurrentWorkTimeline";
-import { GithubContributions } from "../components/site/GithubContributions";
 import { Hero } from "../components/site/Hero";
 import { Skills } from "../components/site/Skills";
+
+const GithubContributions = lazy(() =>
+  import("../components/site/GithubContributions").then((module) => ({
+    default: module.GithubContributions,
+  })),
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Divyanshu Sharma — Software engineer & product builder" },
+      { title: "Divyanshu Sharma - Software engineer & product builder" },
       {
         name: "description",
         content:
@@ -26,9 +32,17 @@ function Index() {
       id="top"
       className="relative min-h-dvh overflow-x-hidden bg-background text-foreground transition-colors duration-700 dark:text-foreground"
     >
-      <main className="relative z-10 mx-auto w-full max-w-full px-4 pt-28 sm:px-5 sm:max-w-[95vw] md:pt-32 md:px-0 lg:max-w-[calc(100%-4rem)] lg:pl-24 xl:max-w-[calc(100%-6rem)] xl:pl-32">
+      <main className="relative z-10 mx-auto w-full max-w-full px-4 pt-28 sm:max-w-[95vw] sm:px-5 md:px-0 md:pt-32 lg:max-w-[calc(100%-4rem)] lg:pl-24 xl:max-w-[calc(100%-6rem)] xl:pl-32">
         <Hero />
-        <GithubContributions />
+        <Suspense
+          fallback={
+            <div className="container-edge py-20 text-sm text-muted-foreground">
+              Loading GitHub profile...
+            </div>
+          }
+        >
+          <GithubContributions />
+        </Suspense>
         <Skills />
         <CurrentWorkTimeline />
         <About />

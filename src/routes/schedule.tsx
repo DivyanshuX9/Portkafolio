@@ -1,18 +1,36 @@
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
-import { Calendar } from "@/components/ui/calendar";
 import { createFileRoute } from "@tanstack/react-router";
 import { format, startOfToday } from "date-fns";
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+
+const Calendar = lazy(() =>
+  import("@/components/ui/calendar").then((module) => ({
+    default: module.Calendar,
+  })),
+);
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
-const backendBaseUrl = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
+const sectionOptions = [
+  "Project inquiry",
+  "Collaboration",
+  "Speaking",
+  "Hiring",
+  "Other",
+] as const;
+
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
 
 type BookingState = "idle" | "sending" | "sent" | "error";
 
+function isValidEmail(value: string) {
+  return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+}
+
 export const Route = createFileRoute("/schedule")({
   head: () => ({
-    meta: [{ title: "Divyanshu Sharma — Schedule a meeting" }],
+    meta: [{ title: "Divyanshu Sharma - Schedule a meeting" }],
   }),
   component: SchedulePage,
 });
@@ -22,10 +40,18 @@ function SchedulePage() {
   const [time, setTime] = useState(timeSlots[1]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [section, setSection] =
+    useState<(typeof sectionOptions)[number]>("Project inquiry");
   const [topic, setTopic] = useState("Project introduction");
-  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(undefined);
+  const [subject, setSubject] = useState("");
+  const [body, setBody] = useState("");
+  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(
+    undefined,
+  );
   const [bookingState, setBookingState] = useState<BookingState>("idle");
-  const [availabilityStatus, setAvailabilityStatus] = useState<"idle" | "loading" | "ready" | "unavailable" | "error">("idle");
+  const [availabilityStatus, setAvailabilityStatus] = useState<
+    "idle" | "loading" | "ready" | "unavailable" | "error"
+  >("idle");
   const [busySlots, setBusySlots] = useState<string[]>([]);
   const today = startOfToday();
 
@@ -52,7 +78,9 @@ function SchedulePage() {
       details: [
         `Booked by: ${name || "Guest"}`,
         email ? `Email: ${email}` : "",
-        "Video or meeting link will be shared after confirmation.",
+        `Section: ${section}`,
+        subject ? `Subject: ${subject}` : "",
+        body ? `Message: ${body}` : "",
       ]
         .filter(Boolean)
         .join("\n"),
@@ -61,7 +89,7 @@ function SchedulePage() {
     });
 
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }, [clientTimeZone, date, email, name, time, topic]);
+  }, [body, clientTimeZone, date, email, name, section, subject, time, topic]);
 
   useEffect(() => {
     const selectedDate = date ?? new Date();
@@ -79,7 +107,10 @@ function SchedulePage() {
           throw new Error("availability fetch failed");
         }
 
-        return response.json() as Promise<{ busy_slots: string[] }>;
+        return response.json() as Promise<{
+          busy_slots: string[];
+          available_slots: string[];
+        }>;
       })
       .then((data) => {
         setBusySlots(data.busy_slots ?? []);
@@ -104,10 +135,15 @@ function SchedulePage() {
     const payload = {
       name: name.trim() || "Guest",
       email: email.trim() || null,
-      date: format(selectedDate, "EEEE, MMMM d, yyyy"),
+      date: format(selectedDate, "yyyy-MM-dd"),
       time,
+      section,
       topic: topic.trim() || "Meeting request",
-      time_zone: clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
+      subject:
+        subject.trim() || `${section} on ${format(selectedDate, "MMMM d")}`,
+      body: body.trim() || "I'd like to schedule a meeting.",
+      time_zone:
+        clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
       meeting_url: meetingUrl,
     };
 
@@ -127,6 +163,15 @@ function SchedulePage() {
       });
   }
 
+  const selectedSlotBusy = busySlots.includes(time);
+  const emailLooksValid = email.trim() === "" || isValidEmail(email.trim());
+  const canSubmit =
+    availabilityStatus !== "loading" &&
+    !selectedSlotBusy &&
+    emailLooksValid &&
+    Boolean(subject.trim()) &&
+    Boolean(body.trim());
+
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
       <main className="relative z-10 mx-auto w-full max-w-280 px-5 pb-20 pt-28 md:px-10 md:pt-32 lg:pl-28 xl:pl-36">
@@ -134,8 +179,8 @@ function SchedulePage() {
           <SectionHeader
             index="01"
             eyebrow="Schedule"
-            title="Pick a date, choose a time, and open the meeting in Google Calendar."
-            description="This page uses the built-in calendar and a Google Calendar event template. When a meeting is opened, the backend sends you an email notification."
+            title="Pick a date, choose a time, and send a proper meeting request."
+            description="The form checks your calendar first, rejects busy slots, and sends a notification email when someone books time with you."
           />
         </section>
 
@@ -153,7 +198,9 @@ function SchedulePage() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between rounded-lg border border-border bg-surface/30 p-4">
                     <div>
-                      <p className="text-sm font-medium text-foreground">Selected date</p>
+                      <p className="text-sm font-medium text-foreground">
+                        Selected date
+                      </p>
                       <p className="mt-1 text-[13px] text-muted-foreground">
                         {date ? format(date, "EEEE, MMMM d") : "Pick a date"}
                       </p>
@@ -161,21 +208,31 @@ function SchedulePage() {
                   </div>
 
                   <div className="overflow-x-auto rounded-lg border border-border bg-surface/20 p-3">
-                    <Calendar
-                      mode="single"
-                      selected={date}
-                      onSelect={setDate}
-                      fromMonth={today}
-                      disabled={{ before: today }}
-                      className="w-full"
-                    />
+                    <Suspense
+                      fallback={
+                        <div className="grid min-h-80 place-items-center rounded-lg border border-border/60 bg-surface/20 text-sm text-muted-foreground">
+                          Loading calendar...
+                        </div>
+                      }
+                    >
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        fromMonth={today}
+                        disabled={{ before: today }}
+                        className="w-full"
+                      />
+                    </Suspense>
                   </div>
                 </div>
               </Reveal>
 
               <Reveal delay={0.1}>
                 <div className="space-y-4">
-                  <p className="text-sm font-medium text-foreground">Time slots</p>
+                  <p className="text-sm font-medium text-foreground">
+                    Time slots
+                  </p>
                   <div className="grid gap-2 md:grid-cols-2">
                     {timeSlots.map((slot) => (
                       <button
@@ -187,8 +244,8 @@ function SchedulePage() {
                           busySlots.includes(slot)
                             ? "cursor-not-allowed border-border/60 bg-surface/20 text-muted-foreground opacity-60"
                             : time === slot
-                            ? "border-accent bg-accent text-background"
-                            : "border-border text-foreground hover:bg-surface/50"
+                              ? "border-accent bg-accent text-background"
+                              : "border-border text-foreground hover:bg-surface/50"
                         }`}
                       >
                         {slot}
@@ -203,7 +260,7 @@ function SchedulePage() {
               <div className="space-y-4 border-t border-border pt-8 md:pt-12">
                 <p className="eyebrow mb-4">Booking details</p>
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                   <label className="block">
                     <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                       Name
@@ -211,8 +268,7 @@ function SchedulePage() {
                     <input
                       value={name}
                       onChange={(event) => setName(event.target.value)}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
-                      placeholder="Your name"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-accent"
                     />
                   </label>
 
@@ -224,9 +280,29 @@ function SchedulePage() {
                       type="email"
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
-                      placeholder="you@example.com"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-accent"
                     />
+                  </label>
+
+                  <label className="block">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Section
+                    </p>
+                    <select
+                      value={section}
+                      onChange={(event) =>
+                        setSection(
+                          event.target.value as (typeof sectionOptions)[number],
+                        )
+                      }
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-accent"
+                    >
+                      {sectionOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </label>
 
                   <label className="block">
@@ -236,8 +312,30 @@ function SchedulePage() {
                     <input
                       value={topic}
                       onChange={(event) => setTopic(event.target.value)}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent"
-                      placeholder="What should we discuss?"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-accent"
+                    />
+                  </label>
+
+                  <label className="block">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Subject
+                    </p>
+                    <input
+                      value={subject}
+                      onChange={(event) => setSubject(event.target.value)}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-accent"
+                    />
+                  </label>
+
+                  <label className="block md:col-span-2 xl:col-span-3">
+                    <p className="mb-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Body
+                    </p>
+                    <textarea
+                      value={body}
+                      onChange={(event) => setBody(event.target.value)}
+                      rows={5}
+                      className="w-full rounded-lg border border-border bg-background px-3 py-3 text-sm text-foreground outline-none transition-colors focus:border-accent"
                     />
                   </label>
                 </div>
@@ -245,38 +343,56 @@ function SchedulePage() {
                 <div className="mt-6 rounded-lg border border-border bg-surface/30 p-4 text-sm leading-relaxed">
                   <p className="font-medium text-foreground">Selected slot</p>
                   <p className="mt-2 text-muted-foreground">
-                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at {time}
+                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at{" "}
+                    {time}
                   </p>
                   <p className="mt-3 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
                     {availabilityStatus === "loading"
                       ? "Checking your calendar for open slots..."
                       : availabilityStatus === "error"
-                        ? "Calendar availability could not be fetched. The booking link still works."
-                        : busySlots.length > 0
-                          ? `${busySlots.length} slots are already booked on this day.`
-                          : "No conflicting events were found for the selected day."}
+                        ? "Calendar availability could not be fetched. The form still lets you send a request."
+                        : selectedSlotBusy
+                          ? "That slot is already booked. Pick another time."
+                          : busySlots.length > 0
+                            ? `${busySlots.length} slots are already booked on this day.`
+                            : "No conflicting events were found for the selected day."}
                   </p>
                   <p className="mt-2 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
                     {bookingState === "sending"
                       ? "Sending your booking email..."
                       : bookingState === "sent"
-                        ? "Booking email sent. Check your inbox if you want to confirm it arrived."
+                        ? "Booking email sent. Check your inbox for the notification."
                         : bookingState === "error"
-                          ? "Email notification failed. The calendar link still opens, but the mailer needs setup."
-                          : "Open Google Calendar to send the meeting request email and create the event."}
+                          ? "Email notification failed. Please try again."
+                          : !emailLooksValid
+                            ? "Enter a valid email address."
+                            : !subject.trim() || !body.trim()
+                              ? "Add a subject and message before sending."
+                              : "The notification will be sent after your slot passes validation."}
                   </p>
                 </div>
 
-                <a
-                  href={meetingUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={handleBookingClick}
-                  className="inline-flex items-center gap-3 rounded-lg bg-accent px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-90"
-                >
-                  Open Google Calendar
-                  <span aria-hidden>↗</span>
-                </a>
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
+                    type="button"
+                    disabled={!canSubmit}
+                    onClick={handleBookingClick}
+                    className="inline-flex items-center gap-3 rounded-lg bg-accent px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Send meeting request
+                    <span aria-hidden>→</span>
+                  </button>
+
+                  <a
+                    href={meetingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-3 rounded-lg border border-border px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-surface/50"
+                  >
+                    Open Google Calendar
+                    <span aria-hidden>↗</span>
+                  </a>
+                </div>
               </div>
             </Reveal>
           </div>

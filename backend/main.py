@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import html
 import os
 import re
+from dataclasses import dataclass
 from datetime import date as date_cls, datetime, time as time_cls, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import parse_qs, quote, unquote, urlparse
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -33,9 +33,9 @@ def _load_local_env_file() -> None:
 
 def _get_env(*keys: str, default: str | None = None) -> str | None:
     for key in keys:
-      value = os.getenv(key)
-      if value:
-        return value
+        value = os.getenv(key)
+        if value:
+            return value
     return default
 
 
@@ -58,6 +58,24 @@ def _slot_range_for_day(day: date_cls, slot: str, tzinfo: timezone | ZoneInfo) -
     return start, end
 
 
+def _normalize_google_calendar_id(value: str | None) -> str | None:
+    if not value:
+        return None
+
+    trimmed = value.strip()
+    if not trimmed:
+        return None
+
+    if trimmed.startswith("http://") or trimmed.startswith("https://"):
+        parsed = urlparse(trimmed)
+        query = parse_qs(parsed.query)
+        src = query.get("src", [None])[0]
+        if src:
+            return unquote(src)
+
+    return trimmed
+
+
 _load_local_env_file()
 
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "DivyanshuX9")
@@ -66,21 +84,19 @@ LINKEDIN_PROFILE_URL = os.getenv(
     "LINKEDIN_PROFILE_URL",
     "https://www.linkedin.com/in/mr-divyanshu",
 )
-RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-MAILER_FROM_EMAIL = os.getenv(
-    "MAILER_FROM_EMAIL",
-    "Divyanshu Sharma <onboarding@resend.dev>",
-)
 BOOKING_NOTIFICATION_EMAIL = os.getenv(
     "BOOKING_NOTIFICATION_EMAIL",
     "divyanshu88999@gmail.com",
 )
-GOOGLE_CALENDAR_ID = _get_env(
-    "GOOGLE_CALENDAR_ID",
-    "VITE_GOOGLE_CALENDAR_ID",
-    "google_calendar_id",
-    "googlecalenderid",
-    "googlecalanderid",
+WEB3FORMS_API_KEY = _get_env("WEB3FORMS_API_KEY", "web3forms_api_key")
+GOOGLE_CALENDAR_ID = _normalize_google_calendar_id(
+    _get_env(
+        "GOOGLE_CALENDAR_ID",
+        "VITE_GOOGLE_CALENDAR_ID",
+        "google_calendar_id",
+        "googlecalenderid",
+        "googlecalanderid",
+    ),
 )
 GOOGLE_CALENDAR_API_KEY = _get_env(
     "GOOGLE_CALENDAR_API_KEY",
@@ -97,7 +113,10 @@ class BookingNotificationPayload(BaseModel):
     email: str | None = None
     date: str
     time: str
+    section: str
     topic: str
+    subject: str
+    body: str
     time_zone: str | None = None
     meeting_url: str
 
@@ -105,6 +124,51 @@ class BookingNotificationPayload(BaseModel):
 class CalendarAvailabilityPayload(BaseModel):
     date: str
     time_zone: str | None = None
+
+
+@dataclass(frozen=True)
+class SlotAvailability:
+    busy_slots: list[str]
+    available_slots: list[str]
+    events_count: int
+
+
+def _availability_for_events(
+    selected_day: date_cls,
+    tzinfo: timezone | ZoneInfo,
+    events: list[dict[str, Any]],
+) -> SlotAvailability:
+    busy_slots: list[str] = []
+
+    for slot in TIME_SLOTS:
+        slot_start, slot_end = _slot_range_for_day(selected_day, slot, tzinfo)
+
+        for event in events:
+            start_info = event.get("start", {})
+            end_info = event.get("end", {})
+
+            if "date" in start_info:
+                busy_slots.append(slot)
+                break
+
+            event_start_raw = start_info.get("dateTime")
+            event_end_raw = end_info.get("dateTime")
+            if not event_start_raw or not event_end_raw:
+                continue
+
+            event_start = _parse_event_time(event_start_raw, tzinfo)
+            event_end = _parse_event_time(event_end_raw, tzinfo)
+
+            if event_start < slot_end and event_end > slot_start:
+                busy_slots.append(slot)
+                break
+
+    available_slots = [slot for slot in TIME_SLOTS if slot not in busy_slots]
+    return SlotAvailability(
+        busy_slots=busy_slots,
+        available_slots=available_slots,
+        events_count=len(events),
+    )
 
 app = FastAPI(title="Divyanshu Profile API", version="1.0.0")
 
@@ -259,6 +323,141 @@ async def calendar_availability(date: str, time_zone: str | None = None) -> dict
         )
 
     events = response.json().get("items", [])
+    availability = _availability_for_events(selected_day, tzinfo, events)
+
+    return {
+        "date": date,
+        "time_zone": tz_name,
+        "available_slots": availability.available_slots,
+        "busy_slots": availability.busy_slots,
+        "events_count": availability.events_count,
+    }
+
+
+@app.post("/booking/notify")
+async def booking_notify(payload: BookingNotificationPayload) -> dict[str, Any]:
+    if not WEB3FORMS_API_KEY:
+        raise HTTPException(
+            status_code=503,
+            detail="Booking mailer is not configured.",
+        )
+
+    if payload.email and not _is_valid_email(payload.email.strip()):
+        raise HTTPException(status_code=400, detail="Invalid email address.")
+
+    if payload.section.strip() == "":
+        raise HTTPException(status_code=400, detail="Section is required.")
+    if payload.subject.strip() == "":
+        raise HTTPException(status_code=400, detail="Subject is required.")
+    if payload.body.strip() == "":
+        raise HTTPException(status_code=400, detail="Message body is required.")
+
+    try:
+        selected_day = datetime.fromisoformat(payload.date).date()
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid date format.") from exc
+
+    if GOOGLE_CALENDAR_ID and GOOGLE_CALENDAR_API_KEY:
+        availability = await _fetch_availability(selected_day, payload.time_zone)
+        if payload.time not in availability.available_slots:
+            raise HTTPException(status_code=409, detail="Selected slot is no longer available.")
+
+    recipient_name = payload.name.strip() or "Guest"
+    topic = payload.topic.strip() or "Meeting request"
+    reply_to = payload.email.strip() if payload.email else None
+
+    text_body = "\n".join(
+        [
+            "A meeting was scheduled from the portfolio site.",
+            f"Name: {recipient_name}",
+            f"Email: {reply_to or 'Not provided'}",
+            f"Section: {payload.section.strip()}",
+            f"Date: {payload.date}",
+            f"Time: {payload.time}",
+            f"Timezone: {payload.time_zone or 'Not provided'}",
+            f"Topic: {topic}",
+            f"Subject: {payload.subject.strip()}",
+            f"Message: {payload.body.strip()}",
+            f"Meeting link: {payload.meeting_url}",
+        ],
+    )
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        response = await client.post(
+            "https://api.web3forms.com/submit",
+            headers={
+                "Content-Type": "application/json",
+            },
+            json={
+                "access_key": WEB3FORMS_API_KEY,
+                "subject": f"New meeting request: {payload.subject.strip()}",
+                "from_name": recipient_name,
+                "name": recipient_name,
+                "email": reply_to or BOOKING_NOTIFICATION_EMAIL,
+                "replyto": reply_to or BOOKING_NOTIFICATION_EMAIL,
+                "message": text_body,
+                "section": payload.section.strip(),
+                "topic": topic,
+                "meeting_url": payload.meeting_url,
+                "mail_subject": payload.subject.strip(),
+                "mail_body": payload.body.strip(),
+            },
+        )
+
+    if response.status_code not in {200, 202}:
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to send booking notification.",
+        )
+
+    data = response.json()
+    if not data.get("success", True):
+        raise HTTPException(status_code=502, detail=data.get("message") or "Unable to send booking notification.")
+
+    return {"status": "sent", "message": data.get("message", "Notification delivered.")}
+
+
+async def _fetch_availability(
+    selected_day: date_cls,
+    time_zone: str | None,
+) -> SlotAvailability:
+    if not GOOGLE_CALENDAR_ID or not GOOGLE_CALENDAR_API_KEY:
+        return SlotAvailability(busy_slots=[], available_slots=TIME_SLOTS[:], events_count=0)
+
+    tz_name = time_zone or "UTC"
+    try:
+        tzinfo: timezone | ZoneInfo = ZoneInfo(tz_name)
+    except Exception:
+        tzinfo = timezone.utc
+        tz_name = "UTC"
+
+    day_start = datetime.combine(selected_day, time_cls.min, tzinfo=tzinfo)
+    day_end = day_start + timedelta(days=1)
+
+    calendar_url = (
+        f"https://www.googleapis.com/calendar/v3/calendars/"
+        f"{quote(GOOGLE_CALENDAR_ID, safe='')}/events"
+    )
+
+    params = {
+        "timeMin": day_start.isoformat(),
+        "timeMax": day_end.isoformat(),
+        "singleEvents": "true",
+        "orderBy": "startTime",
+        "maxResults": "250",
+        "key": GOOGLE_CALENDAR_API_KEY,
+    }
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        response = await client.get(calendar_url, params=params)
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail="Unable to fetch Google Calendar availability.",
+        )
+
+    events = response.json().get("items", [])
     busy_slots: list[str] = []
 
     for slot in TIME_SLOTS:
@@ -286,91 +485,11 @@ async def calendar_availability(date: str, time_zone: str | None = None) -> dict
 
     available_slots = [slot for slot in TIME_SLOTS if slot not in busy_slots]
 
-    return {
-        "date": date,
-        "time_zone": tz_name,
-        "available_slots": available_slots,
-        "busy_slots": busy_slots,
-        "events_count": len(events),
-    }
-
-
-@app.post("/booking/notify")
-async def booking_notify(payload: BookingNotificationPayload) -> dict[str, Any]:
-    if not RESEND_API_KEY:
-        raise HTTPException(
-            status_code=503,
-            detail="Booking mailer is not configured.",
-        )
-
-    if payload.email and not _is_valid_email(payload.email.strip()):
-        raise HTTPException(status_code=400, detail="Invalid email address.")
-
-    recipient_name = payload.name.strip() or "Guest"
-    topic = payload.topic.strip() or "Meeting request"
-    subject = f"New meeting request: {topic}"
-    reply_to = payload.email.strip() if payload.email else None
-
-    text_body = "\n".join(
-        [
-            "A meeting was scheduled from the portfolio site.",
-            f"Name: {recipient_name}",
-            f"Email: {reply_to or 'Not provided'}",
-            f"Date: {payload.date}",
-            f"Time: {payload.time}",
-            f"Timezone: {payload.time_zone or 'Not provided'}",
-            f"Topic: {topic}",
-            f"Meeting link: {payload.meeting_url}",
-        ],
+    return SlotAvailability(
+        busy_slots=busy_slots,
+        available_slots=available_slots,
+        events_count=len(events),
     )
-
-    html_body = """
-      <h2>New meeting request</h2>
-      <p>A meeting was scheduled from the portfolio site.</p>
-      <ul>
-        <li><strong>Name:</strong> {name}</li>
-        <li><strong>Email:</strong> {email}</li>
-        <li><strong>Date:</strong> {date}</li>
-        <li><strong>Time:</strong> {time}</li>
-        <li><strong>Timezone:</strong> {time_zone}</li>
-        <li><strong>Topic:</strong> {topic}</li>
-        <li><strong>Meeting link:</strong> <a href="{meeting_url}">{meeting_url}</a></li>
-      </ul>
-    """.format(
-        name=html.escape(recipient_name),
-        email=html.escape(reply_to or "Not provided"),
-        date=html.escape(payload.date),
-        time=html.escape(payload.time),
-        time_zone=html.escape(payload.time_zone or "Not provided"),
-        topic=html.escape(topic),
-        meeting_url=html.escape(payload.meeting_url),
-    )
-
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        response = await client.post(
-            "https://api.resend.com/emails",
-            headers={
-                "Authorization": f"Bearer {RESEND_API_KEY}",
-                "Content-Type": "application/json",
-            },
-            json={
-                "from": MAILER_FROM_EMAIL,
-                "to": [BOOKING_NOTIFICATION_EMAIL],
-                "subject": subject,
-                "text": text_body,
-                "html": html_body,
-                **({"reply_to": reply_to} if reply_to else {}),
-            },
-        )
-
-    if response.status_code not in {200, 202}:
-        raise HTTPException(
-            status_code=502,
-            detail="Unable to send booking notification.",
-        )
-
-    data = response.json()
-    return {"status": "sent", "id": data.get("id")}
 
 
 def _extract_meta(html: str, key: str) -> str | None:
