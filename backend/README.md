@@ -31,3 +31,10 @@ Cal.com can be added as another backend endpoint once you decide which Cal.com A
 
 Booking email notifications use Web3Forms. Set `WEB3FORMS_API_KEY` and `BOOKING_NOTIFICATION_EMAIL` before enabling the schedule page booking flow.
 If your Google Calendar ID is stored as an embed URL, the backend will normalize the `src` value automatically.
+
+To enable calendar availability on the schedule page, add these to `backend/.env` and restart the backend:
+
+- `GOOGLE_CALENDAR_ID`
+- `GOOGLE_CALENDAR_API_KEY`
+
+If the calendar is private, the API key must be allowed to read that calendar through the Google Calendar API settings.

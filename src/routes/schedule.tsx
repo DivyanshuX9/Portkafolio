@@ -353,7 +353,7 @@ function SchedulePage() {
                     {availabilityStatus === "loading"
                       ? "Checking your calendar for open slots..."
                       : availabilityStatus === "error"
-                        ? "Calendar availability could not be fetched. The form still lets you send a request."
+                        ? "Calendar availability could not be fetched. Add GOOGLE_CALENDAR_ID and GOOGLE_CALENDAR_API_KEY to backend/.env, then restart the backend."
                         : selectedSlotBusy
                           ? "That slot is already booked. Pick another time."
                           : busySlots.length > 0

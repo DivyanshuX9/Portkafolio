@@ -171,7 +171,7 @@ function PageLink({
   return (
     <Link to={to} className={cls} aria-current={active ? "page" : undefined}>
       <span className={iconWrap}>{icon}</span>
-      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100 md:group-hover/nav:opacity-100">
+      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
         {label}
       </span>
     </Link>
@@ -184,7 +184,7 @@ function SocialButton({ item }: { item: NavItem }) {
   const content = (
     <>
       <span className={iconWrap}>{item.icon}</span>
-      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100 md:group-hover/nav:opacity-100">
+      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
         {item.label}
       </span>
     </>
@@ -217,7 +217,7 @@ export function Nav() {
   return (
     <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
       <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-2rem)] touch-pan-x overflow-x-auto md:max-w-240">
-        <div className="group/nav flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full bg-background/92 px-1.5 py-1 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 transition-[padding,gap,transform] duration-500 ease-out md:justify-center md:gap-1.5 md:px-3 md:py-2 md:hover:gap-2 md:hover:px-4">
+        <div className="flex w-max flex-nowrap items-center justify-start gap-1 rounded-full bg-background/92 px-2 py-1 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 md:justify-center md:gap-1.5 md:px-3 md:py-2">
           <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
@@ -255,7 +255,7 @@ export function Nav() {
               className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-10 md:px-1.5 md:hover:w-auto md:hover:gap-2 md:hover:px-3.5"
             >
               <span className={iconWrap}>{seasonGlyph[season]}</span>
-              <span className="whitespace-nowrap opacity-0 transition-all duration-500 md:group-hover/nav:opacity-100">
+              <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
                 {season === "light" ? "Light" : "Dark"}
               </span>
             </button>
