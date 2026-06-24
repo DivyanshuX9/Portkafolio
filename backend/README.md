@@ -29,4 +29,5 @@ If you need richer LinkedIn data, you will need an approved OAuth/API path or a 
 
 Cal.com can be added as another backend endpoint once you decide which Cal.com API resource you want to display, then store its key in `CALCOM_API_KEY` and its account identifier in `CALCOM_USERNAME` or a similar env var.
 
-Booking email notifications use Resend. Set `RESEND_API_KEY`, `MAILER_FROM_EMAIL`, and `BOOKING_NOTIFICATION_EMAIL` before enabling the schedule page booking flow.
+Booking email notifications use Web3Forms. Set `WEB3FORMS_API_KEY` and `BOOKING_NOTIFICATION_EMAIL` before enabling the schedule page booking flow.
+If your Google Calendar ID is stored as an embed URL, the backend will normalize the `src` value automatically.

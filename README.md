@@ -70,8 +70,7 @@ Backend:
 - `GITHUB_USERNAME`
 - `GITHUB_TOKEN`
 - `LINKEDIN_PROFILE_URL`
-- `RESEND_API_KEY`
-- `MAILER_FROM_EMAIL`
+- `WEB3FORMS_API_KEY`
 - `BOOKING_NOTIFICATION_EMAIL`
 - `GOOGLE_CALENDAR_ID`
 - `GOOGLE_CALENDAR_API_KEY`
@@ -164,7 +163,7 @@ Response fields:
 
 #### `POST /booking/notify`
 
-Sends a booking notification email through Resend.
+Sends a booking notification email through Web3Forms.
 
 Request body:
 
@@ -199,8 +198,9 @@ curl -X POST http://localhost:8000/booking/notify \
 Validation notes:
 
 - `email` is optional, but if supplied it must be valid.
-- The backend returns a `503` if Resend is not configured.
+- The backend returns a `503` if Web3Forms is not configured.
 - Booking data is sent as a notification message rather than being stored in a database.
+- The booking endpoint also rejects a slot if Google Calendar reports it as busy.
 
 ## Notes
 
