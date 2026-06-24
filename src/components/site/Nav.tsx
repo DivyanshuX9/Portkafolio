@@ -144,10 +144,10 @@ const seasonGlyph: Record<Season, ReactNode> = {
 };
 
 const navLinkBase =
-  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow] duration-500 ease-out hover:-translate-y-0.5 hover:pr-3 md:h-10 md:w-10 md:justify-start md:px-1.5 md:hover:w-auto md:hover:pr-3";
+  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow,opacity] duration-300 ease-out will-change-[width] hover:-translate-y-0.5 hover:pr-3 md:h-10 md:w-10 md:justify-start md:px-1.5 md:hover:w-auto md:hover:pr-3";
 
 const navLinkIdle =
-  "bg-transparent text-ink-deep md:border md:border-transparent md:hover:border-border/60 md:hover:bg-surface/75";
+  "bg-transparent text-ink-deep md:border md:border-transparent md:hover:border-border/60 md:hover:bg-surface/75 md:hover:shadow-sm";
 
 const navLinkActive =
   "bg-ink-deep/12 text-ink-deep md:border md:border-ink-deep md:bg-ink-deep md:text-background md:shadow-sm";
@@ -171,7 +171,7 @@ function PageLink({
   return (
     <Link to={to} className={cls} aria-current={active ? "page" : undefined}>
       <span className={iconWrap}>{icon}</span>
-      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
+      <span className="whitespace-nowrap opacity-0 translate-x-1 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
         {label}
       </span>
     </Link>
@@ -184,7 +184,7 @@ function SocialButton({ item }: { item: NavItem }) {
   const content = (
     <>
       <span className={iconWrap}>{item.icon}</span>
-      <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
+      <span className="whitespace-nowrap opacity-0 translate-x-1 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
         {item.label}
       </span>
     </>
@@ -252,10 +252,10 @@ export function Nav() {
             <button
               onClick={() => setSeason(season === "light" ? "dark" : "light")}
               aria-label="Toggle light and dark mode"
-              className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[transform,background-color,color] duration-500 hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-10 md:px-1.5 md:hover:w-auto md:hover:gap-2 md:hover:px-3.5"
+              className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-[width,padding,transform,background-color,color,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-10 md:px-1.5 md:hover:w-auto md:hover:gap-2 md:hover:px-3.5"
             >
               <span className={iconWrap}>{seasonGlyph[season]}</span>
-              <span className="whitespace-nowrap opacity-0 transition-all duration-500 group-hover:opacity-100">
+              <span className="whitespace-nowrap opacity-0 translate-x-1 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
                 {season === "light" ? "Light" : "Dark"}
               </span>
             </button>
