@@ -36,5 +36,6 @@ To enable calendar availability on the schedule page, add these to `backend/.env
 
 - `GOOGLE_CALENDAR_ID`
 - `GOOGLE_CALENDAR_API_KEY`
+- `GOOGLE_CALENDAR_ACCESS_TOKEN` or `GOOGLE_OAUTH_ACCESS_TOKEN` if the calendar is private
 
-If the calendar is private, the API key must be allowed to read that calendar through the Google Calendar API settings.
+If the calendar is private, a plain API key is usually not enough. Use an OAuth access token with read access to the calendar, or make the calendar publicly readable if that matches your privacy needs.

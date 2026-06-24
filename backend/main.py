@@ -104,6 +104,11 @@ GOOGLE_CALENDAR_API_KEY = _get_env(
     "google_calendar_api_key",
     "googlecalanderapi",
 )
+GOOGLE_CALENDAR_ACCESS_TOKEN = _get_env(
+    "GOOGLE_CALENDAR_ACCESS_TOKEN",
+    "GOOGLE_OAUTH_ACCESS_TOKEN",
+    "google_calendar_access_token",
+)
 GITHUB_API_BASE = "https://api.github.com"
 TIME_SLOTS = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"]
 
@@ -169,6 +174,65 @@ def _availability_for_events(
         available_slots=available_slots,
         events_count=len(events),
     )
+
+
+async def _fetch_google_calendar_events(
+    selected_day: date_cls,
+    tzinfo: timezone | ZoneInfo,
+) -> list[dict[str, Any]]:
+    if not GOOGLE_CALENDAR_ID:
+        raise HTTPException(
+            status_code=503,
+            detail="Google Calendar ID is not configured.",
+        )
+
+    calendar_url = (
+        f"https://www.googleapis.com/calendar/v3/calendars/"
+        f"{quote(GOOGLE_CALENDAR_ID, safe='')}/events"
+    )
+
+    day_start = datetime.combine(selected_day, time_cls.min, tzinfo=tzinfo)
+    day_end = day_start + timedelta(days=1)
+
+    params = {
+        "timeMin": day_start.isoformat(),
+        "timeMax": day_end.isoformat(),
+        "singleEvents": "true",
+        "orderBy": "startTime",
+        "maxResults": "250",
+    }
+
+    headers: dict[str, str] = {"Accept": "application/json"}
+    if GOOGLE_CALENDAR_ACCESS_TOKEN:
+        headers["Authorization"] = f"Bearer {GOOGLE_CALENDAR_ACCESS_TOKEN}"
+    elif GOOGLE_CALENDAR_API_KEY:
+        params["key"] = GOOGLE_CALENDAR_API_KEY
+    else:
+        raise HTTPException(
+            status_code=503,
+            detail="Google Calendar API key or access token is not configured.",
+        )
+
+    async with httpx.AsyncClient(timeout=15.0, headers=headers) as client:
+        response = await client.get(calendar_url, params=params)
+
+    if response.status_code in {401, 403}:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "Google Calendar access was rejected. For private calendars, set "
+                "GOOGLE_CALENDAR_ACCESS_TOKEN with OAuth access. For public calendars, "
+                "confirm the API key and calendar permissions."
+            ),
+        )
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=response.status_code,
+            detail="Unable to fetch Google Calendar availability.",
+        )
+
+    return response.json().get("items", [])
 
 app = FastAPI(title="Divyanshu Profile API", version="1.0.0")
 
@@ -278,12 +342,6 @@ async def profile_summary() -> dict[str, Any]:
 
 @app.get("/calendar/availability")
 async def calendar_availability(date: str, time_zone: str | None = None) -> dict[str, Any]:
-    if not GOOGLE_CALENDAR_ID or not GOOGLE_CALENDAR_API_KEY:
-        raise HTTPException(
-            status_code=503,
-            detail="Google Calendar availability is not configured.",
-        )
-
     try:
         selected_day = datetime.fromisoformat(date).date()
     except ValueError as exc:
@@ -296,33 +354,7 @@ async def calendar_availability(date: str, time_zone: str | None = None) -> dict
         tzinfo = timezone.utc
         tz_name = "UTC"
 
-    day_start = datetime.combine(selected_day, time_cls.min, tzinfo=tzinfo)
-    day_end = day_start + timedelta(days=1)
-
-    calendar_url = (
-        f"https://www.googleapis.com/calendar/v3/calendars/"
-        f"{quote(GOOGLE_CALENDAR_ID, safe='')}/events"
-    )
-
-    params = {
-        "timeMin": day_start.isoformat(),
-        "timeMax": day_end.isoformat(),
-        "singleEvents": "true",
-        "orderBy": "startTime",
-        "maxResults": "250",
-        "key": GOOGLE_CALENDAR_API_KEY,
-    }
-
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        response = await client.get(calendar_url, params=params)
-
-    if response.status_code != 200:
-        raise HTTPException(
-            status_code=response.status_code,
-            detail="Unable to fetch Google Calendar availability.",
-        )
-
-    events = response.json().get("items", [])
+    events = await _fetch_google_calendar_events(selected_day, tzinfo)
     availability = _availability_for_events(selected_day, tzinfo, events)
 
     return {
@@ -421,43 +453,13 @@ async def _fetch_availability(
     selected_day: date_cls,
     time_zone: str | None,
 ) -> SlotAvailability:
-    if not GOOGLE_CALENDAR_ID or not GOOGLE_CALENDAR_API_KEY:
-        return SlotAvailability(busy_slots=[], available_slots=TIME_SLOTS[:], events_count=0)
-
     tz_name = time_zone or "UTC"
     try:
         tzinfo: timezone | ZoneInfo = ZoneInfo(tz_name)
     except Exception:
         tzinfo = timezone.utc
         tz_name = "UTC"
-
-    day_start = datetime.combine(selected_day, time_cls.min, tzinfo=tzinfo)
-    day_end = day_start + timedelta(days=1)
-
-    calendar_url = (
-        f"https://www.googleapis.com/calendar/v3/calendars/"
-        f"{quote(GOOGLE_CALENDAR_ID, safe='')}/events"
-    )
-
-    params = {
-        "timeMin": day_start.isoformat(),
-        "timeMax": day_end.isoformat(),
-        "singleEvents": "true",
-        "orderBy": "startTime",
-        "maxResults": "250",
-        "key": GOOGLE_CALENDAR_API_KEY,
-    }
-
-    async with httpx.AsyncClient(timeout=15.0) as client:
-        response = await client.get(calendar_url, params=params)
-
-    if response.status_code != 200:
-        raise HTTPException(
-            status_code=response.status_code,
-            detail="Unable to fetch Google Calendar availability.",
-        )
-
-    events = response.json().get("items", [])
+    events = await _fetch_google_calendar_events(selected_day, tzinfo)
     busy_slots: list[str] = []
 
     for slot in TIME_SLOTS:
