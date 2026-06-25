@@ -1,14 +1,8 @@
 import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { createFileRoute } from "@tanstack/react-router";
-import { format, startOfToday } from "date-fns";
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-
-const Calendar = lazy(() =>
-  import("@/components/ui/calendar").then((module) => ({
-    default: module.Calendar,
-  })),
-);
+import { format } from "date-fns";
+import { useMemo, useState } from "react";
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
 const sectionOptions = [
@@ -19,11 +13,8 @@ const sectionOptions = [
   "Other",
 ] as const;
 
-const backendBaseUrl = import.meta.env.VITE_BACKEND_URL ?? "/api";
-
-function apiUrl(path: string) {
-  return `${backendBaseUrl.replace(/\/$/, "")}${path}`;
-}
+const calcomUsername = import.meta.env.VITE_CALCOM_USERNAME ?? "divyanshu-sharmax9";
+const calcomBookingUrl = `https://cal.com/${calcomUsername}`;
 
 type BookingState = "idle" | "sending" | "sent" | "error";
 
@@ -39,7 +30,7 @@ export const Route = createFileRoute("/schedule")({
 });
 
 function SchedulePage() {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [time, setTime] = useState(timeSlots[1]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -48,24 +39,7 @@ function SchedulePage() {
   const [topic, setTopic] = useState("Project introduction");
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [clientTimeZone, setClientTimeZone] = useState<string | undefined>(
-    undefined,
-  );
   const [bookingState, setBookingState] = useState<BookingState>("idle");
-  const [availabilityStatus, setAvailabilityStatus] = useState<
-    "idle" | "loading" | "ready" | "unavailable" | "error"
-  >("idle");
-  const [busySlots, setBusySlots] = useState<string[]>([]);
-  const today = startOfToday();
-
-  useEffect(() => {
-    setDate(new Date());
-    try {
-      setClientTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone);
-    } catch {
-      setClientTimeZone(undefined);
-    }
-  }, []);
 
   const meetingUrl = useMemo(() => {
     const selectedDate = date ?? new Date();
@@ -88,48 +62,10 @@ function SchedulePage() {
         .filter(Boolean)
         .join("\n"),
       dates: `${format(start, "yyyyMMdd'T'HHmmss")}/${format(end, "yyyyMMdd'T'HHmmss")}`,
-      ctz: clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
     });
 
     return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }, [body, clientTimeZone, date, email, name, section, subject, time, topic]);
-
-  useEffect(() => {
-    const selectedDate = date ?? new Date();
-    const queryDate = format(selectedDate, "yyyy-MM-dd");
-
-    const controller = new AbortController();
-    setAvailabilityStatus("loading");
-
-    void fetch(
-      `${apiUrl("/calendar/availability")}?date=${encodeURIComponent(queryDate)}&time_zone=${encodeURIComponent(clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone)}`,
-      { signal: controller.signal },
-    )
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("availability fetch failed");
-        }
-
-        return response.json() as Promise<{
-          busy_slots: string[];
-          available_slots: string[];
-        }>;
-      })
-      .then((data) => {
-        setBusySlots(data.busy_slots ?? []);
-        setAvailabilityStatus("ready");
-      })
-      .catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-
-        setBusySlots([]);
-        setAvailabilityStatus("error");
-      });
-
-    return () => controller.abort();
-  }, [clientTimeZone, date]);
+  }, [body, date, email, name, section, subject, time, topic]);
 
   function handleBookingClick() {
     setBookingState("sending");
@@ -145,12 +81,10 @@ function SchedulePage() {
       subject:
         subject.trim() || `${section} on ${format(selectedDate, "MMMM d")}`,
       body: body.trim() || "I'd like to schedule a meeting.",
-      time_zone:
-        clientTimeZone ?? Intl.DateTimeFormat().resolvedOptions().timeZone,
       meeting_url: meetingUrl,
     };
 
-    void fetch(apiUrl("/booking/notify"), {
+    void fetch("/api/booking/notify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -166,14 +100,8 @@ function SchedulePage() {
       });
   }
 
-  const selectedSlotBusy = busySlots.includes(time);
   const emailLooksValid = email.trim() === "" || isValidEmail(email.trim());
-  const canSubmit =
-    availabilityStatus !== "loading" &&
-    !selectedSlotBusy &&
-    emailLooksValid &&
-    Boolean(subject.trim()) &&
-    Boolean(body.trim());
+  const canSubmit = emailLooksValid && Boolean(subject.trim()) && Boolean(body.trim());
 
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
@@ -182,8 +110,8 @@ function SchedulePage() {
           <SectionHeader
             index="01"
             eyebrow="Schedule"
-            title="Pick a date, choose a time, and send a proper meeting request."
-            description="The form checks your calendar first, rejects busy slots, and sends a notification email when someone books time with you."
+            title="Pick a time, or go straight to Cal.com and book instantly."
+            description="The booking form stays as a backup, but Cal.com now handles the live scheduling flow."
           />
         </section>
 
@@ -192,41 +120,45 @@ function SchedulePage() {
             <div>
               <p className="eyebrow mb-2">Meeting calendar</p>
               <p className="text-base text-muted-foreground">
-                Choose a slot for a 30 minute conversation.
+                Cal.com is the source of truth for live availability.
               </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-[1.5fr_1fr]">
+            <div className="grid gap-8 md:grid-cols-[1.2fr_1fr]">
               <Reveal>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between rounded-lg border border-border bg-surface/30 p-4">
+                <div className="space-y-4 rounded-lg border border-border bg-surface/20 p-5">
+                  <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-sm font-medium text-foreground">
-                        Selected date
+                        Cal.com booking
                       </p>
-                      <p className="mt-1 text-[13px] text-muted-foreground">
-                        {date ? format(date, "EEEE, MMMM d") : "Pick a date"}
+                      <p className="mt-1 max-w-96 text-[13px] leading-relaxed text-muted-foreground">
+                        Open the booking page for live availability and instant scheduling.
                       </p>
                     </div>
+                    <span className="rounded-full border border-border px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Live
+                    </span>
                   </div>
 
-                  <div className="overflow-x-auto rounded-lg border border-border bg-surface/20 p-3">
-                    <Suspense
-                      fallback={
-                        <div className="grid min-h-80 place-items-center rounded-lg border border-border/60 bg-surface/20 text-sm text-muted-foreground">
-                          Loading calendar...
-                        </div>
-                      }
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={date}
-                        onSelect={setDate}
-                        fromMonth={today}
-                        disabled={{ before: today }}
-                        className="w-full"
-                      />
-                    </Suspense>
+                  <a
+                    href={calcomBookingUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-3 rounded-full border border-border px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-surface/50"
+                  >
+                    Open Cal.com
+                    <span aria-hidden>↗</span>
+                  </a>
+
+                  <div className="rounded-lg border border-border bg-background/60 p-4 text-sm text-muted-foreground">
+                    <p className="font-medium text-foreground">Selected slot</p>
+                    <p className="mt-2">
+                      {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at {time}
+                    </p>
+                    <p className="mt-3 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+                      Use Cal.com to confirm the final availability.
+                    </p>
                   </div>
                 </div>
               </Reveal>
@@ -241,20 +173,21 @@ function SchedulePage() {
                       <button
                         key={slot}
                         type="button"
-                        disabled={busySlots.includes(slot)}
                         onClick={() => setTime(slot)}
                         className={`rounded-lg border px-3 py-2 text-[12px] font-medium uppercase tracking-[0.18em] transition-colors ${
-                          busySlots.includes(slot)
-                            ? "cursor-not-allowed border-border/60 bg-surface/20 text-muted-foreground opacity-60"
-                            : time === slot
-                              ? "border-accent bg-accent text-background"
-                              : "border-border text-foreground hover:bg-surface/50"
+                          time === slot
+                            ? "border-accent bg-accent text-background"
+                            : "border-border text-foreground hover:bg-surface/50"
                         }`}
                       >
                         {slot}
                       </button>
                     ))}
                   </div>
+
+                  <p className="rounded-lg border border-border bg-surface/20 p-4 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
+                    Tip: pick a rough time here, then confirm the real slot on Cal.com.
+                  </p>
                 </div>
               </Reveal>
             </div>
@@ -346,19 +279,10 @@ function SchedulePage() {
                 <div className="mt-6 rounded-lg border border-border bg-surface/30 p-4 text-sm leading-relaxed">
                   <p className="font-medium text-foreground">Selected slot</p>
                   <p className="mt-2 text-muted-foreground">
-                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at{" "}
-                    {time}
+                    {date ? format(date, "EEEE, MMMM d") : "Pick a date"} at {time}
                   </p>
                   <p className="mt-3 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
-                    {availabilityStatus === "loading"
-                      ? "Checking your calendar for open slots..."
-                      : availabilityStatus === "error"
-                        ? "Calendar availability could not be fetched. Add GOOGLE_CALENDAR_ID and GOOGLE_CALENDAR_API_KEY to backend/.env, then restart the backend."
-                        : selectedSlotBusy
-                          ? "That slot is already booked. Pick another time."
-                          : busySlots.length > 0
-                            ? `${busySlots.length} slots are already booked on this day.`
-                            : "No conflicting events were found for the selected day."}
+                    Cal.com handles live availability. Your form message still gets sent as a backup.
                   </p>
                   <p className="mt-2 text-[12px] uppercase tracking-[0.18em] text-muted-foreground">
                     {bookingState === "sending"
@@ -371,7 +295,7 @@ function SchedulePage() {
                             ? "Enter a valid email address."
                             : !subject.trim() || !body.trim()
                               ? "Add a subject and message before sending."
-                              : "The notification will be sent after your slot passes validation."}
+                              : "The notification will be sent after you confirm on Cal.com."}
                   </p>
                 </div>
 
@@ -387,12 +311,12 @@ function SchedulePage() {
                   </button>
 
                   <a
-                    href={meetingUrl}
+                    href={calcomBookingUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-3 rounded-lg border border-border px-5 py-3 text-[12px] font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-surface/50"
                   >
-                    Open Google Calendar
+                    Open Cal.com
                     <span aria-hidden>↗</span>
                   </a>
                 </div>

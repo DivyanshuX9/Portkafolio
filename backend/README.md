@@ -30,12 +30,5 @@ If you need richer LinkedIn data, you will need an approved OAuth/API path or a 
 Cal.com can be added as another backend endpoint once you decide which Cal.com API resource you want to display, then store its key in `CALCOM_API_KEY` and its account identifier in `CALCOM_USERNAME` or a similar env var.
 
 Booking email notifications use Web3Forms. Set `WEB3FORMS_API_KEY` and `BOOKING_NOTIFICATION_EMAIL` before enabling the schedule page booking flow.
-If your Google Calendar ID is stored as an embed URL, the backend will normalize the `src` value automatically.
-
-To enable calendar availability on the schedule page, add these to `backend/.env` and restart the backend:
-
-- `GOOGLE_CALENDAR_ID`
-- `GOOGLE_CALENDAR_API_KEY`
-- `GOOGLE_CALENDAR_ACCESS_TOKEN` or `GOOGLE_OAUTH_ACCESS_TOKEN` if the calendar is private
-
-If the calendar is private, a plain API key is usually not enough. Use an OAuth access token with read access to the calendar, or make the calendar publicly readable if that matches your privacy needs.
+The schedule page now uses Cal.com for live booking, so you only need the Cal.com username for the public booking link.
+If you still want to keep the optional booking notification email, continue using Web3Forms as before.
