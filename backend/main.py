@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+import base64
 from dataclasses import dataclass
 from datetime import date as date_cls, datetime, time as time_cls, timedelta, timezone
 from pathlib import Path
@@ -72,6 +73,18 @@ def _normalize_google_calendar_id(value: str | None) -> str | None:
         src = query.get("src", [None])[0]
         if src:
             return unquote(src)
+
+        cid = query.get("cid", [None])[0]
+        if cid:
+            normalized_cid = unquote(cid)
+            padding = "=" * (-len(normalized_cid) % 4)
+            try:
+                decoded = base64.urlsafe_b64decode(f"{normalized_cid}{padding}")
+                decoded_text = decoded.decode("utf-8").strip()
+                if decoded_text:
+                    return decoded_text
+            except Exception:
+                return normalized_cid
 
     return trimmed
 
