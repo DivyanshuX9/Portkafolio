@@ -2,7 +2,7 @@ import { Reveal } from "@/components/site/Reveal";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 const timeSlots = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"];
 const sectionOptions = [
@@ -41,32 +41,6 @@ function SchedulePage() {
   const [body, setBody] = useState("");
   const [bookingState, setBookingState] = useState<BookingState>("idle");
 
-  const meetingUrl = useMemo(() => {
-    const selectedDate = date ?? new Date();
-    const [hours, minutes] = time.split(":").map(Number);
-    const start = new Date(selectedDate);
-    start.setHours(hours, minutes, 0, 0);
-    const end = new Date(start);
-    end.setMinutes(end.getMinutes() + 30);
-
-    const params = new URLSearchParams({
-      action: "TEMPLATE",
-      text: `${topic} with Divyanshu Sharma`,
-      details: [
-        `Booked by: ${name || "Guest"}`,
-        email ? `Email: ${email}` : "",
-        `Section: ${section}`,
-        subject ? `Subject: ${subject}` : "",
-        body ? `Message: ${body}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-      dates: `${format(start, "yyyyMMdd'T'HHmmss")}/${format(end, "yyyyMMdd'T'HHmmss")}`,
-    });
-
-    return `https://calendar.google.com/calendar/render?${params.toString()}`;
-  }, [body, date, email, name, section, subject, time, topic]);
-
   function handleBookingClick() {
     setBookingState("sending");
 
@@ -81,7 +55,7 @@ function SchedulePage() {
       subject:
         subject.trim() || `${section} on ${format(selectedDate, "MMMM d")}`,
       body: body.trim() || "I'd like to schedule a meeting.",
-      meeting_url: meetingUrl,
+      meeting_url: calcomBookingUrl,
     };
 
     void fetch("/api/booking/notify", {

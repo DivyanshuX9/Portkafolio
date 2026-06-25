@@ -2,13 +2,8 @@ from __future__ import annotations
 
 import os
 import re
-import base64
-from dataclasses import dataclass
-from datetime import date as date_cls, datetime, time as time_cls, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qs, quote, unquote, urlparse
-from zoneinfo import ZoneInfo
 
 import httpx
 from fastapi import FastAPI, HTTPException
@@ -44,51 +39,6 @@ def _is_valid_email(value: str) -> bool:
     return bool(re.fullmatch(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", value))
 
 
-def _parse_event_time(value: str, fallback_tz: timezone | ZoneInfo) -> datetime:
-    normalized = value.replace("Z", "+00:00")
-    parsed = datetime.fromisoformat(normalized)
-    if parsed.tzinfo is None:
-        return parsed.replace(tzinfo=fallback_tz)
-    return parsed.astimezone(fallback_tz)
-
-
-def _slot_range_for_day(day: date_cls, slot: str, tzinfo: timezone | ZoneInfo) -> tuple[datetime, datetime]:
-    hours, minutes = map(int, slot.split(":"))
-    start = datetime.combine(day, time_cls(hours, minutes), tzinfo=tzinfo)
-    end = start + timedelta(minutes=30)
-    return start, end
-
-
-def _normalize_google_calendar_id(value: str | None) -> str | None:
-    if not value:
-        return None
-
-    trimmed = value.strip()
-    if not trimmed:
-        return None
-
-    if trimmed.startswith("http://") or trimmed.startswith("https://"):
-        parsed = urlparse(trimmed)
-        query = parse_qs(parsed.query)
-        src = query.get("src", [None])[0]
-        if src:
-            return unquote(src)
-
-        cid = query.get("cid", [None])[0]
-        if cid:
-            normalized_cid = unquote(cid)
-            padding = "=" * (-len(normalized_cid) % 4)
-            try:
-                decoded = base64.urlsafe_b64decode(f"{normalized_cid}{padding}")
-                decoded_text = decoded.decode("utf-8").strip()
-                if decoded_text:
-                    return decoded_text
-            except Exception:
-                return normalized_cid
-
-    return trimmed
-
-
 _load_local_env_file()
 
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "DivyanshuX9")
@@ -102,28 +52,11 @@ BOOKING_NOTIFICATION_EMAIL = os.getenv(
     "symdromearmy@gmail.com",
 )
 WEB3FORMS_API_KEY = _get_env("WEB3FORMS_API_KEY", "web3forms_api_key")
-GOOGLE_CALENDAR_ID = _normalize_google_calendar_id(
-    _get_env(
-        "GOOGLE_CALENDAR_ID",
-        "VITE_GOOGLE_CALENDAR_ID",
-        "google_calendar_id",
-        "googlecalenderid",
-        "googlecalanderid",
-    ),
-)
-GOOGLE_CALENDAR_API_KEY = _get_env(
-    "GOOGLE_CALENDAR_API_KEY",
-    "VITE_GOOGLE_CALENDAR_API_KEY",
-    "google_calendar_api_key",
-    "googlecalanderapi",
-)
-GOOGLE_CALENDAR_ACCESS_TOKEN = _get_env(
-    "GOOGLE_CALENDAR_ACCESS_TOKEN",
-    "GOOGLE_OAUTH_ACCESS_TOKEN",
-    "google_calendar_access_token",
-)
+CALCOM_API_KEY = _get_env("CALCOM_API_KEY", "calcom_apikey")
+if CALCOM_API_KEY and "=" in CALCOM_API_KEY:
+    CALCOM_API_KEY = CALCOM_API_KEY.rsplit("=", 1)[-1]
+CALCOM_USERNAME = _get_env("CALCOM_USERNAME", "VITE_CALCOM_USERNAME", default="divyanshu-sharmax9")
 GITHUB_API_BASE = "https://api.github.com"
-TIME_SLOTS = ["09:00", "10:30", "12:00", "14:00", "15:30", "17:00"]
 
 
 class BookingNotificationPayload(BaseModel):
@@ -138,114 +71,6 @@ class BookingNotificationPayload(BaseModel):
     time_zone: str | None = None
     meeting_url: str
 
-
-class CalendarAvailabilityPayload(BaseModel):
-    date: str
-    time_zone: str | None = None
-
-
-@dataclass(frozen=True)
-class SlotAvailability:
-    busy_slots: list[str]
-    available_slots: list[str]
-    events_count: int
-
-
-def _availability_for_events(
-    selected_day: date_cls,
-    tzinfo: timezone | ZoneInfo,
-    events: list[dict[str, Any]],
-) -> SlotAvailability:
-    busy_slots: list[str] = []
-
-    for slot in TIME_SLOTS:
-        slot_start, slot_end = _slot_range_for_day(selected_day, slot, tzinfo)
-
-        for event in events:
-            start_info = event.get("start", {})
-            end_info = event.get("end", {})
-
-            if "date" in start_info:
-                busy_slots.append(slot)
-                break
-
-            event_start_raw = start_info.get("dateTime")
-            event_end_raw = end_info.get("dateTime")
-            if not event_start_raw or not event_end_raw:
-                continue
-
-            event_start = _parse_event_time(event_start_raw, tzinfo)
-            event_end = _parse_event_time(event_end_raw, tzinfo)
-
-            if event_start < slot_end and event_end > slot_start:
-                busy_slots.append(slot)
-                break
-
-    available_slots = [slot for slot in TIME_SLOTS if slot not in busy_slots]
-    return SlotAvailability(
-        busy_slots=busy_slots,
-        available_slots=available_slots,
-        events_count=len(events),
-    )
-
-
-async def _fetch_google_calendar_events(
-    selected_day: date_cls,
-    tzinfo: timezone | ZoneInfo,
-) -> list[dict[str, Any]]:
-    if not GOOGLE_CALENDAR_ID:
-        raise HTTPException(
-            status_code=503,
-            detail="Google Calendar ID is not configured.",
-        )
-
-    calendar_url = (
-        f"https://www.googleapis.com/calendar/v3/calendars/"
-        f"{quote(GOOGLE_CALENDAR_ID, safe='')}/events"
-    )
-
-    day_start = datetime.combine(selected_day, time_cls.min, tzinfo=tzinfo)
-    day_end = day_start + timedelta(days=1)
-
-    params = {
-        "timeMin": day_start.isoformat(),
-        "timeMax": day_end.isoformat(),
-        "singleEvents": "true",
-        "orderBy": "startTime",
-        "maxResults": "250",
-    }
-
-    headers: dict[str, str] = {"Accept": "application/json"}
-    if GOOGLE_CALENDAR_ACCESS_TOKEN:
-        headers["Authorization"] = f"Bearer {GOOGLE_CALENDAR_ACCESS_TOKEN}"
-    elif GOOGLE_CALENDAR_API_KEY:
-        params["key"] = GOOGLE_CALENDAR_API_KEY
-    else:
-        raise HTTPException(
-            status_code=503,
-            detail="Google Calendar API key or access token is not configured.",
-        )
-
-    async with httpx.AsyncClient(timeout=15.0, headers=headers) as client:
-        response = await client.get(calendar_url, params=params)
-
-    if response.status_code in {401, 403}:
-        raise HTTPException(
-            status_code=503,
-            detail=(
-                "Google Calendar access was rejected. For private calendars, set "
-                "GOOGLE_CALENDAR_ACCESS_TOKEN with OAuth access. For public calendars, "
-                "confirm the API key and calendar permissions."
-            ),
-        )
-
-    if response.status_code != 200:
-        raise HTTPException(
-            status_code=response.status_code,
-            detail="Unable to fetch Google Calendar availability.",
-        )
-
-    return response.json().get("items", [])
 
 app = FastAPI(title="Divyanshu Profile API", version="1.0.0")
 
@@ -353,30 +178,33 @@ async def profile_summary() -> dict[str, Any]:
     return {"github": github, "linkedin": linkedin}
 
 
-@app.get("/calendar/availability")
-async def calendar_availability(date: str, time_zone: str | None = None) -> dict[str, Any]:
-    try:
-        selected_day = datetime.fromisoformat(date).date()
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail="Invalid date format.") from exc
+@app.get("/calcom/status")
+async def calcom_status() -> dict[str, Any]:
+    if not CALCOM_USERNAME:
+        raise HTTPException(status_code=503, detail="Cal.com username is not configured.")
 
-    tz_name = time_zone or "UTC"
-    try:
-        tzinfo: timezone | ZoneInfo = ZoneInfo(tz_name)
-    except Exception:
-        tzinfo = timezone.utc
-        tz_name = "UTC"
-
-    events = await _fetch_google_calendar_events(selected_day, tzinfo)
-    availability = _availability_for_events(selected_day, tzinfo, events)
-
-    return {
-        "date": date,
-        "time_zone": tz_name,
-        "available_slots": availability.available_slots,
-        "busy_slots": availability.busy_slots,
-        "events_count": availability.events_count,
+    result: dict[str, Any] = {
+        "username": CALCOM_USERNAME,
+        "booking_url": f"https://cal.com/{CALCOM_USERNAME}",
+        "api_configured": bool(CALCOM_API_KEY),
     }
+
+    if not CALCOM_API_KEY:
+        return result
+
+    async with httpx.AsyncClient(timeout=15.0) as client:
+        response = await client.get(
+            "https://api.cal.com/v2/me",
+            headers={
+                "Authorization": f"Bearer {CALCOM_API_KEY}",
+                "cal-api-version": "2024-08-13",
+            },
+        )
+
+    result["api_status_code"] = response.status_code
+    result["api_reachable"] = response.status_code < 500
+    result["api_authenticated"] = response.status_code == 200
+    return result
 
 
 @app.post("/booking/notify")
@@ -396,16 +224,6 @@ async def booking_notify(payload: BookingNotificationPayload) -> dict[str, Any]:
         raise HTTPException(status_code=400, detail="Subject is required.")
     if payload.body.strip() == "":
         raise HTTPException(status_code=400, detail="Message body is required.")
-
-    try:
-        selected_day = datetime.fromisoformat(payload.date).date()
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail="Invalid date format.") from exc
-
-    if GOOGLE_CALENDAR_ID and GOOGLE_CALENDAR_API_KEY:
-        availability = await _fetch_availability(selected_day, payload.time_zone)
-        if payload.time not in availability.available_slots:
-            raise HTTPException(status_code=409, detail="Selected slot is no longer available.")
 
     recipient_name = payload.name.strip() or "Guest"
     topic = payload.topic.strip() or "Meeting request"
@@ -460,51 +278,6 @@ async def booking_notify(payload: BookingNotificationPayload) -> dict[str, Any]:
         raise HTTPException(status_code=502, detail=data.get("message") or "Unable to send booking notification.")
 
     return {"status": "sent", "message": data.get("message", "Notification delivered.")}
-
-
-async def _fetch_availability(
-    selected_day: date_cls,
-    time_zone: str | None,
-) -> SlotAvailability:
-    tz_name = time_zone or "UTC"
-    try:
-        tzinfo: timezone | ZoneInfo = ZoneInfo(tz_name)
-    except Exception:
-        tzinfo = timezone.utc
-        tz_name = "UTC"
-    events = await _fetch_google_calendar_events(selected_day, tzinfo)
-    busy_slots: list[str] = []
-
-    for slot in TIME_SLOTS:
-        slot_start, slot_end = _slot_range_for_day(selected_day, slot, tzinfo)
-
-        for event in events:
-            start_info = event.get("start", {})
-            end_info = event.get("end", {})
-
-            if "date" in start_info:
-                busy_slots.append(slot)
-                break
-
-            event_start_raw = start_info.get("dateTime")
-            event_end_raw = end_info.get("dateTime")
-            if not event_start_raw or not event_end_raw:
-                continue
-
-            event_start = _parse_event_time(event_start_raw, tzinfo)
-            event_end = _parse_event_time(event_end_raw, tzinfo)
-
-            if event_start < slot_end and event_end > slot_start:
-                busy_slots.append(slot)
-                break
-
-    available_slots = [slot for slot in TIME_SLOTS if slot not in busy_slots]
-
-    return SlotAvailability(
-        busy_slots=busy_slots,
-        available_slots=available_slots,
-        events_count=len(events),
-    )
 
 
 def _extract_meta(html: str, key: str) -> str | None:
