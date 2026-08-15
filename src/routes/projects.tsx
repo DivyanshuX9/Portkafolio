@@ -1,4 +1,4 @@
-import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHeaderHero } from "@/components/site/PageHeaderHero";
 import { SelectedWork } from "@/components/site/SelectedWork";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -12,17 +12,23 @@ export const Route = createFileRoute("/projects")({
 function ProjectsPage() {
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
-      <main className="relative z-10 mx-auto w-full max-w-[1120px] pt-28 md:pt-32 lg:pl-28 xl:pl-36">
-        <section id="projects" className="py-10 md:py-16">
-          <div className="container-edge">
-            <SectionHeader
-              index="01"
-              eyebrow="Projects"
-              title="SWE, AI, and Data Science — built to solve real problems."
-              description="Six projects across full-stack engineering, security systems, computer vision, and voice AI. Each one built from a real constraint."
-            />
-          </div>
-        </section>
+      <main className="relative z-10 mx-auto w-full max-w-7xl">
+        <PageHeaderHero
+          sectionIndex="01"
+          eyebrow="Projects"
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Projects" },
+          ]}
+          title="SWE, Applied AI, and Security systems."
+          description="Six engineering projects built to solve real-world constraints — from transport aggregation and field-level document encryption to voice AI for rural healthcare."
+          stats={[
+            { label: "Total Projects", value: "6 Shipped", icon: "🚀" },
+            { label: "SIH 2025", value: "Qualifier", icon: "🏆" },
+            { label: "Quant IQC '26", value: "Rank 6", icon: "🏅" },
+            { label: "Core Stack", value: "Next.js · FastAPI", icon: "⚡" },
+          ]}
+        />
         <SelectedWork />
       </main>
     </div>

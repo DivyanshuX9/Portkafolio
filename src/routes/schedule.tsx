@@ -1,5 +1,5 @@
+import { PageHeaderHero } from "@/components/site/PageHeaderHero";
 import { Reveal } from "@/components/site/Reveal";
-import { SectionHeader } from "@/components/site/SectionHeader";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -79,17 +79,25 @@ function SchedulePage() {
 
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
-      <main className="relative z-10 mx-auto w-full max-w-280 px-5 pb-20 pt-28 md:px-10 md:pt-32 lg:pl-28 xl:pl-36">
-        <section className="container-edge pb-10">
-          <SectionHeader
-            index="01"
-            eyebrow="Schedule"
-            title="Pick a time, or go straight to Cal.com and book instantly."
-            description="The booking form stays as a backup, but Cal.com now handles the live scheduling flow."
-          />
-        </section>
+      <main className="relative z-10 mx-auto w-full max-w-7xl pb-20">
+        <PageHeaderHero
+          sectionIndex="01"
+          eyebrow="Schedule"
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Schedule" },
+          ]}
+          title="Book a 1-on-1 session or meeting."
+          description="Schedule a time for project inquiries, technical collaboration, speaking engagements, or hiring discussions via direct Cal.com calendar sync."
+          stats={[
+            { label: "Session Duration", value: "30 Mins", icon: "⏱️" },
+            { label: "Timezone", value: "IST (UTC+5:30)", icon: "🌐" },
+            { label: "Availability", value: "Live Cal.com Sync", icon: "⚡" },
+            { label: "Response Time", value: "< 24 Hours", icon: "📬" },
+          ]}
+        />
 
-        <section className="border-t border-border bg-background py-20 md:py-24">
+        <section className="border-t border-border bg-background py-16 md:py-20">
           <div className="container-edge space-y-8 md:space-y-12">
             <div>
               <p className="eyebrow mb-2">Meeting calendar</p>

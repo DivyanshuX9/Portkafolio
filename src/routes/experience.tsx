@@ -1,7 +1,7 @@
 import { About } from "@/components/site/About";
 import { Contact } from "@/components/site/Contact";
 import { Experience } from "@/components/site/Experience";
-import { SectionHeader } from "@/components/site/SectionHeader";
+import { PageHeaderHero } from "@/components/site/PageHeaderHero";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
@@ -14,17 +14,23 @@ export const Route = createFileRoute("/experience")({
 function ExperiencePage() {
   return (
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
-      <main className="relative z-10 mx-auto w-full max-w-[1120px] pt-28 md:pt-32 lg:pl-28 xl:pl-36">
-        <section id="experience" className="py-10 md:py-16">
-          <div className="container-edge">
-            <SectionHeader
-              index="01"
-              eyebrow="Experience"
-              title="The roles, the rules, and the ideas that shaped how I build."
-              description="A compact view of the teams, systems, and habits that still influence my work today."
-            />
-          </div>
-        </section>
+      <main className="relative z-10 mx-auto w-full max-w-7xl">
+        <PageHeaderHero
+          sectionIndex="01"
+          eyebrow="Experience"
+          breadcrumb={[
+            { label: "Home", href: "/" },
+            { label: "Experience" },
+          ]}
+          title="Patents, Open Source, and Team Leadership."
+          description="A track record of research inventions, Node.js core contributions, hackathon leadership, and engineering systems shipped in public."
+          stats={[
+            { label: "Patents", value: "1 Filed", icon: "📜" },
+            { label: "Node.js Core", value: "PR #63491", icon: "🌐" },
+            { label: "WorldQuant IQC", value: "AIR 6 · World 26", icon: "🏆" },
+            { label: "Hackathon", value: "SIH Qualifier Lead", icon: "👥" },
+          ]}
+        />
         <Experience />
         <div className="container-edge">
           <div className="border-t border-ink-deep/15" />

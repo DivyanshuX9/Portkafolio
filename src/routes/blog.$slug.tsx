@@ -317,9 +317,31 @@ function BlogPostPage() {
     <div className="relative min-h-dvh bg-background text-foreground transition-colors duration-700">
       <ReadingProgress />
 
-      <main className="relative z-10 mx-auto w-full max-w-280 pt-28 md:pt-32 lg:pl-28 xl:pl-36">
+      <main className="relative z-10 mx-auto w-full max-w-5xl pt-24 pb-16">
+        {/* Top Breadcrumb & Navigation Bar */}
+        <div className="container-edge">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
+            <nav className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              <Link to="/" className="transition-colors hover:text-foreground">Home</Link>
+              <span className="opacity-40">/</span>
+              <Link to="/blog" className="transition-colors hover:text-foreground">Blog</Link>
+              <span className="opacity-40">/</span>
+              <span className="font-semibold text-foreground truncate max-w-[180px] sm:max-w-[280px]">
+                {post.title}
+              </span>
+            </nav>
+
+            <Link
+              to="/blog"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface/60 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-foreground transition-all hover:bg-surface hover:border-foreground/30"
+            >
+              ← Back to all notes
+            </Link>
+          </div>
+        </div>
+
         {/* Header */}
-        <section className="py-10 md:py-16">
+        <section className="py-8 md:py-12">
           <div className="container-edge">
             <SectionHeader
               index="01"

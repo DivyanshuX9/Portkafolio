@@ -11,6 +11,7 @@ import {
 import { Nav } from "@/components/site/Nav";
 import { SeasonProvider } from "@/components/site/theme";
 import appCss from "../styles.css?url";
+import favicon from "../assests/Favicon/1.png";
 
 function NotFoundComponent() {
   return (
@@ -89,6 +90,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
       ],
       links: [
+        { rel: "icon", type: "image/png", href: favicon },
+        { rel: "shortcut icon", href: favicon },
+        { rel: "apple-touch-icon", href: favicon },
         { rel: "stylesheet", href: appCss },
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         {
