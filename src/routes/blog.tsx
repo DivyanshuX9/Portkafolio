@@ -47,10 +47,10 @@ function BlogPage() {
           title="Engineering notes, architecture logs & observations."
           description="A public notebook of experiments, software engineering observations, and explanations behind built products."
           stats={[
-            { label: "Published Notes", value: `${blogPosts.length} Articles`, icon: "📝" },
-            { label: "Topics Covered", value: "Systems & AI", icon: "💡" },
-            { label: "Read Time", value: "~25 Min Total", icon: "⏱️" },
-            { label: "Format", value: "Public Build Logs", icon: "🔓" },
+            { label: "Published Notes", value: `${blogPosts.length} Articles`, badgeType: "articles" },
+            { label: "Topics Covered", value: "Systems & AI", badgeType: "stack" },
+            { label: "Read Time", value: "~25 Min Total", badgeType: "time" },
+            { label: "Format", value: "Public Build Logs", badgeType: "projects" },
           ]}
         >
           {/* Search & Tag Filter Bar */}

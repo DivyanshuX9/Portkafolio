@@ -72,13 +72,13 @@ const entries: Entry[] = [
     ],
   },
   {
-    date: "Dec 2024 — Feb 2025",
-    title: "Traffic Sign Recognition",
-    location: "Computer Vision · CNN",
+    date: "Dec 2025 — Feb 2026",
+    title: "Weather-Based Traffic Signal Model",
+    location: "Computer Vision · Adaptive AI",
     tag: "CV",
-    body: "CNN for 43 traffic-sign classes on GTSRB data. Deployed low-latency inference with OpenCV for real-time video streams.",
+    body: "Adaptive traffic signal control system combining real-time weather parameters with computer vision to dynamically adjust signal timings and object detection under adverse weather conditions.",
     links: [
-      { label: "GitHub", href: "https://github.com/DivyanshuX9/Traffic-Sign-Recognition" },
+      { label: "GitHub", href: "https://github.com/DivyanshuX9/Weather_Based_Traffic_signal_model" },
     ],
   },
   {

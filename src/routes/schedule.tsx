@@ -90,10 +90,10 @@ function SchedulePage() {
           title="Book a 1-on-1 session or meeting."
           description="Schedule a time for project inquiries, technical collaboration, speaking engagements, or hiring discussions via direct Cal.com calendar sync."
           stats={[
-            { label: "Session Duration", value: "30 Mins", icon: "⏱️" },
-            { label: "Timezone", value: "IST (UTC+5:30)", icon: "🌐" },
-            { label: "Availability", value: "Live Cal.com Sync", icon: "⚡" },
-            { label: "Response Time", value: "< 24 Hours", icon: "📬" },
+            { label: "Session Duration", value: "30 Mins", badgeType: "session" },
+            { label: "Timezone", value: "IST (UTC+5:30)", badgeType: "timezone" },
+            { label: "Availability", value: "Live Cal.com Sync", badgeType: "stack" },
+            { label: "Response Time", value: "< 24 Hours", badgeType: "response" },
           ]}
         />
 

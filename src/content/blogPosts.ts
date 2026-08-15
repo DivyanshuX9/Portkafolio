@@ -63,16 +63,16 @@ export const blogPosts: BlogPost[] = [
     ].join("\n\n"),
   },
   {
-    slug: "traffic-sign-cnn-opencv-inference",
+    slug: "weather-based-traffic-signal-model",
     tag: "Computer Vision",
     dateLabel: "Feb · 26",
-    title: "Traffic sign CNN at 43 classes with OpenCV inference",
+    title: "Weather-based adaptive traffic signal control system",
     excerpt:
-      "Training is the easy part. Shipping inference is where constraints show up: latency budgets, preprocessing consistency, and edge-device quirks.",
+      "Designing adaptive signal timing algorithms that combine real-time weather sensors and computer vision inference under adverse weather conditions.",
     content: [
-      "I trained a compact CNN for 43 traffic sign classes, then built an inference path using OpenCV preprocessing.",
-      "The biggest win came from enforcing identical preprocessing between training and inference—small inconsistencies were the dominant error source.",
-      "If you deploy on-device, treat input handling as part of the model, not glue code.",
+      "Traditional fixed-time traffic signals fail when weather degrades driving speed and visibility.",
+      "I built an adaptive traffic signal control model combining computer vision and environmental data to dynamically adjust green light durations during rain, fog, and poor road conditions.",
+      "Identical preprocessing and weather-shift domain adaptation proved critical to maintaining object detection accuracy when camera lenses face adverse conditions.",
     ].join("\n\n"),
   },
   {

@@ -25,10 +25,10 @@ function ExperiencePage() {
           title="Patents, Open Source, and Team Leadership."
           description="A track record of research inventions, Node.js core contributions, hackathon leadership, and engineering systems shipped in public."
           stats={[
-            { label: "Patents", value: "1 Filed", icon: "📜" },
-            { label: "Node.js Core", value: "PR #63491", icon: "🌐" },
-            { label: "WorldQuant IQC", value: "AIR 6 · World 26", icon: "🏆" },
-            { label: "Hackathon", value: "SIH Qualifier Lead", icon: "👥" },
+            { label: "Patents", value: "1 Filed", badgeType: "patent" },
+            { label: "Node.js Core", value: "PR #63491", badgeType: "node" },
+            { label: "WorldQuant IQC", value: "AIR 6 · World 26", badgeType: "iqc" },
+            { label: "Hackathon Lead", value: "SIH Qualifier", badgeType: "sih" },
           ]}
         />
         <Experience />
