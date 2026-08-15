@@ -54,3 +54,4 @@ src/assests/resume_docx_extracted/
 
 # OS
 .DS_Store
+.jetro/

@@ -1,4 +1,8 @@
+import { useState } from "react";
 import { Reveal } from "./Reveal";
+
+import iqcPhoto1 from "../../assests/IQC'26 photo1.jpg";
+import iqcPhoto2 from "../../assests/IQC'26 photo2.jpg";
 
 type Entry = {
   date: string;
@@ -7,9 +11,24 @@ type Entry = {
   body: string;
   tag: string;
   links: { label: string; href: string }[];
+  images?: { src: string; alt: string }[];
 };
 
 const entries: Entry[] = [
+  {
+    date: "Mar 2026 — Jul 2026",
+    title: "WorldQuant IQC 2026",
+    location: "Quant Research · National Finalist",
+    tag: "Quant",
+    body: "Secured All India Rank 6 and World Rank 26 out of 150,000+ teams globally representing VIT at the WorldQuant International Quant Championship 2026 National Finals in Mumbai with Team Simpson's Paradox.",
+    links: [
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+    ],
+    images: [
+      { src: iqcPhoto1, alt: "WorldQuant IQC 2026 National Finals Team Photo 1" },
+      { src: iqcPhoto2, alt: "WorldQuant IQC 2026 National Finals Team Photo 2" },
+    ],
+  },
   {
     date: "May 2025 — Mar 2026",
     title: "RideHub",
@@ -75,6 +94,7 @@ const entries: Entry[] = [
 ];
 
 const tagColor: Record<string, string> = {
+  Quant: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
   SWE: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
   AI: "bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20",
   Security: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20",
@@ -84,6 +104,8 @@ const tagColor: Record<string, string> = {
 };
 
 export function CurrentWorkTimeline() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
     <section
       id="timeline"
@@ -151,13 +173,34 @@ export function CurrentWorkTimeline() {
                       </a>
                     ))}
                   </div>
+
+                  {/* Images below post */}
+                  {entry.images && entry.images.length > 0 && (
+                    <div className="mt-4 grid grid-cols-2 gap-2.5 max-w-md">
+                      {entry.images.map((img, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setSelectedImage(img.src)}
+                          className="group relative cursor-zoom-in overflow-hidden rounded-lg border border-border/80 bg-surface/30 p-1 text-left transition-all hover:border-foreground/30 hover:shadow-md"
+                        >
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            className="h-32 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                            loading="lazy"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </Reveal>
           ))}
         </div>
 
-        {/* Desktop: original two-column layout */}
+        {/* Desktop: two-column layout */}
         <ol className="mt-12 hidden space-y-0 md:block">
           {entries.map((entry, index) => (
             <li key={entry.title} className="list-none">
@@ -207,6 +250,27 @@ export function CurrentWorkTimeline() {
                         </a>
                       ))}
                     </div>
+
+                    {/* Images below post */}
+                    {entry.images && entry.images.length > 0 && (
+                      <div className="mt-4 grid grid-cols-2 gap-2.5 max-w-md">
+                        {entry.images.map((img, i) => (
+                          <button
+                            key={i}
+                            type="button"
+                            onClick={() => setSelectedImage(img.src)}
+                            className="group relative cursor-zoom-in overflow-hidden rounded-lg border border-border/80 bg-surface/30 p-1 text-left transition-all hover:border-foreground/30 hover:shadow-md"
+                          >
+                            <img
+                              src={img.src}
+                              alt={img.alt}
+                              className="h-34 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                              loading="lazy"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </article>
               </Reveal>
@@ -214,6 +278,30 @@ export function CurrentWorkTimeline() {
           ))}
         </ol>
       </div>
+
+      {/* Image Lightbox Modal */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-h-[90vh] max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-background p-2 shadow-2xl">
+            <img
+              src={selectedImage}
+              alt="Enlarged IQC photo"
+              className="max-h-[80vh] w-auto rounded-xl object-contain"
+            />
+            <button
+              type="button"
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-black/90"
+              aria-label="Close photo preview"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

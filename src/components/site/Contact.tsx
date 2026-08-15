@@ -1,20 +1,20 @@
 import { Reveal } from "./Reveal";
 
-import dataScientistResume from "../../assests/Divyanshu_Sharma_Resume_Data_Scientist.docx";
-import sweResume from "../../assests/Divyanshu_Sharma_SWE_Intern.docx";
+import dataScientistResume from "../../assests/Divyanshu_DS_2026.pdf";
+import sweResume from "../../assests/Divyanshu_SWE_2026.pdf";
 
 const resumeLinks = [
   {
     label: "Download DS Resume",
     href: dataScientistResume,
     note: "Data science focused version",
-    downloadName: "Divyanshu_Sharma_Data_Scientist_Resume.docx",
+    downloadName: "Divyanshu_Sharma_Data_Scientist_Resume.pdf",
   },
   {
     label: "Download SWE Resume",
     href: sweResume,
     note: "Software engineering version",
-    downloadName: "Divyanshu_Sharma_SWE_Resume.docx",
+    downloadName: "Divyanshu_Sharma_SWE_Resume.pdf",
   },
 ];
 
