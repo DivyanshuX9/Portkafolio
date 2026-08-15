@@ -1,7 +1,7 @@
 import { Reveal } from "./Reveal";
 
 import caseStudyImg from "@/assests/case-study.jpg";
-import project1Img from "@/assests/project-1.jpg";
+import ridehubImg from "@/assests/ridehub-img.jpg";
 import project2Img from "@/assests/project-2.jpg";
 import project3Img from "@/assests/project-3.jpg";
 
@@ -31,7 +31,7 @@ const allProjectsList: Project[] = [
     stack: ["Next.js 15", "FastAPI", "PostgreSQL", "React Native"],
     metric: { value: "5×", label: "Transport services unified" },
     github: "https://github.com/DivyanshuX9",
-    image: project1Img,
+    image: ridehubImg,
     side: "left",
   },
   {

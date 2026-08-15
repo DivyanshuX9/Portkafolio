@@ -3,6 +3,7 @@ import { Reveal } from "./Reveal";
 
 import iqcPhoto1 from "../../assests/IQC'26 photo1.jpg";
 import iqcPhoto2 from "../../assests/IQC'26 photo2.jpg";
+import ridehubHome from "../../assests/ridehub-home.jpg";
 
 type Entry = {
   date: string;
@@ -38,6 +39,9 @@ const entries: Entry[] = [
     links: [
       { label: "GitHub", href: "https://github.com/DivyanshuX9" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+    ],
+    images: [
+      { src: ridehubHome, alt: "RideHub Home Dashboard" },
     ],
   },
   {
