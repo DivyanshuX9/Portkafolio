@@ -4,7 +4,8 @@ export type Season = "light" | "dark";
 
 export type SeasonContextValue = {
   season: Season;
-  setSeason: (s: Season) => void;
+  setSeason: (s: Season, event?: React.MouseEvent | MouseEvent) => void;
+  toggleSeason: (event?: React.MouseEvent | MouseEvent) => void;
   cycle: () => void;
 };
 

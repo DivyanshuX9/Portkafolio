@@ -217,13 +217,13 @@ function SocialButton({ item }: { item: NavItem }) {
 }
 
 export function Nav() {
-  const { season, setSeason } = useSeason();
+  const { season, toggleSeason } = useSeason();
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
-      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-2rem)] touch-pan-x overflow-x-auto md:max-w-240">
-        <div className="flex w-max flex-nowrap items-center justify-start gap-1 rounded-full bg-background/92 px-2.5 py-1.5 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.34)] backdrop-blur-3xl backdrop-saturate-150 md:justify-center md:gap-2 md:px-4 md:py-2.5">
-          <nav className="flex items-center gap-1">
+    <header className="pointer-events-none fixed inset-x-0 bottom-3 z-50 flex justify-center px-3 pb-[env(safe-area-inset-bottom)] sm:bottom-4 sm:px-4 md:bottom-auto md:top-6 md:pb-0">
+      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-1.5rem)] touch-pan-x overflow-x-auto sm:max-w-[calc(100vw-2rem)] md:max-w-240">
+        <div className="flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full border border-border/60 bg-background/90 px-2 py-1.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.3)] backdrop-blur-3xl backdrop-saturate-150 sm:gap-1 md:justify-center md:gap-2 md:px-4 md:py-2.5">
+          <nav className="flex items-center gap-0.5 sm:gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
             <PageLink to="/blog" label="Blog" icon={Icon.blog} />
@@ -236,7 +236,7 @@ export function Nav() {
 
           <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
 
-          <div className="flex flex-nowrap items-center gap-1">
+          <div className="flex flex-nowrap items-center gap-0.5 sm:gap-1">
             {socialNav.map((item, index) => (
               <Fragment key={item.label}>
                 {index > 0 && (
@@ -250,16 +250,22 @@ export function Nav() {
             ))}
 
             <span
-              className="mx-1 hidden h-5 w-px bg-ink-deep/12 md:mx-2 md:block"
+              className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:mx-2 md:block"
               aria-hidden
             />
 
             <button
-              onClick={() => setSeason(season === "light" ? "dark" : "light")}
-              aria-label="Toggle light and dark mode"
-              className="group inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent px-0 text-ink-deep transition-[transform,background-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep md:h-10 md:w-10"
+              data-theme-toggle
+              onClick={(e) => toggleSeason(e)}
+              aria-label={`Switch to ${season === "light" ? "dark" : "light"} mode`}
+              title={`Switch to ${season === "light" ? "dark" : "light"} mode`}
+              className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent px-0 text-ink-deep transition-[transform,background-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep active:scale-90 md:h-10 md:w-10"
             >
-              <span className={iconWrap}>{seasonGlyph[season]}</span>
+              <span
+                className={`${iconWrap} transition-transform duration-500 group-hover:rotate-45 group-active:rotate-90`}
+              >
+                {seasonGlyph[season]}
+              </span>
             </button>
           </div>
         </div>

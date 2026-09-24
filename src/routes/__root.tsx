@@ -1,17 +1,18 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  HeadContent,
-  Link,
-  Outlet,
-  Scripts,
-  createRootRouteWithContext,
-  useRouter,
+    HeadContent,
+    Link,
+    Outlet,
+    Scripts,
+    createRootRouteWithContext,
+    useRouter,
 } from "@tanstack/react-router";
 
 import { Nav } from "@/components/site/Nav";
 import { SeasonProvider } from "@/components/site/theme";
-import appCss from "../styles.css?url";
+import { Toaster } from "@/components/ui/sonner";
 import favicon from "../assests/Favicon/1.png";
+import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
@@ -150,6 +151,7 @@ function RootComponent() {
         <div className="relative z-10 animate-in fade-in slide-in-from-bottom-2 duration-500">
           <Outlet />
         </div>
+        <Toaster position="bottom-right" />
       </QueryClientProvider>
     </SeasonProvider>
   );

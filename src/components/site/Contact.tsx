@@ -1,7 +1,7 @@
 import { Reveal } from "./Reveal";
 
 import dataScientistResume from "../../assests/Divyanshu_DS_2026.pdf";
-import sweResume from "../../assests/Divyanshu_SWE_2026.pdf";
+import sweResume from "../../assests/Divyanshu_SWE_RESUME.pdf";
 
 const resumeLinks = [
   {
@@ -58,6 +58,34 @@ export function Contact() {
 
         <Reveal delay={0.12}>
           <div className="mt-10 grid gap-3 md:max-w-3xl md:grid-cols-2">
+            <a
+              href="/schedule"
+              className="group flex flex-col justify-between rounded-2xl border border-ink-deep/20 bg-ink-deep p-5 text-background shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg md:col-span-2"
+            >
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] opacity-85">
+                  <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                  Live Meeting Scheduler
+                </span>
+                <span className="rounded-full border border-background/20 bg-background/10 px-2.5 py-0.5 text-[10px] font-mono font-medium">
+                  Instant Cal.com Sync
+                </span>
+              </div>
+              <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                  <p className="font-display text-2xl font-bold tracking-tight">
+                    Book a 1-on-1 Technical Session
+                  </p>
+                  <p className="mt-1.5 max-w-xl text-xs leading-relaxed opacity-80">
+                    Interactive calendar picker, timezone conversion, meeting passes, and direct project discovery.
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-background px-4 py-2 text-xs font-semibold uppercase tracking-wider text-ink-deep transition-transform group-hover:translate-x-1">
+                  Schedule now →
+                </span>
+              </div>
+            </a>
+
             {resumeLinks.map((resume) => (
               <a
                 key={resume.label}

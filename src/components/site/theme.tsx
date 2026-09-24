@@ -1,15 +1,15 @@
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+    type ReactNode,
 } from "react";
 import { flushSync } from "react-dom";
 import {
-  SeasonCtx,
-  type Season,
-  type SeasonContextValue,
+    SeasonCtx,
+    type Season,
+    type SeasonContextValue,
 } from "./season-context";
 
 type Preference = Season | "system";
@@ -49,21 +49,73 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.themeReady = "true";
   }, []);
 
-  const applyPreference = useCallback((nextPreference: Preference) => {
-    if (
-      typeof document.startViewTransition === "function" &&
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      document.startViewTransition(() => {
-        flushSync(() => {
-          setPreference(nextPreference);
-        });
-      });
-      return;
-    }
+  const applyPreference = useCallback(
+    (nextPreference: Preference, event?: React.MouseEvent | MouseEvent) => {
+      const nextSeason =
+        nextPreference === "system" ? systemSeason : nextPreference;
 
-    setPreference(nextPreference);
-  }, []);
+      if (
+        typeof document.startViewTransition === "function" &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        let x = window.innerWidth / 2;
+        let y = window.innerHeight / 2;
+
+        if (event && "clientX" in event && event.clientX) {
+          x = event.clientX;
+          y = event.clientY;
+        } else {
+          const toggleBtn = document.querySelector("[data-theme-toggle]");
+          if (toggleBtn) {
+            const rect = toggleBtn.getBoundingClientRect();
+            x = rect.left + rect.width / 2;
+            y = rect.top + rect.height / 2;
+          }
+        }
+
+        const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y),
+        );
+
+        const root = document.documentElement;
+
+        const transition = document.startViewTransition(() => {
+          root.classList.toggle("dark", nextSeason === "dark");
+          root.style.colorScheme = nextSeason;
+          flushSync(() => {
+            setPreference(nextPreference);
+          });
+        });
+
+        transition.ready
+          .then(() => {
+            document.documentElement.animate(
+              {
+                clipPath: [
+                  `circle(0px at ${x}px ${y}px)`,
+                  `circle(${endRadius}px at ${x}px ${y}px)`,
+                ],
+              },
+              {
+                duration: 480,
+                easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+                pseudoElement: "::view-transition-new(root)",
+              },
+            );
+          })
+          .catch(() => {});
+
+        return;
+      }
+
+      const root = document.documentElement;
+      root.classList.toggle("dark", nextSeason === "dark");
+      root.style.colorScheme = nextSeason;
+      setPreference(nextPreference);
+    },
+    [systemSeason],
+  );
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -114,7 +166,10 @@ export function SeasonProvider({ children }: { children: ReactNode }) {
   const value = useMemo<SeasonContextValue>(
     () => ({
       season,
-      setSeason: (nextSeason: Season) => applyPreference(nextSeason),
+      setSeason: (nextSeason: Season, event?: React.MouseEvent | MouseEvent) =>
+        applyPreference(nextSeason, event),
+      toggleSeason: (event?: React.MouseEvent | MouseEvent) =>
+        applyPreference(season === "light" ? "dark" : "light", event),
       cycle: () => {
         const ids = SEASONS.map((s) => s.id);
         const i = ids.indexOf(season);

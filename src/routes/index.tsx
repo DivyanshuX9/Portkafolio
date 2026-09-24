@@ -32,7 +32,7 @@ function Index() {
       id="top"
       className="relative min-h-dvh overflow-x-hidden bg-background text-foreground transition-colors duration-700 dark:text-foreground"
     >
-      <main className="relative z-10 mx-auto w-full max-w-full px-4 pt-28 sm:max-w-[95vw] sm:px-5 md:px-0 md:pt-32 lg:max-w-[calc(100%-4rem)] lg:pl-24 xl:max-w-[calc(100%-6rem)] xl:pl-32">
+      <main className="relative z-10 mx-auto w-full max-w-7xl pt-24 sm:pt-28 md:pt-32">
         <Hero />
         <Suspense
           fallback={
