@@ -1,23 +1,17 @@
+import { BlogStoryCompanion } from "@/components/site/BlogStoryCompanion";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { blogPosts } from "@/content/blogPosts";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import {
+    ArrowUp,
+    List,
+    Play,
+    Share2,
+    Volume2
+} from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
-import {
-  ArrowUp,
-  Bookmark,
-  Check,
-  Clock,
-  Copy,
-  ExternalLink,
-  List,
-  Pause,
-  Play,
-  Share2,
-  Sparkles,
-  Volume2,
-} from "lucide-react";
 
 // ── Markdown renderer ────────────────────────────────────────────────────────
 
@@ -593,6 +587,9 @@ function BlogPostPage() {
         <section className="pb-24">
           <div className="container-edge">
             <div className="mx-auto max-w-[68ch]">
+              {/* Interactive Story Companion Illustration Scene */}
+              <BlogStoryCompanion slug={post.slug} progress={pct} />
+
               <MarkdownArticle content={post.content} />
 
               {/* End of article reaction card */}
