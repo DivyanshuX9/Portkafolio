@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -601,3 +601,4 @@ function GenericReadingCompanion({ progress }: { progress: number }) {
     </div>
   );
 }
+

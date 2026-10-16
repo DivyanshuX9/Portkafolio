@@ -4,6 +4,7 @@ type ExperienceItem = {
   title: string;
   meta: string;
   blurb: string;
+  badge?: string;
   link?: { label: string; href: string };
 };
 
@@ -15,28 +16,82 @@ type ExperienceSection = {
 
 const experienceSections: ExperienceSection[] = [
   {
-    title: "Patents",
-    subtitle: "Research & applied invention",
+    title: "Certifications & Credentials",
+    subtitle: "Verified Technical Standards",
     items: [
       {
-        title: "Smart Self-Healing Drone Propellers",
-        meta: "Filed · Team 2 · 23BDS1155 · Co-inventor: Saumyarup Guha",
+        title: "IBM – Advanced Generative AI",
+        meta: "IBM Career Education Program · Cognitive Class · July 2026",
+        badge: "Credential ID: CEGENAI1IN",
         blurb:
-          "Patent for a self-healing drone propeller system combining self-healing polymers (microcapsule crack repair), shape memory alloys (deformation recovery via heat), and on-blade damage sensors feeding a microcontroller that autonomously decides when and how to trigger healing — mid-flight, without landing. Reduces maintenance cost, eliminates manual repair for minor damage, and extends propeller operational life.",
+          "Official certification powered by IBM Developer Skills Network and IBM Technology Expert Labs (Country Manager Jagadisha Bhat). Validates mastery in Large Language Model (LLM) fine-tuning, prompt engineering, Retrieval-Augmented Generation (RAG), and production agent architectures. Associated credential code: khfIPYurf6 (Prolearn / Adroit Technologies).",
+        link: {
+          label: "Verify Official Certificate ↗",
+          href: "https://courses.ibmcep.cognitiveclass.ai/certificates/d3a570e88dc6474ba1f97f5321c5d887",
+        },
       },
     ],
   },
   {
-    title: "Leadership",
-    subtitle: "Teams, mentoring, and shipping clarity",
+    title: "Honors & Competitions",
+    subtitle: "National & Global Benchmarks",
+    items: [
+      {
+        title: "Amazon ML Challenge 2026",
+        meta: "Amazon · Sep 2026 · Team VIT",
+        badge: "AIR 698 · Score 0.9839",
+        blurb:
+          "Ranked 698 nationwide with a composite benchmark score of 0.983906 competing against premier engineering institutions across India. Built resilient multi-modal feature engineering, stacking ensembles, and deep neural regressors for large-scale prediction tasks.",
+        link: {
+          label: "LinkedIn Profile",
+          href: "https://www.linkedin.com/in/mr-divyanshu/",
+        },
+      },
+      {
+        title: "WorldQuant International Quant Championship (IQC) 2026",
+        meta: "WorldQuant · National Finalist · Mumbai",
+        badge: "AIR 6 · World 26",
+        blurb:
+          "Achieved All India Rank 6 and World Rank 26 out of 150,000+ teams globally representing VIT at the National Finals in Mumbai with Team Simpson's Paradox. Formulated statistical alphas, predictive signals, and mathematical models across global equity markets.",
+        link: {
+          label: "LinkedIn Post",
+          href: "https://www.linkedin.com/in/mr-divyanshu/",
+        },
+      },
+    ],
+  },
+  {
+    title: "Patents & Research",
+    subtitle: "Invention & Biomechanics R&D",
+    items: [
+      {
+        title: "Smart Self-Healing Drone Propellers",
+        meta: "Patent Filed · Application 23BDS1155 · Co-inventor: Saumyarup Guha",
+        badge: "Patent Filed",
+        blurb:
+          "Autonomous self-healing drone propeller system integrating microencapsulated healing polymers, shape-memory alloys (SMA) for thermal deformation recovery, and embedded piezoelectric crack-detection sensors connected to an onboard microcontroller that activates in-flight healing without landing.",
+      },
+      {
+        title: "AI Enabled Monocular Gait Analysis",
+        meta: "Capstone Research · VIT Chennai · Co-author: Debeshi Sen",
+        badge: "70.7% Balanced Acc",
+        blurb:
+          "Monocular clinical gait analysis pipeline for neurological disorders (Cerebral Palsy, Stroke, Myopathic, Normal). Integrates YOLOv8 + ByteTrack tracking, 147-D pelvic-scaled kinematic pose features, and 28-D RAFT dense optical flow into dilated Temporal Convolutional Networks (TCN) under strict video-grouped cross-validation. Supervised by Dr. Pavithra L K.",
+      },
+    ],
+  },
+  {
+    title: "Leadership & Hackathons",
+    subtitle: "Teams, Mentoring, and Execution",
     items: [
       {
         title: "Team Lead — VIT-ISH Hackathon 2025",
         meta: "NABHA Health · Smart India Hackathon qualifier",
+        badge: "SIH Qualifier",
         blurb:
-          "Led a six-person team through the full arc of SIH 2025 Problem Statement SIH25018 — from problem framing and architecture decisions to a live demo under competition conditions. Owned scope, split work across voice AI, wristband simulation, and multi-role interfaces, and kept the team aligned when the brief changed mid-build. The team qualified and presented at VIT-ISH 2025.",
+          "Led a six-person engineering team tackling SIH Problem Statement SIH25018. Architected voice-based medical triage, cellular-optimized health records, and offline-first sync. Selected as finalist and presented live under competition conditions at VIT-ISH 2025.",
         link: {
-          label: "LinkedIn post",
+          label: "LinkedIn Post",
           href: "https://www.linkedin.com/posts/mr-divyanshu_hackathon-vitish25-teamwork-ugcPost-7386713810969088000-SfbF/",
         },
       },
@@ -44,13 +99,14 @@ const experienceSections: ExperienceSection[] = [
   },
   {
     title: "Open Source",
-    subtitle: "Shipping in public",
+    subtitle: "Shipping in Public",
     items: [
       {
         title: "Node.js Core — PR #63491",
-        meta: "nodejs/node · Merged contribution",
+        meta: "nodejs/node · Merged Contribution",
+        badge: "Merged",
         blurb:
-          "Contributed to the Node.js core repository. The PR addresses an edge case in the runtime and was reviewed and merged by the Node.js core team. Working on a codebase used by millions of developers in production is a different kind of accountability — every line has to justify itself.",
+          "Contributed to Node.js core runtime repository. Resolved edge-case behavior in runtime internals; reviewed, approved, and merged into the main codebase by the Node.js core maintainers.",
         link: {
           label: "View on GitHub",
           href: "https://github.com/nodejs/node/pull/63491#issuecomment-4543021213",
@@ -59,14 +115,15 @@ const experienceSections: ExperienceSection[] = [
     ],
   },
   {
-    title: "Work Experience",
-    subtitle: "Projects & product engineering",
+    title: "Production Engineering",
+    subtitle: "Products & Systems Built",
     items: [
       {
-        title: "Full-stack & AI Engineering",
-        meta: "2024 — Present · Independent projects",
+        title: "Full-Stack & Applied Machine Learning",
+        meta: "2024 — Present · Independent & Capstone Systems",
+        badge: "7 Systems",
         blurb:
-          "Built and shipped end-to-end systems across transport aggregation (RideHub), rural healthcare AI (NABHA), document security (RBAC-DocEncryption), and ML forecasting (Walmart Sales). Each project ran from blank file to working product — API design, data modelling, frontend, and deployment.",
+          "Shipped end-to-end production systems across transport aggregation (RideHub), adaptive traffic infrastructure (Weather-Based Traffic Signal Model), blockchain security (RBAC-DocEncryption), and clinical biomechanics. Built with Next.js 15, FastAPI, PyTorch, and PostgreSQL.",
       },
     ],
   },
@@ -74,46 +131,55 @@ const experienceSections: ExperienceSection[] = [
 
 export function Experience() {
   return (
-    <section id="experience" className="py-32 md:py-44">
+    <section id="experience" className="py-20 sm:py-28 md:py-36">
       <div className="container-edge">
         <Reveal>
           <div className="flex items-baseline justify-between border-t border-ink-deep pt-6">
             <p className="eyebrow">[ Sec. 04 ] Experience</p>
             <p className="hidden text-[11px] uppercase tracking-[0.2em] opacity-60 md:block">
-              Selected highlights
+              Certifications · Patents · Leadership
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-10 md:mt-20 md:grid-cols-2">
+        <div className="mt-12 grid gap-6 sm:gap-8 sm:mt-16 md:grid-cols-2 lg:gap-10">
           {experienceSections.map((section, sectionIndex) => (
-            <Reveal key={section.title} delay={sectionIndex * 0.05}>
-              <div className="flex h-full flex-col rounded-none border border-border bg-surface/35 p-6 md:p-8">
-                <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                  {section.subtitle}
-                </p>
-                <p className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground">
+            <Reveal key={section.title} delay={sectionIndex * 0.04}>
+              <div className="flex h-full flex-col rounded-2xl border border-border bg-surface/35 p-5 sm:p-7 md:p-8 backdrop-blur-xs shadow-xs transition-colors hover:border-foreground/20">
+                <div className="flex items-center justify-between">
+                  <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-muted-foreground font-medium">
+                    {section.subtitle}
+                  </p>
+                </div>
+                <p className="mt-1.5 font-display text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
                   {section.title}
                 </p>
 
-                <ul className="mt-6 flex flex-col gap-5">
+                <ul className="mt-5 flex flex-col gap-4 sm:gap-5">
                   {section.items.map((item) => (
-                    <li key={item.title} className="border-t border-border pt-5">
-                      <p className="font-display text-lg font-medium tracking-tight text-foreground">
-                        {item.title}
-                      </p>
-                      <p className="mt-1 text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                    <li key={item.title} className="border-t border-border pt-4 sm:pt-5 first:border-t-0 first:pt-2">
+                      <div className="flex flex-wrap items-baseline justify-between gap-1.5">
+                        <p className="font-display text-base sm:text-lg font-medium tracking-tight text-foreground">
+                          {item.title}
+                        </p>
+                        {item.badge && (
+                          <span className="rounded-full border border-foreground/20 bg-background/80 px-2 py-0.5 text-[9px] sm:text-[10px] font-mono font-medium text-foreground">
+                            {item.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                         {item.meta}
                       </p>
-                      <p className="mt-3 text-[14px] leading-relaxed text-muted-foreground">
+                      <p className="mt-2 text-xs sm:text-[14px] leading-relaxed text-muted-foreground">
                         {item.blurb}
                       </p>
                       {item.link && (
                         <a
                           href={item.link.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="group mt-3 inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition-opacity hover:opacity-70"
+                          target={item.link.href.startsWith("http") ? "_blank" : undefined}
+                          rel={item.link.href.startsWith("http") ? "noreferrer" : undefined}
+                          className="group mt-2.5 inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition-opacity hover:opacity-70 active:scale-95"
                         >
                           {item.link.label}
                           <svg

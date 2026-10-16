@@ -1,9 +1,10 @@
 import { Reveal } from "./Reveal";
 
 import caseStudyImg from "@/assests/case-study.jpg";
-import ridehubImg from "@/assests/ridehub-img.jpg";
+import project1Img from "@/assests/project-1.jpg";
 import project2Img from "@/assests/project-2.jpg";
 import project3Img from "@/assests/project-3.jpg";
+import ridehubImg from "@/assests/ridehub-img.jpg";
 
 type Project = {
   num: string;
@@ -17,11 +18,27 @@ type Project = {
   github: string;
   image: string;
   side: "left" | "right";
+  note?: string;
 };
 
 const allProjectsList: Project[] = [
   {
     num: "01",
+    year: "2026",
+    tag: "Applied AI · Biomechanics R&D",
+    category: "ai",
+    name: "AI Enabled Monocular Gait Analysis",
+    summary:
+      "Clinical gait assessment system operating on standard single-camera video to evaluate neurological gait conditions (Cerebral Palsy, Stroke, Myopathic, Normal). Integrates YOLOv8 + ByteTrack tracking, 147-D pelvic-scaled kinematic pose features, and 28-D RAFT dense optical flow into dilated Temporal Convolutional Networks (TCN) reaching 70.7% balanced accuracy with SPARC smoothness profiling under strict video-grouped cross-validation.",
+    stack: ["PyTorch", "YOLOv8", "MediaPipe", "RAFT Optical Flow", "TCN"],
+    metric: { value: "70.7%", label: "Balanced Accuracy" },
+    github: "https://github.com/DivyanshuX9",
+    image: project1Img,
+    side: "left",
+    note: "Co-authored with Debeshi Sen (23BDS1055), guided by Dr. Pavithra L K, VIT Chennai",
+  },
+  {
+    num: "02",
     year: "2024 — 2025",
     tag: "Full-stack · Transport Aggregation",
     category: "swe",
@@ -30,54 +47,12 @@ const allProjectsList: Project[] = [
       "Unified ride aggregation platform combining five transport services — buses, cabs, metro, autos, and mixed routes — with real-road routing, booking history, and a FastAPI + PostgreSQL backend. Built to solve transport fragmentation in Indian cities.",
     stack: ["Next.js 15", "FastAPI", "PostgreSQL", "React Native"],
     metric: { value: "5×", label: "Transport services unified" },
-    github: "https://github.com/DivyanshuX9",
+    github: "https://github.com/DivyanshuX9/RideHub",
     image: ridehubImg,
-    side: "left",
-  },
-  {
-    num: "02",
-    year: "2025",
-    tag: "Security · Field Encryption",
-    category: "security",
-    name: "RBAC-DocEncryption",
-    summary:
-      "Blockchain-audited document security system with AES-256-GCM field-level encryption, SHA-256 tamper detection, and role-based selective decryption. Built for high-integrity document workflows requiring verifiable audit trails.",
-    stack: ["Python", "AES-256-GCM", "SHA-256", "Blockchain"],
-    metric: { value: "256-bit", label: "Field-level encryption" },
-    github: "https://github.com/DivyanshuX9/RBAC-DocEncryption",
-    image: project2Img,
     side: "right",
   },
   {
     num: "03",
-    year: "2025",
-    tag: "Healthcare · SIH 2025",
-    category: "ai",
-    name: "NABHA Health",
-    summary:
-      "Telemedicine platform for rural India built for Smart India Hackathon 2025. Voice-based AI intake via Twilio + Bolna, adaptive wristband health monitoring, doctor & pharmacy portals, and offline-first data sync.",
-    stack: ["React", "FastAPI", "Twilio", "Bolna AI", "Gemini API"],
-    metric: { value: "173", label: "Villages served (target)" },
-    github: "https://github.com/DivyanshuX9",
-    image: project3Img,
-    side: "left",
-  },
-  {
-    num: "04",
-    year: "2025",
-    tag: "Data Science · ML Forecasting",
-    category: "ds",
-    name: "Walmart Sales Prediction",
-    summary:
-      "Stacking regressor pipeline combining XGBoost and Random Forest with custom feature engineering and EDA. Achieved R² of 0.965 and strong MAE reduction over a linear baseline across seasonal segments.",
-    stack: ["Python", "XGBoost", "Random Forest", "Scikit-learn", "Pandas"],
-    metric: { value: "0.965", label: "R² score" },
-    github: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-    side: "right",
-  },
-  {
-    num: "05",
     year: "2025 — 2026",
     tag: "Computer Vision · Weather-Adaptive AI",
     category: "ds",
@@ -91,7 +66,49 @@ const allProjectsList: Project[] = [
     side: "left",
   },
   {
+    num: "04",
+    year: "2025",
+    tag: "Security · Field Encryption",
+    category: "security",
+    name: "RBAC-DocEncryption",
+    summary:
+      "Blockchain-audited document security system with AES-256-GCM field-level encryption, SHA-256 tamper detection, and role-based selective decryption. Built for high-integrity document workflows requiring verifiable audit trails.",
+    stack: ["Python", "AES-256-GCM", "SHA-256", "Blockchain"],
+    metric: { value: "256-bit", label: "Field-level encryption" },
+    github: "https://github.com/DivyanshuX9/RBAC-DocEncryption",
+    image: project2Img,
+    side: "right",
+  },
+  {
+    num: "05",
+    year: "2025",
+    tag: "Healthcare · SIH 2025",
+    category: "ai",
+    name: "NABHA Health",
+    summary:
+      "Telemedicine platform for rural India built for Smart India Hackathon 2025. Voice-based AI intake via Twilio + Bolna, adaptive wristband health monitoring, doctor & pharmacy portals, and offline-first data sync.",
+    stack: ["React", "FastAPI", "Twilio", "Bolna AI", "Gemini API"],
+    metric: { value: "173", label: "Villages served (target)" },
+    github: "https://github.com/DivyanshuX9",
+    image: project3Img,
+    side: "left",
+  },
+  {
     num: "06",
+    year: "2025",
+    tag: "Data Science · ML Forecasting",
+    category: "ds",
+    name: "Walmart Sales Prediction",
+    summary:
+      "Stacking regressor pipeline combining XGBoost and Random Forest with custom feature engineering and EDA. Achieved R² of 0.965 and strong MAE reduction over a linear baseline across seasonal segments.",
+    stack: ["Python", "XGBoost", "Random Forest", "Scikit-learn", "Pandas"],
+    metric: { value: "0.965", label: "R² score" },
+    github: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    side: "right",
+  },
+  {
+    num: "07",
     year: "2025",
     tag: "Applied AI · Voice + RAG",
     category: "ai",
@@ -102,7 +119,7 @@ const allProjectsList: Project[] = [
     metric: { value: "RAG", label: "Retrieval-augmented" },
     github: "https://github.com/DivyanshuX9",
     image: caseStudyImg,
-    side: "right",
+    side: "left",
   },
 ];
 
@@ -113,7 +130,7 @@ function ProjectCard({ project }: { project: Project }) {
       {/* Background Watermark Number */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute -top-12 select-none font-display text-[9rem] font-bold leading-none text-surface opacity-60 md:-top-24 md:text-[13rem] ${
+        className={`pointer-events-none absolute -top-8 select-none font-display text-[7rem] font-bold leading-none text-surface opacity-40 sm:-top-12 sm:text-[9rem] md:-top-24 md:text-[13rem] ${
           isLeft ? "left-0" : "right-0"
         }`}
       >
@@ -126,8 +143,8 @@ function ProjectCard({ project }: { project: Project }) {
         }`}
       >
         <Reveal delay={0.05} className="relative z-20 w-full max-w-4xl">
-          <div className="group overflow-hidden rounded-2xl border border-border bg-background/90 p-6 md:p-8 backdrop-blur-md shadow-sm transition-all duration-500 hover:border-foreground/30 hover:shadow-xl">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8 lg:items-center">
+          <div className="group overflow-hidden rounded-2xl border border-border bg-background/90 p-5 sm:p-6 md:p-8 backdrop-blur-md shadow-sm transition-all duration-500 hover:border-foreground/30 hover:shadow-xl">
+            <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-12 lg:gap-8 lg:items-center">
               {/* Image Preview Banner */}
               <div
                 className={`overflow-hidden rounded-xl border border-border/70 bg-surface/50 lg:col-span-5 ${
@@ -137,7 +154,7 @@ function ProjectCard({ project }: { project: Project }) {
                 <img
                   src={project.image}
                   alt={`${project.name} preview`}
-                  className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="h-44 sm:h-52 w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
@@ -150,39 +167,45 @@ function ProjectCard({ project }: { project: Project }) {
               >
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
+                    <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
                       {project.year} · {project.tag}
                     </span>
-                    <span className="rounded-full border border-border/80 bg-surface/50 px-2.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-foreground">
+                    <span className="rounded-full border border-border/80 bg-surface/50 px-2 py-0.5 text-[9px] sm:text-[10px] uppercase tracking-[0.14em] text-foreground font-mono">
                       #{project.num}
                     </span>
                   </div>
 
-                  <h3 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl lg:text-4xl">
+                  <h3 className="mt-1.5 sm:mt-2 font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl md:text-3xl">
                     {project.name}
                   </h3>
 
-                  <p className="mt-3 text-[14px] leading-relaxed text-foreground/80 md:text-[15px]">
+                  <p className="mt-2.5 sm:mt-3 text-xs leading-relaxed text-foreground/80 sm:text-[14px] md:text-[15px]">
                     {project.summary}
                   </p>
+
+                  {project.note && (
+                    <p className="mt-2 text-[11px] italic text-muted-foreground">
+                      {project.note}
+                    </p>
+                  )}
                 </div>
 
-                <div className="mt-6 border-t border-border/80 pt-4">
-                  <div className="flex flex-wrap items-end justify-between gap-4">
+                <div className="mt-5 border-t border-border/80 pt-4">
+                  <div className="flex flex-wrap items-end justify-between gap-3 sm:gap-4">
                     <div>
-                      <p className="font-display text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+                      <p className="font-display text-xl sm:text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
                         {project.metric.value}
                       </p>
-                      <p className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      <p className="mt-0.5 text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                         {project.metric.label}
                       </p>
                     </div>
 
-                    <ul className="flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.16em]">
+                    <ul className="flex flex-wrap gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] uppercase tracking-[0.14em]">
                       {project.stack.map((t) => (
                         <li
                           key={t}
-                          className="rounded-md border border-border/80 bg-surface/40 px-2 py-1 text-foreground/75"
+                          className="rounded-md border border-border/80 bg-surface/40 px-2 py-0.5 sm:py-1 text-foreground/75"
                         >
                           {t}
                         </li>
@@ -190,16 +213,16 @@ function ProjectCard({ project }: { project: Project }) {
                     </ul>
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between border-t border-border/40 pt-3">
+                  <div className="mt-3.5 flex items-center justify-between border-t border-border/40 pt-3">
                     <a
                       href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground transition-colors hover:text-blue-500"
+                      target={project.github.startsWith("http") ? "_blank" : undefined}
+                      rel={project.github.startsWith("http") ? "noreferrer" : undefined}
+                      className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition-colors hover:text-blue-500 active:scale-95"
                     >
-                      View Code on GitHub
+                      <span>View Code / Project</span>
                       <svg
-                        className="size-3.5 transition-transform group-hover:translate-x-1"
+                        className="size-3 transition-transform group-hover:translate-x-1"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -226,8 +249,8 @@ export function SelectedWork({ activeFilter = "all" }: { activeFilter?: string }
   });
 
   return (
-    <section id="work" className="relative pt-12 pb-24">
-      <div className="relative space-y-16 md:space-y-24">
+    <section id="work" className="relative pt-8 sm:pt-12 pb-20 sm:pb-24">
+      <div className="relative space-y-12 sm:space-y-16 md:space-y-24">
         {filteredProjects.map((p) => (
           <ProjectCard key={p.num} project={p} />
         ))}

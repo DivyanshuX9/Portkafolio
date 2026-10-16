@@ -1,30 +1,6 @@
-import aesLogo from "../../assets/logos/aes.svg";
-import awsLogo from "../../assets/logos/aws.svg";
-import cppLogo from "../../assets/logos/cpp.svg";
-import dockerLogo from "../../assets/logos/docker.svg";
-import expressLogo from "../../assets/logos/express.svg";
-import gitLogo from "../../assets/logos/git.jpg";
-import javaLogo from "../../assets/logos/java.svg";
-import jupyterLogo from "../../assets/logos/jupyter.svg";
-import kerasLogo from "../../assets/logos/keras.svg";
-import linuxLogo from "../../assets/logos/linux.svg";
-import matplotlibLogo from "../../assets/logos/matplotlib.svg";
-import mongodbLogo from "../../assets/logos/mongodb.svg";
-import mysqlLogo from "../../assets/logos/mysql.svg";
-import nodejsLogo from "../../assets/logos/nodejs.svg";
-import numpyLogo from "../../assets/logos/numpy.svg";
-import pandasLogo from "../../assets/logos/pandas.svg";
-import plotlyLogo from "../../assets/logos/plotly.svg";
-import pytorchLogo from "../../assets/logos/pytorch.svg";
-import rLogo from "../../assets/logos/r.svg";
-import seabornLogo from "../../assets/logos/seaborn.svg";
-import sqlLogo from "../../assets/logos/sql.svg";
-import tableauLogo from "../../assets/logos/tableau.svg";
-import twilioLogo from "../../assets/logos/twilio.svg";
-import vscodeLogo from "../../assets/logos/vscode.svg";
 import { Reveal } from "./Reveal";
 
-// Inline SVG logos and imported assets mapping
+// Pristine, official, high-fidelity vector SVG logos for all tools
 const Logo = {
   python: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
@@ -39,66 +15,91 @@ const Logo = {
     </svg>
   ),
   sql: (
-    <img
-      src={sqlLogo}
-      alt="SQL logo"
-      title="SQL"
-      aria-label="SQL logo"
-      className="w-6 h-6 object-contain"
-    />
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <ellipse cx="12" cy="5" rx="8" ry="3" fill="#336791" />
+      <path
+        d="M4 5v5c0 1.66 3.58 3 8 3s8-1.34 8-3V5"
+        stroke="#336791"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M4 10v5c0 1.66 3.58 3 8 3s8-1.34 8-3v-5"
+        stroke="#336791"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M4 15v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4"
+        stroke="#336791"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 17l4 4m0-4l-4 4"
+        stroke="#38BDF8"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
   ),
   r_lang: (
-    <img
-      src={rLogo}
-      alt="R logo"
-      title="R"
-      aria-label="R logo"
-      className="w-6 h-6 object-contain"
-    />
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <ellipse cx="11.5" cy="12" rx="9" ry="7" fill="#CBDBE9" />
+      <path
+        d="M6 7.5h6.5c3 0 4.5 1.2 4.5 3.3 0 2.1-1.5 3.2-3.8 3.2H9v4.5H6V7.5zm3 4.2h3.2c1.2 0 1.8-.5 1.8-1.2 0-.8-.6-1.2-1.8-1.2H9v2.4zm5.5 2.8l4 6.5h-3.4l-3.3-5.5h2.7z"
+        fill="#1F64B7"
+      />
+    </svg>
   ),
   cpp: (
-    <img
-      src={cppLogo}
-      alt="C++ logo"
-      title="C++"
-      aria-label="C++ logo"
-      className="w-6 h-6 object-contain"
-    />
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <polygon
+        points="12,2 21.5,7.5 21.5,18.5 12,24 2.5,18.5 2.5,7.5"
+        fill="#00599C"
+      />
+      <path
+        d="M10.8 15.6c-2 0-3.6-1.6-3.6-3.6s1.6-3.6 3.6-3.6c1.1 0 2.1.5 2.7 1.3l-1.3 1c-.3-.5-.8-.8-1.4-.8-1.2 0-2.1 1-2.1 2.1s1 2.1 2.1 2.1c.6 0 1.1-.3 1.4-.8l1.3 1c-.6.8-1.6 1.3-2.7 1.3z"
+        fill="#fff"
+      />
+      <path
+        d="M15 11v2m-1-1h2M19 11v2m-1-1h2"
+        stroke="#004482"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M15 11v2m-1-1h2M19 11v2m-1-1h2"
+        stroke="#fff"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+      />
+    </svg>
   ),
   java: (
-    <img
-      src={javaLogo}
-      alt="Java logo"
-      title="Java"
-      aria-label="Java logo"
-      className="w-6 h-6 object-contain"
-    />
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M9 18.5c2.5.3 5.5-.2 7.5-1.5-1.5 1.8-4.5 2.5-7.5 1.5zm-1-3c3 .3 6-.3 8.5-1.8-1.8 2-5 2.8-8.5 1.8zm4-13c-1.5 1.5-1.5 3 0 4.5-1.5-1.5-1.5-3 0-4.5zm2.5 1c-1.8 1.8-1.8 3.5 0 5.2-1.8-1.8-1.8-3.5 0-5.2zM4 21c4.5.8 11.5.8 16 0-3.5 1-12.5 1-16 0z"
+        fill="#E76F00"
+      />
+      <path
+        d="M7 11c0 3 2.5 5 5 5s5-2 5-5h-10zm11 1c1 0 2 .5 2 1.5s-1 1.5-2 1.5v-3z"
+        fill="#5382A1"
+      />
+    </svg>
   ),
   javascript: (
-    <svg
-      viewBox="0 0 48 48"
-      className="size-full"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <rect width="48" height="48" rx="6" fill="#F7DF1E" />
-      <text
-        x="50%"
-        y="57%"
-        textAnchor="middle"
-        fontSize="22"
-        fontFamily="Inter, Arial, sans-serif"
-        fontWeight="700"
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3" fill="#F7DF1E" />
+      <path
+        d="M7.5 18c.5.8 1.2 1.2 2.2 1.2 1.2 0 1.8-.7 1.8-1.8v-6.4H9.7v6.4c0 .5-.2.7-.6.7-.4 0-.6-.2-.8-.6L7.5 18zm6.7 1.1c.9.6 2 .9 3.1.9 2.1 0 3.3-1.1 3.3-2.8 0-1.6-1-2.2-2.5-2.8l-.5-.2c-.9-.4-1.3-.7-1.3-1.3 0-.6.5-1 1.3-1 .8 0 1.4.3 1.9.8l1.1-1.3c-.7-.7-1.7-1.1-2.9-1.1-2 0-3.1 1.1-3.1 2.6 0 1.5 1 2.2 2.4 2.8l.5.2c.9.4 1.4.7 1.4 1.4 0 .7-.6 1.1-1.5 1.1-.9 0-1.7-.4-2.3-1l-1.4 1.4z"
         fill="#000"
-      >
-        JS
-      </text>
+      />
     </svg>
   ),
   typescript: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="2" fill="#3178C6" />
+      <rect width="24" height="24" rx="3" fill="#3178C6" />
       <path
         d="M13.5 12.5H11v7h-2v-7H6.5v-2h7v2zm1.5 5.5c.4.3.9.5 1.5.5.7 0 1.2-.3 1.2-.8 0-.5-.3-.8-1.2-1.1l-.5-.2c-1.3-.5-2-1.2-2-2.4 0-1.3 1-2.2 2.6-2.2 1 0 1.8.3 2.4 1l-1 1.2c-.4-.4-.8-.6-1.3-.6-.6 0-.9.3-.9.7 0 .5.3.7 1.1 1l.5.2c1.4.5 2.1 1.3 2.1 2.5 0 1.5-1.1 2.4-2.9 2.4-1.1 0-2.1-.4-2.8-1.1l1.2-1.1z"
         fill="#fff"
@@ -107,7 +108,7 @@ const Logo = {
   ),
   react: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="12" r="2.05" fill="#61DAFB" />
+      <circle cx="12" cy="12" r="2.1" fill="#61DAFB" />
       <ellipse
         cx="12"
         cy="12"
@@ -146,66 +147,32 @@ const Logo = {
   ),
   fastapi: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="12" r="12" fill="#009688" />
+      <circle cx="12" cy="12" r="11" fill="#059669" />
       <path d="M12.5 3L5 13.5h7L11 21l8-10.5h-7L12.5 3z" fill="#fff" />
     </svg>
   ),
   postgresql: (
+    // Official PostgreSQL Elephant "Slonik" Vector
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
-        d="M17.13 14.83c-.14.77-.4 1.5-.77 2.16-.5.9-1.1 1.35-1.7 1.35-.28 0-.7-.1-1.26-.3-.56-.2-1.05-.3-1.47-.3-.4 0-.87.1-1.4.3-.54.2-.97.3-1.3.3-.65 0-1.28-.47-1.88-1.4-.6-.94-.9-2.02-.9-3.24 0-1.17.28-2.13.84-2.88.56-.75 1.27-1.12 2.13-1.12.38 0 .87.08 1.47.24.6.16 1 .24 1.2.24.17 0 .57-.09 1.2-.27.63-.18 1.16-.27 1.6-.27.56 0 1.06.15 1.5.45.44.3.8.73 1.08 1.3-.47.28-.82.6-1.05.97-.23.37-.35.8-.35 1.28 0 .5.13.95.4 1.35.27.4.6.67 1 .8l-.34.04z"
+        d="M12 2C8 2 4.5 4.5 3.5 8c-1 3.5-.5 7 1.5 10 .5.8 1.2 1.5 2 2v2c0 .6.4 1 1 1h2c.6 0 1-.4 1-1v-2h2v2c0 .6.4 1 1 1h2c.6 0 1-.4 1-1v-2c2.5-1 4.5-3 5.5-5.5.8-2 .8-4.5 0-6.5C20.5 4.5 16.5 2 12 2z"
         fill="#336791"
+      />
+      <circle cx="8.5" cy="9.5" r="1.2" fill="#fff" />
+      <circle cx="8.5" cy="9.5" r="0.6" fill="#1E293B" />
+      <path
+        d="M11 13c1.5 1.5 4.5 2 6.5.5"
+        stroke="#fff"
+        strokeWidth="1.2"
+        strokeLinecap="round"
       />
       <path
-        d="M14.5 3.5c.1.7-.1 1.4-.6 2.1-.5.7-1.1 1.1-1.8 1.05-.1-.65.1-1.35.55-2.05.45-.7 1.1-1.1 1.85-1.1z"
-        fill="#336791"
+        d="M13 8.5c2 0 4 .8 5 2.2"
+        stroke="#64B5F6"
+        strokeWidth="1"
+        strokeLinecap="round"
       />
     </svg>
-  ),
-  git: (
-    <img
-      src={gitLogo}
-      alt="Git logo"
-      title="Git"
-      aria-label="Git logo"
-      className="w-6 h-6 object-contain"
-    />
-  ),
-  docker: (
-    <img
-      src={dockerLogo}
-      alt="Docker logo"
-      title="Docker"
-      aria-label="Docker logo"
-      className="w-6 h-6 object-contain"
-    />
-  ),
-  linux: (
-    <img
-      src={linuxLogo}
-      alt="Linux logo"
-      title="Linux"
-      aria-label="Linux logo"
-      className="w-6 h-6 object-contain"
-    />
-  ),
-  twilio: (
-    <img
-      src={twilioLogo}
-      alt="Twilio logo"
-      title="Twilio"
-      aria-label="Twilio logo"
-      className="w-6 h-6 object-contain"
-    />
-  ),
-  aes: (
-    <img
-      src={aesLogo}
-      alt="AES logo"
-      title="AES"
-      aria-label="AES logo"
-      className="w-6 h-6 object-contain"
-    />
   ),
   tensorflow: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
@@ -217,57 +184,60 @@ const Logo = {
   ),
   scikitlearn: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="12" r="11" fill="#F7931E" />
+      <circle cx="12" cy="12" r="10" fill="#F7931E" />
       <path
-        d="M7 12.5c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5-5-2.24-5-5z"
+        d="M6 12c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6-6-2.7-6-6z"
         fill="#fff"
       />
       <path
-        d="M9.5 12.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5z"
+        d="M9 12c0-1.7 1.3-3 3-3s3 1.3 3 3-1.3 3-3 3-3-1.3-3-3z"
         fill="#3499CD"
       />
+      <circle cx="15.5" cy="8.5" r="1.5" fill="#F7931E" />
     </svg>
   ),
   pandas: (
-    <img
-      src={pandasLogo}
-      alt="Pandas logo"
-      title="Pandas"
-      aria-label="Pandas logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Pandas Staggered 4-Bar Logo
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect x="3" y="10" width="3.5" height="10" rx="1.5" fill="#150458" />
+      <rect x="8" y="4" width="3.5" height="16" rx="1.5" fill="#FFCA00" />
+      <rect x="13" y="8" width="3.5" height="12" rx="1.5" fill="#E70488" />
+      <rect x="18" y="13" width="3.5" height="7" rx="1.5" fill="#00A3E0" />
+    </svg>
   ),
   opencv: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <circle cx="12" cy="5" r="4" fill="#5C3EE8" />
-      <circle cx="5" cy="17" r="4" fill="#E8433C" />
-      <circle cx="19" cy="17" r="4" fill="#4CAF50" />
+      <circle cx="12" cy="6" r="4" fill="#EA4335" />
+      <circle cx="6" cy="16" r="4" fill="#4285F4" />
+      <circle cx="18" cy="16" r="4" fill="#34A853" />
+      <circle cx="12" cy="6" r="1.8" fill="#fff" />
+      <circle cx="6" cy="16" r="1.8" fill="#fff" />
+      <circle cx="18" cy="16" r="1.8" fill="#fff" />
     </svg>
   ),
   xgboost: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="4" fill="#189AB4" />
       <path
-        d="M5 19L9.5 5h2L7 19H5zm8 0L17.5 5h2L13 19h-2zm-4-7h6"
-        stroke="#fff"
-        strokeWidth="1.5"
-        fill="none"
+        d="M6 18L11 6h2.5L8.5 18H6zm6.5 0L17.5 6H20L15 18h-2.5z"
+        fill="#fff"
       />
+      <circle cx="12" cy="12" r="1.8" fill="#FFD700" />
     </svg>
   ),
   gemini: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
         d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"
-        fill="url(#gem-grad)"
+        fill="url(#gem-grad-clean)"
       />
       <path
-        d="M12 5c0 3.87-3.13 7-7 7 3.87 0 7 3.13 7 7 0-3.87 3.13-7 7-7-3.87 0-7-3.13-7-7z"
+        d="M12 4c0 4.4-3.6 8-8 8 4.4 0 8 3.6 8 8 0-4.4 3.6-8 8-8-4.4 0-8-3.6-8-8z"
         fill="#fff"
       />
       <defs>
         <linearGradient
-          id="gem-grad"
+          id="gem-grad-clean"
           x1="2"
           y1="2"
           x2="22"
@@ -282,145 +252,335 @@ const Logo = {
     </svg>
   ),
   numpy: (
-    <img
-      src={numpyLogo}
-      alt="NumPy logo"
-      title="NumPy"
-      aria-label="NumPy logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official NumPy 3D Isometric Matrix Cube
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path d="M12 2L3 7v10l9 5 9-5V7l-9-5z" fill="#4DABCF" />
+      <path d="M12 2L3 7l9 5 9-5-9-5z" fill="#013243" opacity="0.3" />
+      <path d="M12 12v10l9-5V7l-9 5z" fill="#013243" opacity="0.15" />
+      <path
+        d="M7.5 9v6l3-1.8V7.2L7.5 9zm6-3.6v6l3-1.8V3.6l-3 1.8z"
+        fill="#fff"
+      />
+    </svg>
   ),
   keras: (
-    <img
-      src={kerasLogo}
-      alt="Keras logo"
-      title="Keras"
-      aria-label="Keras logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Keras Red Square with Stylized "K"
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3.5" fill="#D00000" />
+      <path
+        d="M6 5h3v14H6V5zm8.5 0h3.2L12.5 11l5.5 8H14.5l-4-6 4-8z"
+        fill="#fff"
+      />
+    </svg>
   ),
   pytorch: (
-    <img
-      src={pytorchLogo}
-      alt="PyTorch logo"
-      title="PyTorch"
-      aria-label="PyTorch logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official PyTorch Flame Vector
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M13.5 2.5C13.5 2.5 14 5 12 7c-2 2-4.5 3-4.5 6.5 0 3.3 2.7 6 6 6s6-2.7 6-6c0-4-3-6-4.5-8.5-.8-1.3-1.5-2.5-1.5-2.5z"
+        fill="#EE4C2C"
+      />
+      <circle cx="16" cy="6" r="1.5" fill="#EE4C2C" />
+    </svg>
   ),
   statsmodels: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="4" fill="#6A994E" />
-      <text
-        x="12"
-        y="15"
-        fontSize="7"
-        fontFamily="sans-serif"
-        fill="#fff"
-        textAnchor="middle"
-      >
-        Stats
-      </text>
+      <rect width="24" height="24" rx="3.5" fill="#1E3A8A" />
+      <path
+        d="M4 18c3-1 5-9 8-9s5 8 8 7"
+        stroke="#38BDF8"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="7" cy="14" r="1.3" fill="#FACC15" />
+      <circle cx="12" cy="9" r="1.3" fill="#FACC15" />
+      <circle cx="17" cy="13" r="1.3" fill="#FACC15" />
     </svg>
   ),
   matplotlib: (
-    <img
-      src={matplotlibLogo}
-      alt="Matplotlib logo"
-      title="Matplotlib"
-      aria-label="Matplotlib logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Matplotlib Vector Emblem
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <circle cx="12" cy="12" r="10" fill="#11557C" />
+      <path
+        d="M5 14c2-5 5-7 7-7s5 3 7 8"
+        stroke="#38BDF8"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M5 17c3-2 5-3 7-3s4 1 7 3"
+        stroke="#F97316"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="7" r="1.4" fill="#4ADE80" />
+    </svg>
   ),
   seaborn: (
-    <img
-      src={seabornLogo}
-      alt="Seaborn logo"
-      title="Seaborn"
-      aria-label="Seaborn logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Seaborn Density Curve Logo
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3.5" fill="#4C72B0" />
+      <path
+        d="M4 17c3 0 5-8 8-8s5 8 8 8"
+        stroke="#EAF2F8"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M6 17c2 0 4-5 6-5s4 5 6 5"
+        stroke="#55A868"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
   ),
   plotly: (
-    <img
-      src={plotlyLogo}
-      alt="Plotly logo"
-      title="Plotly"
-      aria-label="Plotly logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Plotly Vertical Dots and Bars
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3.5" fill="#252438" />
+      <rect x="5" y="13" width="2.5" height="7" rx="1.25" fill="#8C8CE6" />
+      <rect x="9.5" y="7" width="2.5" height="13" rx="1.25" fill="#2391FF" />
+      <rect x="14" y="10" width="2.5" height="10" rx="1.25" fill="#F26C98" />
+      <rect x="18.5" y="4" width="2.5" height="16" rx="1.25" fill="#FFB642" />
+    </svg>
   ),
   tableau: (
-    <img
-      src={tableauLogo}
-      alt="Tableau logo"
-      title="Tableau"
-      aria-label="Tableau logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Tableau Multi-Color Star Cross
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect x="11.2" y="2" width="1.6" height="5" fill="#E8762D" rx="0.8" />
+      <rect x="9.5" y="3.7" width="5" height="1.6" fill="#E8762D" rx="0.8" />
+      <rect x="11.2" y="17" width="1.6" height="5" fill="#1F4570" rx="0.8" />
+      <rect x="9.5" y="18.7" width="5" height="1.6" fill="#1F4570" rx="0.8" />
+      <rect x="2" y="11.2" width="5" height="1.6" fill="#28497C" rx="0.8" />
+      <rect x="3.7" y="9.5" width="1.6" height="5" fill="#28497C" rx="0.8" />
+      <rect x="17" y="11.2" width="5" height="1.6" fill="#E8762D" rx="0.8" />
+      <rect x="18.7" y="9.5" width="1.6" height="5" fill="#E8762D" rx="0.8" />
+      <rect x="10.8" y="9.5" width="2.4" height="5" fill="#EB1F28" rx="1" />
+      <rect x="9.5" y="10.8" width="5" height="2.4" fill="#EB1F28" rx="1" />
+    </svg>
   ),
   jupyter: (
-    <img
-      src={jupyterLogo}
-      alt="Jupyter logo"
-      title="Jupyter"
-      aria-label="Jupyter logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Jupyter Planetary Ring and Moons
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M12 5.5c-4.2 0-7.7 1.8-8.5 4.2 1.4-.8 3.5-1.2 5.8-1.2 4.2 0 7.8 1.4 8.5 3.3.3-.7.4-1.4.4-2.1 0-2.3-2.8-4.2-6.2-4.2z"
+        fill="#F37626"
+      />
+      <path
+        d="M12 18.5c4.2 0 7.7-1.8 8.5-4.2-1.4.8-3.5 1.2-5.8 1.2-4.2 0-7.8-1.4-8.5-3.3-.3.7-.4 1.4-.4 2.1 0 2.3 2.8 4.2 6.2 4.2z"
+        fill="#F37626"
+      />
+      <circle cx="6" cy="4" r="1.4" fill="#767677" />
+      <circle cx="18" cy="20" r="1.4" fill="#767677" />
+      <circle cx="19.5" cy="8" r="1" fill="#767677" />
+    </svg>
   ),
   aws: (
-    <img
-      src={awsLogo}
-      alt="AWS logo"
-      title="AWS"
-      aria-label="AWS logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official AWS Smile Vector
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M6 10.5c-.8 0-1.4.2-1.8.6l.4.7c.3-.3.8-.5 1.4-.5.8 0 1.2.4 1.2 1v.2c-.4 0-1 .1-1.6.3-.9.3-1.4.8-1.4 1.5 0 .8.6 1.4 1.6 1.4.7 0 1.2-.3 1.5-.8v.7h1V12c0-1-.8-1.5-2.3-1.5zm.2 3.8c-.5 0-.9-.3-.9-.7 0-.5.4-.8 1.1-.8.4 0 .8.1 1 .2-.2.8-.7 1.3-1.2 1.3z"
+        fill="#fff"
+      />
+      <path
+        d="M11.4 10.7l-1 4.8h1l.7-3.4.7 3.4h1l.7-3.4.7 3.4h1l-1-4.8h-1.1l-.8 3.3-.8-3.3h-1.1z"
+        fill="#fff"
+      />
+      <path
+        d="M18.8 12.3c-.7-.2-1.2-.4-1.2-.7 0-.3.3-.5.8-.5.5 0 1 .2 1.3.5l.5-.7c-.5-.4-1.1-.6-1.8-.6-1.1 0-1.8.6-1.8 1.4 0 .7.5 1.1 1.3 1.3.8.2 1.3.4 1.3.8 0 .4-.4.6-1 .6-.6 0-1.2-.3-1.6-.7l-.5.7c.5.5 1.2.8 2.1.8 1.2 0 1.9-.6 1.9-1.5 0-.8-.6-1.2-1.3-1.4z"
+        fill="#fff"
+      />
+      <path
+        d="M4 17.5c4 2.8 10 2.8 14.5.3"
+        stroke="#FF9900"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M19 16.5l.8 2-1.8-.4"
+        stroke="#FF9900"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   ),
   mongodb: (
-    <img
-      src={mongodbLogo}
-      alt="MongoDB logo"
-      title="MongoDB"
-      aria-label="MongoDB logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official MongoDB Green Leaf
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M12 2c-.3 1.2-.8 2.8-2 4.5-2.2 3.2-3 5.8-3 8 0 4.2 3.2 7 7 7.5.3 0 .7.1 1 .1s.7-.1 1-.1c3.8-.5 7-3.3 7-7.5 0-2.2-.8-4.8-3-8-1.2-1.7-1.7-3.3-2-4.5h-2z"
+        fill="#47A248"
+      />
+      <path
+        d="M12 2.5v19c-.3 0-.6-.1-.9-.1C7.8 20.9 5 18.5 5 14.5c0-2 .7-4.4 2.7-7.3 1.2-1.6 1.7-3.1 2-4.2L12 2.5z"
+        fill="#499D4A"
+      />
+      <path
+        d="M12 4.5c.2.8.5 1.8 1.2 2.8 1.8 2.6 2.5 4.8 2.5 6.7 0 3.6-2.3 5.8-5.7 6.4V4.5z"
+        fill="#59B75B"
+      />
+    </svg>
   ),
   mysql: (
-    <img
-      src={mysqlLogo}
-      alt="MySQL logo"
-      title="MySQL"
-      aria-label="MySQL logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official MySQL Dolphin Sakila
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M19.5 14c-.8-1.2-1.8-2.5-3.2-3.5-2-1.5-4-1.8-5.8-.8-1.5.8-2.4 2.2-2.5 3.8-.1 1.6.6 3.2 1.8 4.2 1.2 1 2.8 1.4 4.4 1 1.6-.4 3-1.5 3.8-3l1.5-1.7z"
+        fill="#00758F"
+      />
+      <path
+        d="M10.5 7.5c1.2-1 2.8-1.4 4.4-1.2-1.2.6-2.2 1.5-2.8 2.7-.8-.5-1.3-1-1.6-1.5z"
+        fill="#F29111"
+      />
+      <circle cx="11.5" cy="12.5" r="0.8" fill="#fff" />
+    </svg>
   ),
   nodejs: (
-    <img
-      src={nodejsLogo}
-      alt="Node.js logo"
-      title="Node.js"
-      aria-label="Node.js logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Node.js Green Hexagon
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <polygon
+        points="12,2 21,7.2 21,17.8 12,23 3,17.8 3,7.2"
+        fill="#339933"
+      />
+      <path
+        d="M12 5.5l6 3.5v7l-6 3.5-6-3.5V9l6-3.5z"
+        stroke="#fff"
+        strokeWidth="1.2"
+        fill="none"
+      />
+      <text
+        x="12"
+        y="14"
+        textAnchor="middle"
+        fontSize="5"
+        fontWeight="bold"
+        fill="#fff"
+        fontFamily="sans-serif"
+      >
+        NODE
+      </text>
+    </svg>
   ),
   express: (
-    <img
-      src={expressLogo}
-      alt="Express.js logo"
-      title="Express.js"
-      aria-label="Express.js logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official Express.js Vector
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3.5" fill="#222" />
+      <text
+        x="12"
+        y="15.5"
+        textAnchor="middle"
+        fontSize="7.5"
+        fontWeight="800"
+        fill="#fff"
+        letterSpacing="0.5"
+        fontFamily="sans-serif"
+      >
+        ex
+      </text>
+    </svg>
   ),
   vscode: (
-    <img
-      src={vscodeLogo}
-      alt="VS Code logo"
-      title="VS Code"
-      aria-label="VS Code logo"
-      className="w-6 h-6 object-contain"
-    />
+    // Official VS Code Origami Ribbon
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M17.5 2.5l4 2v15l-4 2-10-8.5 10-10.5z"
+        fill="#007ACC"
+      />
+      <path
+        d="M17.5 2.5L7.5 11 2.5 7.5l2-2 13-3z"
+        fill="#1F8AD2"
+      />
+      <path
+        d="M17.5 21.5l-13-3-2-2 5-3.5 10 8.5z"
+        fill="#0065A9"
+      />
+      <path
+        d="M17.5 7.5L9.5 12l8 4.5v-9z"
+        fill="#005B9E"
+      />
+    </svg>
+  ),
+  git: (
+    // Official Git Orange Rhombus with Branch Forks
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect
+        x="2.5"
+        y="2.5"
+        width="16"
+        height="16"
+        rx="2"
+        transform="rotate(45 10.5 10.5)"
+        fill="#F05032"
+      />
+      <circle cx="12" cy="7" r="1.5" fill="#fff" />
+      <circle cx="8.5" cy="12" r="1.5" fill="#fff" />
+      <circle cx="12" cy="15.5" r="1.5" fill="#fff" />
+      <path
+        d="M12 7v8.5M8.5 12c0-2 3.5-2.5 3.5-4.5"
+        stroke="#fff"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  docker: (
+    // Official Docker Blue Whale with Containers
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect x="5.5" y="8" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="8" y="8" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="10.5" y="8" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="5.5" y="10.2" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="8" y="10.2" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="10.5" y="10.2" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <rect x="13" y="10.2" width="2" height="1.8" fill="#1D63ED" rx="0.3" />
+      <path
+        d="M21.5 13.5c-.5-.4-1.4-.5-2.2-.2-.2-.8-.7-1.5-1.5-1.8H15c-.2 0-.4 1-.4 1s-1.5 0-2 0H2.5c-.3 1.5.2 4 2.5 5.5 3.5 2.2 9.5 2.2 13.5 0 2.2-1.2 3.2-3 3-4.5z"
+        fill="#0DB7ED"
+      />
+      <circle cx="18" cy="14" r="0.5" fill="#fff" />
+    </svg>
+  ),
+  linux: (
+    // Official Linux Tux Vector
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <ellipse cx="12" cy="13" rx="6" ry="8" fill="#18181B" />
+      <ellipse cx="12" cy="14" rx="4" ry="6" fill="#FAFAFA" />
+      <circle cx="10" cy="8" r="1.3" fill="#fff" />
+      <circle cx="14" cy="8" r="1.3" fill="#fff" />
+      <circle cx="10.4" cy="8" r="0.7" fill="#000" />
+      <circle cx="13.6" cy="8" r="0.7" fill="#000" />
+      <polygon points="12,9 10,11 14,11" fill="#F59E0B" />
+      <ellipse cx="8" cy="20.5" rx="2.5" ry="1.2" fill="#F59E0B" />
+      <ellipse cx="16" cy="20.5" rx="2.5" ry="1.2" fill="#F59E0B" />
+    </svg>
+  ),
+  twilio: (
+    // Official Twilio Red Disc with 4 White Dots
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <circle cx="12" cy="12" r="10" fill="#F22F46" />
+      <circle cx="9" cy="9" r="1.8" fill="#fff" />
+      <circle cx="15" cy="9" r="1.8" fill="#fff" />
+      <circle cx="9" cy="15" r="1.8" fill="#fff" />
+      <circle cx="15" cy="15" r="1.8" fill="#fff" />
+    </svg>
+  ),
+  aes: (
+    // Modern AES-256 Security Cryptographic Shield
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M12 2L4 5v6c0 5.5 3.4 10.7 8 12 4.6-1.3 8-6.5 8-12V5l-8-3z"
+        fill="#059669"
+      />
+      <rect x="9" y="11" width="6" height="5" rx="1" fill="#fff" />
+      <path
+        d="M10 11V9a2 2 0 1 1 4 0v2"
+        stroke="#fff"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="13.5" r="0.8" fill="#059669" />
+    </svg>
   ),
 };
 
@@ -529,27 +689,27 @@ export function Skills() {
             </p>
           </Reveal>
 
-          <div className="mt-8 overflow-hidden border border-border bg-surface/35">
+          <div className="mt-8 overflow-hidden rounded-2xl border border-border bg-surface/35 shadow-xs">
             {categories.map((cat, ci) => (
-              <Reveal key={cat.title} delay={ci * 0.06}>
+              <Reveal key={cat.title} delay={ci * 0.05}>
                 <article
-                  className={`grid gap-5 px-4 py-5 sm:px-5 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-8 lg:px-6 ${ci > 0 ? "border-t border-border" : ""}`}
+                  className={`grid gap-5 p-4 sm:p-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:gap-8 ${ci > 0 ? "border-t border-border" : ""}`}
                 >
-                  <div className="space-y-2">
+                  <div className="space-y-1.5 sm:space-y-2">
                     <p className="eyebrow">{cat.eyebrow}</p>
                     <h3 className="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
                       {cat.title}
                     </h3>
-                    <p className="max-w-sm text-[13px] leading-relaxed text-muted-foreground sm:text-sm">
+                    <p className="max-w-sm text-xs leading-relaxed text-muted-foreground sm:text-sm">
                       {cat.blurb}
                     </p>
                   </div>
 
-                  <ul className="flex flex-wrap gap-2.5">
+                  <ul className="flex flex-wrap gap-2 sm:gap-2.5">
                     {cat.skills.map((skill) => (
                       <li key={skill.name}>
-                        <span className="group inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-2 text-[13px] text-foreground transition-colors duration-300 hover:bg-ink-deep hover:text-background">
-                          <span className="flex items-center justify-center [&_svg]:size-6 [&_svg]:shrink-0 [&_img]:size-6 [&_img]:object-contain">
+                        <span className="group inline-flex items-center gap-2 rounded-full border border-border bg-background/85 px-2.5 py-1.5 text-xs text-foreground transition-all duration-300 hover:border-foreground/30 hover:bg-ink-deep hover:text-background sm:px-3 sm:py-2 sm:text-[13px]">
+                          <span className="flex size-4.5 sm:size-5 shrink-0 items-center justify-center [&_svg]:size-full">
                             {Logo[skill.logo]}
                           </span>
                           <span className="whitespace-nowrap font-medium tracking-tight">

@@ -6,7 +6,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/experience")({
   head: () => ({
-    meta: [{ title: "Divyanshu Sharma — Experience" }],
+    meta: [{ title: "Divyanshu Sharma — Experience & Credentials" }],
   }),
   component: ExperiencePage,
 });
@@ -17,18 +17,18 @@ function ExperiencePage() {
       <main className="relative z-10 mx-auto w-full max-w-7xl">
         <PageHeaderHero
           sectionIndex="01"
-          eyebrow="Experience"
+          eyebrow="Experience & Credentials"
           breadcrumb={[
             { label: "Home", href: "/" },
             { label: "Experience" },
           ]}
-          title="Patents, Open Source, and Team Leadership."
-          description="A track record of research inventions, Node.js core contributions, hackathon leadership, and engineering systems shipped in public."
+          title="Certifications, Patents, Open Source & Honors."
+          description="A verifiable track record spanning IBM Advanced Generative AI credentials, patented drone innovations, Amazon ML Challenge ranking, Node.js core contributions, and clinical biomechanics research."
           stats={[
-            { label: "Patents", value: "1 Filed", badgeType: "patent" },
-            { label: "Node.js Core", value: "PR #63491", badgeType: "node" },
+            { label: "IBM Credential", value: "CEGENAI1IN", badgeType: "stack" },
+            { label: "Amazon ML", value: "AIR 698", badgeType: "projects" },
             { label: "WorldQuant IQC", value: "AIR 6 · World 26", badgeType: "iqc" },
-            { label: "Hackathon Lead", value: "SIH Qualifier", badgeType: "sih" },
+            { label: "Patents", value: "1 Filed", badgeType: "patent" },
           ]}
         />
         <Experience />

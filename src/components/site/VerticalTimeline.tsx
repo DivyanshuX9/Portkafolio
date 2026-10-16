@@ -50,6 +50,14 @@ export function VerticalTimeline({
 
   return (
     <>
+      {/* Mobile top reading progress bar */}
+      <div className="fixed top-0 inset-x-0 z-50 h-0.5 bg-border/40 lg:hidden pointer-events-none">
+        <motion.div
+          style={{ width: `${progress * 100}%` }}
+          className="h-full bg-foreground transition-all duration-150"
+        />
+      </div>
+
       {/* Desktop sidebar */}
       <motion.aside
         initial={{ opacity: 0, x: -12 }}
@@ -105,37 +113,18 @@ export function VerticalTimeline({
         </div>
       </motion.aside>
 
-      {/* Mobile bottom progress pill */}
+      {/* Mobile top floating section pill */}
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="pointer-events-none fixed bottom-20 left-1/2 z-40 -translate-x-1/2 lg:hidden"
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: progress > 0.05 ? 1 : 0, y: progress > 0.05 ? 0 : -8 }}
+        transition={{ duration: 0.3 }}
+        className="pointer-events-none fixed top-3 right-3 z-40 lg:hidden"
         aria-hidden
       >
-        <div className="flex items-center gap-2 rounded-full border border-border bg-background/90 px-3 py-1.5 shadow-sm backdrop-blur-md">
-          {/* mini dots */}
-          <div className="flex items-center gap-1">
-            {sections.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="pointer-events-auto"
-                aria-label={s.label}
-              >
-                <span
-                  className={`block rounded-full transition-all duration-300 ${
-                    active === s.id
-                      ? "h-1.5 w-4 bg-ink-deep"
-                      : "h-1.5 w-1.5 bg-ink-deep/25"
-                  }`}
-                />
-              </a>
-            ))}
-          </div>
-          <span className="h-3 w-px bg-border" />
-          <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            {activeSection?.label ?? ""}
+        <div className="flex items-center gap-2 rounded-full border border-border/80 bg-background/90 px-3 py-1 shadow-sm backdrop-blur-md">
+          <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-[10px] font-mono font-medium uppercase tracking-[0.16em] text-foreground">
+            {activeSection?.label ?? "Index"} · {Math.round(progress * 100)}%
           </span>
         </div>
       </motion.div>

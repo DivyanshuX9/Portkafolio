@@ -11,16 +11,55 @@ type Entry = {
   location: string;
   body: string;
   tag: string;
+  badge?: string;
   links: { label: string; href: string }[];
   images?: { src: string; alt: string }[];
 };
 
 const entries: Entry[] = [
   {
+    date: "Aug 2026 — Present",
+    title: "AI Enabled Monocular Gait Analysis",
+    location: "Deep Learning & Biomechanics · VIT Chennai",
+    tag: "AI",
+    badge: "Capstone R&D",
+    body: "Clinical gait analysis pipeline using ordinary single-camera video to assess neurological conditions (Cerebral Palsy, Stroke, Myopathic, Normal). Features YOLOv8 + ByteTrack tracking, 147-D kinematic pose features, 28-D RAFT dense optical flow, and dilated Temporal Convolutional Networks (TCN) reaching 70.7% balanced accuracy under strict video-grouped cross-validation with SPARC smoothness profiling. Co-authored with Debeshi Sen, guided by Dr. Pavithra L K.",
+    links: [
+      { label: "View in Projects", href: "/projects#work" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+    ],
+  },
+  {
+    date: "Sep 2026",
+    title: "Amazon ML Challenge 2026",
+    location: "Machine Learning · National Finalist",
+    tag: "DS",
+    badge: "AIR 698",
+    body: "Secured All India Rank 698 with an overall benchmark score of 0.983906 out of thousands of top engineering teams across India in the Amazon ML Challenge 2026 with team members from VIT (Anshik Kumar Tiwari, Aryan Mahawar, Kartik Patel, Divyanshu Sharma). Built deep multi-modal tabular & predictive pipelines for high-precision estimation.",
+    links: [
+      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+    ],
+  },
+  {
+    date: "Jul 2026",
+    title: "IBM Advanced Generative AI Certification",
+    location: "IBM Career Education · Cognitive Class",
+    tag: "AI",
+    badge: "Verified Credential",
+    body: "Earned official certification in Advanced Generative AI (CEGENAI1IN) issued by IBM Career Education Program and IBM Developer Skills Network. Validates deep capabilities in transformer architectures, prompt engineering, RAG pipelines, and LLM orchestration.",
+    links: [
+      {
+        label: "Verify Certificate ↗",
+        href: "https://courses.ibmcep.cognitiveclass.ai/certificates/d3a570e88dc6474ba1f97f5321c5d887",
+      },
+    ],
+  },
+  {
     date: "Mar 2026 — Jul 2026",
     title: "WorldQuant IQC 2026",
     location: "Quant Research · National Finalist",
     tag: "Quant",
+    badge: "AIR 6 · World 26",
     body: "Secured All India Rank 6 and World Rank 26 out of 150,000+ teams globally representing VIT at the WorldQuant International Quant Championship 2026 National Finals in Mumbai with Team Simpson's Paradox.",
     links: [
       { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
@@ -35,9 +74,10 @@ const entries: Entry[] = [
     title: "RideHub",
     location: "Full-stack · SWE",
     tag: "SWE",
-    body: "Built a unified ride aggregation platform with Next.js 15, FastAPI, and PostgreSQL, combining five transport services with real-road routing and booking history.",
+    badge: "Shipped",
+    body: "Built a unified ride aggregation platform with Next.js 15, FastAPI, and PostgreSQL, combining five transport services with real-road routing, trip history, and cross-platform mobile support.",
     links: [
-      { label: "GitHub", href: "https://github.com/DivyanshuX9" },
+      { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/RideHub" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
     ],
     images: [
@@ -45,24 +85,26 @@ const entries: Entry[] = [
     ],
   },
   {
+    date: "Dec 2025 — Feb 2026",
+    title: "Weather-Based Traffic Signal Model",
+    location: "Computer Vision · Adaptive AI",
+    tag: "CV",
+    badge: "Open Source",
+    body: "Adaptive traffic signal control system combining real-time weather parameters with computer vision to dynamically adjust signal timings, green clearance intervals, and vehicle detection under adverse conditions (heavy rain, fog, low light).",
+    links: [
+      { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/Weather_Based_Traffic_signal_model" },
+    ],
+  },
+  {
     date: "Aug 2025 — Oct 2025",
     title: "NABHA Health",
     location: "SWE + Applied AI · SIH 2025",
     tag: "AI",
+    badge: "SIH Qualifier",
     body: "Voice-based intake, RAG summaries with Gemini API, and appointment flow integrations for rural-first healthcare. Built for Smart India Hackathon 2025.",
     links: [
       { label: "GitHub", href: "https://github.com/DivyanshuX9" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
-    ],
-  },
-  {
-    date: "Mar 2025",
-    title: "RBAC-DocEncryption",
-    location: "Security Engineering",
-    tag: "Security",
-    body: "Blockchain-audited document security with AES-256-GCM field-level encryption, SHA-256 tamper checks, and role-based selective decryption.",
-    links: [
-      { label: "GitHub", href: "https://github.com/DivyanshuX9/RBAC-DocEncryption" },
     ],
   },
   {
@@ -72,17 +114,17 @@ const entries: Entry[] = [
     tag: "DS",
     body: "Stacking regressor pipeline (XGBoost + Random Forest) with R² 0.965 and strong MAE reduction over linear baseline after feature engineering and EDA.",
     links: [
-      { label: "GitHub", href: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction" },
+      { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction" },
     ],
   },
   {
-    date: "Dec 2025 — Feb 2026",
-    title: "Weather-Based Traffic Signal Model",
-    location: "Computer Vision · Adaptive AI",
-    tag: "CV",
-    body: "Adaptive traffic signal control system combining real-time weather parameters with computer vision to dynamically adjust signal timings and object detection under adverse weather conditions.",
+    date: "Mar 2025",
+    title: "RBAC-DocEncryption",
+    location: "Security Engineering",
+    tag: "Security",
+    body: "Blockchain-audited document security with AES-256-GCM field-level encryption, SHA-256 tamper checks, and role-based selective decryption.",
     links: [
-      { label: "GitHub", href: "https://github.com/DivyanshuX9/Weather_Based_Traffic_signal_model" },
+      { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/RBAC-DocEncryption" },
     ],
   },
   {
@@ -113,35 +155,42 @@ export function CurrentWorkTimeline() {
   return (
     <section
       id="timeline"
-      className="border-t border-border bg-background py-20 md:py-24"
+      className="border-t border-border bg-background py-16 sm:py-20 md:py-24"
     >
       <div className="container-edge">
         <Reveal>
           <div className="flex items-baseline justify-between border-b border-border pb-6">
             <p className="eyebrow">[ Sec. 03 ] Timeline</p>
             <p className="hidden text-[11px] uppercase tracking-[0.2em] text-muted-foreground md:block">
-              Resume-backed work
+              Resume-backed work & Achievements
             </p>
           </div>
         </Reveal>
 
         {/* Mobile: stacked cards with clear separation */}
-        <div className="mt-10 flex flex-col gap-0 md:hidden">
+        <div className="mt-8 flex flex-col gap-0 md:hidden">
           {entries.map((entry, index) => (
-            <Reveal key={entry.title} delay={index * 0.04}>
+            <Reveal key={entry.title} delay={index * 0.03}>
               <div className="relative">
                 {/* Left accent bar */}
                 <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-border" />
                 <div className="absolute left-0 top-6 h-8 w-[3px] bg-ink-deep/60" />
 
-                <div className="ml-5 border-b border-border py-6 last:border-b-0">
+                <div className="ml-4 border-b border-border py-5 sm:ml-5 sm:py-6 last:border-b-0">
                   {/* Header row */}
-                  <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start justify-between gap-2.5">
                     <div className="min-w-0">
-                      <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                        {entry.date}
-                      </p>
-                      <h3 className="mt-1 font-display text-xl font-semibold tracking-tight text-foreground">
+                      <div className="flex items-center gap-2">
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                          {entry.date}
+                        </p>
+                        {entry.badge && (
+                          <span className="rounded-md border border-foreground/15 bg-surface/80 px-1.5 py-0.2 text-[9px] font-mono font-medium text-foreground">
+                            {entry.badge}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="mt-1 font-display text-lg font-semibold tracking-tight text-foreground sm:text-xl">
                         {entry.title}
                       </h3>
                       <p className="mt-0.5 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
@@ -156,22 +205,22 @@ export function CurrentWorkTimeline() {
                   </div>
 
                   {/* Body */}
-                  <p className="mt-3 text-[14px] leading-relaxed text-foreground/75">
+                  <p className="mt-2.5 text-xs sm:text-[14px] leading-relaxed text-foreground/80">
                     {entry.body}
                   </p>
 
                   {/* Links */}
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-3 flex flex-wrap gap-1.5 sm:gap-2">
                     {entry.links.map((link) => (
                       <a
                         key={link.label}
                         href={link.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface/50 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-surface"
+                        target={link.href.startsWith("http") ? "_blank" : undefined}
+                        rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-surface active:scale-95 sm:px-3 sm:text-[11px]"
                       >
                         {link.label}
-                        <svg className="size-2.5 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg className="size-2.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M7 17L17 7M17 7H7M17 7v10" />
                         </svg>
                       </a>
@@ -180,7 +229,7 @@ export function CurrentWorkTimeline() {
 
                   {/* Images below post */}
                   {entry.images && entry.images.length > 0 && (
-                    <div className="mt-4 grid grid-cols-2 gap-2.5 max-w-md">
+                    <div className="mt-3.5 grid grid-cols-2 gap-2 max-w-md">
                       {entry.images.map((img, i) => (
                         <button
                           key={i}
@@ -191,7 +240,7 @@ export function CurrentWorkTimeline() {
                           <img
                             src={img.src}
                             alt={img.alt}
-                            className="h-32 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                            className="h-28 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02] sm:h-32"
                             loading="lazy"
                           />
                         </button>
@@ -208,34 +257,40 @@ export function CurrentWorkTimeline() {
         <ol className="mt-12 hidden space-y-0 md:block">
           {entries.map((entry, index) => (
             <li key={entry.title} className="list-none">
-              <Reveal delay={index * 0.05}>
+              <Reveal delay={index * 0.04}>
                 <article className="grid grid-cols-[auto_1fr] gap-x-8 border-b border-border py-8 last:border-b-0">
                   {/* Left: connector */}
                   <div className="flex flex-col items-center pt-1">
-                    <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface shadow-xs">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-foreground">
                         {entry.tag}
                       </span>
                     </div>
                     {index < entries.length - 1 && (
-                      <div className="mt-3 w-px flex-1 bg-border" style={{ minHeight: "2rem" }} />
+                      <div className="mt-3 w-px flex-1 bg-border" style={{ minHeight: "2.5rem" }} />
                     )}
                   </div>
 
                   {/* Right: content */}
                   <div className="min-w-0 pb-2">
-                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                       <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
                         {entry.date}
                       </p>
+                      <span className="text-muted-foreground/40">•</span>
                       <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
                         {entry.location}
                       </p>
+                      {entry.badge && (
+                        <span className="rounded-full border border-foreground/20 bg-surface/90 px-2 py-0.5 text-[10px] font-mono font-medium text-foreground">
+                          {entry.badge}
+                        </span>
+                      )}
                     </div>
                     <h3 className="mt-2 font-display text-2xl font-medium tracking-tight text-foreground lg:text-3xl">
                       {entry.title}
                     </h3>
-                    <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-foreground/80">
+                    <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-foreground/80">
                       {entry.body}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -243,34 +298,39 @@ export function CurrentWorkTimeline() {
                         <a
                           key={link.label}
                           href={link.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface/40 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition-colors hover:bg-surface"
+                          target={link.href.startsWith("http") ? "_blank" : undefined}
+                          rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface/50 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:bg-surface hover:border-foreground/30 active:scale-95"
                         >
                           {link.label}
-                          <svg className="size-2.5 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <svg className="size-2.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                             <path d="M7 17L17 7M17 7H7M17 7v10" />
                           </svg>
                         </a>
                       ))}
                     </div>
 
-                    {/* Images below post */}
+                    {/* Images below entry */}
                     {entry.images && entry.images.length > 0 && (
-                      <div className="mt-4 grid grid-cols-2 gap-2.5 max-w-md">
+                      <div className="mt-5 grid grid-cols-2 gap-3 max-w-lg">
                         {entry.images.map((img, i) => (
                           <button
                             key={i}
                             type="button"
                             onClick={() => setSelectedImage(img.src)}
-                            className="group relative cursor-zoom-in overflow-hidden rounded-lg border border-border/80 bg-surface/30 p-1 text-left transition-all hover:border-foreground/30 hover:shadow-md"
+                            className="group relative cursor-zoom-in overflow-hidden rounded-xl border border-border bg-surface/30 p-1.5 text-left transition-all hover:border-foreground/30 hover:shadow-lg"
                           >
                             <img
                               src={img.src}
                               alt={img.alt}
-                              className="h-34 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                              className="h-40 w-full rounded-lg object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                               loading="lazy"
                             />
+                            <div className="absolute inset-0 flex items-end justify-start bg-gradient-to-t from-black/60 via-transparent to-transparent p-3 opacity-0 transition-opacity group-hover:opacity-100">
+                              <span className="text-[10px] font-medium text-white">
+                                Click to preview
+                              </span>
+                            </div>
                           </button>
                         ))}
                       </div>
@@ -283,26 +343,35 @@ export function CurrentWorkTimeline() {
         </ol>
       </div>
 
-      {/* Image Lightbox Modal */}
+      {/* Image Modal Lightbox */}
       {selectedImage && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
           onClick={() => setSelectedImage(null)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setSelectedImage(null);
+          }}
+          tabIndex={0}
+          role="button"
+          aria-label="Close image preview"
         >
-          <div className="relative max-h-[90vh] max-w-4xl overflow-hidden rounded-2xl border border-white/10 bg-background p-2 shadow-2xl">
-            <img
-              src={selectedImage}
-              alt="Enlarged IQC photo"
-              className="max-h-[80vh] w-auto rounded-xl object-contain"
-            />
+          <div
+            className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-2xl border border-white/20 bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               onClick={() => setSelectedImage(null)}
-              className="absolute top-4 right-4 flex size-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-md transition-colors hover:bg-black/90"
-              aria-label="Close photo preview"
+              className="absolute right-4 top-4 z-10 flex size-9 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black"
+              aria-label="Close"
             >
               ✕
             </button>
+            <img
+              src={selectedImage}
+              alt="Enlarged preview"
+              className="max-h-[85vh] w-auto max-w-full object-contain"
+            />
           </div>
         </div>
       )}
