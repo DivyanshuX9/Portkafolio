@@ -25,6 +25,7 @@ const entries: Entry[] = [
     badge: "Capstone R&D",
     body: "Clinical gait analysis pipeline using ordinary single-camera video to assess neurological conditions (Cerebral Palsy, Stroke, Myopathic, Normal). Features YOLOv8 + ByteTrack tracking, 147-D kinematic pose features, 28-D RAFT dense optical flow, and dilated Temporal Convolutional Networks (TCN) reaching 70.7% balanced accuracy under strict video-grouped cross-validation with SPARC smoothness profiling. Co-authored with Debeshi Sen, guided by Dr. Pavithra L K.",
     links: [
+      { label: "Read Blog Analysis →", href: "/blog/ai-enabled-monocular-gait-analysis" },
       { label: "View in Projects", href: "/projects#work" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
     ],
@@ -37,7 +38,7 @@ const entries: Entry[] = [
     badge: "AIR 698",
     body: "Secured All India Rank 698 with an overall benchmark score of 0.983906 out of thousands of top engineering teams across India in the Amazon ML Challenge 2026 with team members from VIT (Anshik Kumar Tiwari, Aryan Mahawar, Kartik Patel, Divyanshu Sharma). Built deep multi-modal tabular & predictive pipelines for high-precision estimation.",
     links: [
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+      { label: "LinkedIn Profile", href: "https://www.linkedin.com/in/mr-divyanshu/" },
     ],
   },
   {
@@ -73,12 +74,12 @@ const entries: Entry[] = [
     date: "May 2025 — Mar 2026",
     title: "RideHub",
     location: "Full-stack · SWE",
-    tag: "SWE",
     badge: "Shipped",
+    tag: "SWE",
     body: "Built a unified ride aggregation platform with Next.js 15, FastAPI, and PostgreSQL, combining five transport services with real-road routing, trip history, and cross-platform mobile support.",
     links: [
       { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/RideHub" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+      { label: "Read Story", href: "/blog/i-got-lost-in-chennai-then-i-built-ridehub" },
     ],
     images: [
       { src: ridehubHome, alt: "RideHub Home Dashboard" },
@@ -93,6 +94,7 @@ const entries: Entry[] = [
     body: "Adaptive traffic signal control system combining real-time weather parameters with computer vision to dynamically adjust signal timings, green clearance intervals, and vehicle detection under adverse conditions (heavy rain, fog, low light).",
     links: [
       { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/Weather_Based_Traffic_signal_model" },
+      { label: "Read Case Study", href: "/blog/weather-based-traffic-signal-model" },
     ],
   },
   {
@@ -104,7 +106,7 @@ const entries: Entry[] = [
     body: "Voice-based intake, RAG summaries with Gemini API, and appointment flow integrations for rural-first healthcare. Built for Smart India Hackathon 2025.",
     links: [
       { label: "GitHub", href: "https://github.com/DivyanshuX9" },
-      { label: "LinkedIn", href: "https://www.linkedin.com/in/mr-divyanshu/" },
+      { label: "Read Story", href: "/blog/nabha-what-happens-when-technology-stops-assuming" },
     ],
   },
   {
@@ -115,6 +117,7 @@ const entries: Entry[] = [
     body: "Stacking regressor pipeline (XGBoost + Random Forest) with R² 0.965 and strong MAE reduction over linear baseline after feature engineering and EDA.",
     links: [
       { label: "GitHub ↗", href: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction" },
+      { label: "Read Analysis", href: "/blog/walmart-sales-model-stacking-vs-linear" },
     ],
   },
   {
@@ -161,88 +164,99 @@ export function CurrentWorkTimeline() {
         <Reveal>
           <div className="flex items-baseline justify-between border-b border-border pb-6">
             <p className="eyebrow">[ Sec. 03 ] Timeline</p>
-            <p className="hidden text-[11px] uppercase tracking-[0.2em] text-muted-foreground md:block">
+            <p className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground md:block">
               Resume-backed work & Achievements
             </p>
           </div>
         </Reveal>
 
-        {/* Mobile: stacked cards with clear separation */}
-        <div className="mt-8 flex flex-col gap-0 md:hidden">
+        {/* ── Modern Redesigned Mobile Timeline (Polished Cards & Interactive Spine) ── */}
+        <div className="mt-8 space-y-0 md:hidden">
           {entries.map((entry, index) => (
             <Reveal key={entry.title} delay={index * 0.03}>
-              <div className="relative">
-                {/* Left accent bar */}
-                <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-border" />
-                <div className="absolute left-0 top-6 h-8 w-[3px] bg-ink-deep/60" />
+              <div className="relative pl-6 pb-6 last:pb-1">
+                {/* Continuous Timeline Spine */}
+                {index < entries.length - 1 && (
+                  <div className="absolute left-[7px] top-4 bottom-0 w-[2px] bg-border/70" />
+                )}
 
-                <div className="ml-4 border-b border-border py-5 sm:ml-5 sm:py-6 last:border-b-0">
-                  {/* Header row */}
-                  <div className="flex items-start justify-between gap-2.5">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <p className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                          {entry.date}
-                        </p>
-                        {entry.badge && (
-                          <span className="rounded-md border border-foreground/15 bg-surface/80 px-1.5 py-0.2 text-[9px] font-mono font-medium text-foreground">
-                            {entry.badge}
-                          </span>
-                        )}
-                      </div>
-                      <h3 className="mt-1 font-display text-lg font-semibold tracking-tight text-foreground sm:text-xl">
-                        {entry.title}
-                      </h3>
-                      <p className="mt-0.5 text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                        {entry.location}
-                      </p>
+                {/* Milestone Node Bullet */}
+                <div className="absolute left-0 top-3.5 z-10 flex size-4 items-center justify-center rounded-full border-2 border-background bg-foreground shadow-xs">
+                  <span className="size-1 rounded-full bg-background" />
+                </div>
+
+                {/* Elevated Glassmorphism Timeline Card */}
+                <div className="group rounded-2xl border border-border/80 bg-surface/50 p-4 shadow-xs backdrop-blur-md transition-all duration-300 hover:border-foreground/30 hover:bg-surface/75">
+                  {/* Top Meta Header: Date & Badge & Tag */}
+                  <div className="flex flex-wrap items-center justify-between gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-background/80 border border-border/60 px-2.5 py-0.5 text-xs font-mono font-medium text-foreground">
+                        {entry.date}
+                      </span>
+                      {entry.badge && (
+                        <span className="rounded-full border border-foreground/20 bg-foreground/5 px-2 py-0.5 text-xs font-mono font-semibold text-foreground">
+                          {entry.badge}
+                        </span>
+                      )}
                     </div>
                     <span
-                      className={`shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.14em] ${tagColor[entry.tag] ?? tagColor.Log}`}
+                      className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium uppercase tracking-[0.14em] ${tagColor[entry.tag] ?? tagColor.Log}`}
                     >
+                      <span className="size-1 rounded-full bg-current opacity-70" />
                       {entry.tag}
                     </span>
                   </div>
 
-                  {/* Body */}
-                  <p className="mt-2.5 text-xs sm:text-[14px] leading-relaxed text-foreground/80">
+                  {/* Title & Role */}
+                  <h3 className="mt-2.5 font-display text-lg font-bold tracking-tight text-foreground">
+                    {entry.title}
+                  </h3>
+                  <p className="mt-0.5 text-xs uppercase tracking-[0.16em] text-muted-foreground font-medium">
+                    {entry.location}
+                  </p>
+
+                  {/* Body description */}
+                  <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-foreground/85">
                     {entry.body}
                   </p>
 
-                  {/* Links */}
-                  <div className="mt-3 flex flex-wrap gap-1.5 sm:gap-2">
+                  {/* Interactive Action Buttons */}
+                  <div className="mt-3.5 flex flex-wrap gap-1.5 pt-2 border-t border-border/50">
                     {entry.links.map((link) => (
                       <a
                         key={link.label}
                         href={link.href}
                         target={link.href.startsWith("http") ? "_blank" : undefined}
                         rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                        className="inline-flex items-center gap-1 rounded-full border border-border bg-surface/60 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.16em] text-foreground transition-colors hover:bg-surface active:scale-95 sm:px-3 sm:text-[11px]"
+                        className="inline-flex items-center gap-1.5 rounded-full border border-border/80 bg-background/90 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-foreground/40 hover:bg-surface active:scale-95 shadow-2xs"
                       >
-                        {link.label}
-                        <svg className="size-2.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <span>{link.label}</span>
+                        <svg className="size-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M7 17L17 7M17 7H7M17 7v10" />
                         </svg>
                       </a>
                     ))}
                   </div>
 
-                  {/* Images below post */}
+                  {/* Image Previews if present */}
                   {entry.images && entry.images.length > 0 && (
-                    <div className="mt-3.5 grid grid-cols-2 gap-2 max-w-md">
+                    <div className="mt-3 grid grid-cols-2 gap-2 pt-2 border-t border-border/40">
                       {entry.images.map((img, i) => (
                         <button
                           key={i}
                           type="button"
                           onClick={() => setSelectedImage(img.src)}
-                          className="group relative cursor-zoom-in overflow-hidden rounded-lg border border-border/80 bg-surface/30 p-1 text-left transition-all hover:border-foreground/30 hover:shadow-md"
+                          className="group/img relative cursor-zoom-in overflow-hidden rounded-xl border border-border/80 bg-surface/30 p-1 text-left transition-all hover:border-foreground/30 hover:shadow-md"
                         >
                           <img
                             src={img.src}
                             alt={img.alt}
-                            className="h-28 w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02] sm:h-32"
+                            className="h-24 w-full rounded-lg object-cover transition-transform duration-500 group-hover/img:scale-105"
                             loading="lazy"
                           />
+                          <div className="absolute inset-0 flex items-end justify-start bg-gradient-to-t from-black/60 to-transparent p-1.5 opacity-0 transition-opacity group-hover/img:opacity-100">
+                            <span className="text-xs text-white">Tap to zoom</span>
+                          </div>
                         </button>
                       ))}
                     </div>
@@ -253,7 +267,7 @@ export function CurrentWorkTimeline() {
           ))}
         </div>
 
-        {/* Desktop: two-column layout */}
+        {/* ── Desktop Layout: Two-Column Spacing ── */}
         <ol className="mt-12 hidden space-y-0 md:block">
           {entries.map((entry, index) => (
             <li key={entry.title} className="list-none">
@@ -262,7 +276,7 @@ export function CurrentWorkTimeline() {
                   {/* Left: connector */}
                   <div className="flex flex-col items-center pt-1">
                     <div className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border bg-surface shadow-xs">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-foreground">
+                      <span className="text-xs font-bold uppercase tracking-wider text-foreground">
                         {entry.tag}
                       </span>
                     </div>
@@ -274,15 +288,15 @@ export function CurrentWorkTimeline() {
                   {/* Right: content */}
                   <div className="min-w-0 pb-2">
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                      <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+                      <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground font-medium">
                         {entry.date}
                       </p>
                       <span className="text-muted-foreground/40">•</span>
-                      <p className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                      <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">
                         {entry.location}
                       </p>
                       {entry.badge && (
-                        <span className="rounded-full border border-foreground/20 bg-surface/90 px-2 py-0.5 text-[10px] font-mono font-medium text-foreground">
+                        <span className="rounded-full border border-foreground/20 bg-surface/90 px-2 py-0.5 text-xs font-mono font-medium text-foreground">
                           {entry.badge}
                         </span>
                       )}
@@ -290,7 +304,7 @@ export function CurrentWorkTimeline() {
                     <h3 className="mt-2 font-display text-2xl font-medium tracking-tight text-foreground lg:text-3xl">
                       {entry.title}
                     </h3>
-                    <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-foreground/80">
+                    <p className="mt-3 max-w-3xl text-sm leading-relaxed text-foreground/80 sm:text-base">
                       {entry.body}
                     </p>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -300,7 +314,7 @@ export function CurrentWorkTimeline() {
                           href={link.href}
                           target={link.href.startsWith("http") ? "_blank" : undefined}
                           rel={link.href.startsWith("http") ? "noreferrer" : undefined}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface/50 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition-all hover:bg-surface hover:border-foreground/30 active:scale-95"
+                          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface/50 px-3.5 py-1.5 text-xs uppercase tracking-[0.18em] text-foreground transition-all hover:bg-surface hover:border-foreground/30 active:scale-95"
                         >
                           {link.label}
                           <svg className="size-2.5 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -327,7 +341,7 @@ export function CurrentWorkTimeline() {
                               loading="lazy"
                             />
                             <div className="absolute inset-0 flex items-end justify-start bg-gradient-to-t from-black/60 via-transparent to-transparent p-3 opacity-0 transition-opacity group-hover:opacity-100">
-                              <span className="text-[10px] font-medium text-white">
+                              <span className="text-xs font-medium text-white">
                                 Click to preview
                               </span>
                             </div>

@@ -16,7 +16,7 @@ const Icon = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -30,7 +30,7 @@ const Icon = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -45,7 +45,7 @@ const Icon = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -59,7 +59,7 @@ const Icon = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -84,7 +84,7 @@ const Icon = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -110,7 +110,7 @@ const socialNav: NavItem[] = [
   },
   {
     href: "/schedule",
-    label: "Schedule a meeting",
+    label: "Schedule",
     icon: Icon.calendar,
     external: false,
   },
@@ -122,7 +122,7 @@ const seasonGlyph: Record<Season, ReactNode> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
     >
       <circle cx="12" cy="12" r="4" />
@@ -134,7 +134,7 @@ const seasonGlyph: Record<Season, ReactNode> = {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.6"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
@@ -144,21 +144,21 @@ const seasonGlyph: Record<Season, ReactNode> = {
 };
 
 const navLinkBase =
-  "group inline-flex h-9 w-9 items-center justify-start overflow-hidden rounded-full px-1.5 font-display text-[11px] font-medium tracking-tight transition-[width,padding,transform,background-color,color,border-color,box-shadow,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[width] hover:-translate-y-0.5 hover:pr-3 md:h-10 md:w-10 md:justify-start md:px-1.5 md:hover:w-auto md:hover:pr-3";
+  "group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full font-display text-xs font-medium tracking-tight transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 active:scale-95 md:h-10 md:w-10 md:justify-start md:px-2 md:hover:w-auto md:hover:pr-3.5";
 
 const navLinkIdle =
-  "bg-transparent text-ink-deep md:border md:border-transparent md:hover:border-border/60 md:hover:bg-surface/75 md:hover:shadow-sm";
+  "bg-transparent text-ink-deep hover:bg-surface/80 hover:text-foreground md:border md:border-transparent md:hover:border-border/60";
 
 const navLinkActive =
-  "bg-ink-deep/12 text-ink-deep md:border md:border-ink-deep md:bg-ink-deep md:text-background md:shadow-sm";
+  "bg-ink-deep text-background shadow-xs md:border md:border-ink-deep md:bg-ink-deep md:text-background";
 
 const iconWrap =
-  "size-4 shrink-0 transition-transform duration-300 group-hover:-translate-y-px group-hover:scale-110 md:size-5";
+  "size-4 shrink-0 transition-transform duration-300 group-hover:scale-110 md:size-4.5";
 
 const labelBase =
-  "max-w-0 whitespace-nowrap overflow-hidden opacity-0 translate-x-1 transition-[max-width,margin,opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:max-w-40 group-hover:translate-x-0 group-hover:opacity-100";
+  "hidden max-w-0 whitespace-nowrap overflow-hidden opacity-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] md:inline-block md:group-hover:max-w-40 md:group-hover:opacity-100";
 
-const labelSpacing = "ml-0 group-hover:ml-2 md:group-hover:ml-2.5";
+const labelSpacing = "md:group-hover:ml-2";
 
 function PageLink({
   to,
@@ -174,17 +174,20 @@ function PageLink({
   const cls = `${navLinkBase} ${active ? navLinkActive : navLinkIdle}`;
 
   return (
-    <Link to={to} className={cls} aria-current={active ? "page" : undefined}>
+    <Link to={to} className={cls} aria-current={active ? "page" : undefined} title={label}>
       <span className={iconWrap}>{icon}</span>
       <span className={`${labelBase} ${labelSpacing}`}>
         {label}
       </span>
+      {active && (
+        <span className="absolute bottom-1 left-1/2 -translate-x-1/2 size-1 rounded-full bg-background md:hidden" />
+      )}
     </Link>
   );
 }
 
 function SocialButton({ item }: { item: NavItem }) {
-  const cls = `${navLinkBase} ${navLinkIdle} md:px-3`;
+  const cls = `${navLinkBase} ${navLinkIdle}`;
 
   const content = (
     <>
@@ -197,7 +200,7 @@ function SocialButton({ item }: { item: NavItem }) {
 
   if (!item.external) {
     return (
-      <a href={item.href} aria-label={item.label} className={cls}>
+      <a href={item.href} aria-label={item.label} title={item.label} className={cls}>
         {content}
       </a>
     );
@@ -209,6 +212,7 @@ function SocialButton({ item }: { item: NavItem }) {
       target="_blank"
       rel="noreferrer"
       aria-label={item.label}
+      title={item.label}
       className={cls}
     >
       {content}
@@ -220,10 +224,10 @@ export function Nav() {
   const { season, toggleSeason } = useSeason();
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 bottom-3 z-50 flex justify-center px-3 pb-[env(safe-area-inset-bottom)] sm:bottom-4 sm:px-4 md:bottom-auto md:top-6 md:pb-0">
-      <div className="nav-scroll pointer-events-auto mx-auto w-fit max-w-[calc(100vw-1.5rem)] touch-pan-x overflow-x-auto sm:max-w-[calc(100vw-2rem)] md:max-w-240">
-        <div className="flex w-max flex-nowrap items-center justify-start gap-0.5 rounded-full border border-border/60 bg-background/90 px-2 py-1.5 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.3)] backdrop-blur-3xl backdrop-saturate-150 sm:gap-1 md:justify-center md:gap-2 md:px-4 md:py-2.5">
-          <nav className="flex items-center gap-0.5 sm:gap-1">
+    <header className="pointer-events-none fixed inset-x-0 bottom-3 z-50 flex justify-center px-2 sm:bottom-4 sm:px-4 pb-[env(safe-area-inset-bottom)] md:bottom-auto md:top-6 md:pb-0">
+      <div className="pointer-events-auto mx-auto w-fit max-w-[calc(100vw-1rem)] touch-pan-x overflow-x-auto scrollbar-none sm:max-w-[calc(100vw-2rem)] md:max-w-240">
+        <div className="flex w-max flex-nowrap items-center justify-start gap-1 rounded-full border border-border/80 bg-background/95 p-1 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.35)] backdrop-blur-3xl backdrop-saturate-150 sm:gap-1.5 md:justify-center md:gap-2 md:p-1.5">
+          <nav className="flex items-center gap-1">
             <PageLink to="/" label="Home" icon={Icon.home} />
             <PageLink to="/projects" label="Projects" icon={Icon.project} />
             <PageLink to="/blog" label="Blog" icon={Icon.blog} />
@@ -234,14 +238,14 @@ export function Nav() {
             />
           </nav>
 
-          <span className="mx-0.5 h-5 w-px bg-ink-deep/12" aria-hidden />
+          <span className="mx-0.5 h-5 w-px bg-border/60" aria-hidden />
 
-          <div className="flex flex-nowrap items-center gap-0.5 sm:gap-1">
+          <div className="flex flex-nowrap items-center gap-1">
             {socialNav.map((item, index) => (
               <Fragment key={item.label}>
                 {index > 0 && (
                   <span
-                    className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:block"
+                    className="mx-0.5 hidden h-5 w-px bg-border/40 md:block"
                     aria-hidden
                   />
                 )}
@@ -250,7 +254,7 @@ export function Nav() {
             ))}
 
             <span
-              className="mx-0.5 hidden h-5 w-px bg-ink-deep/12 md:mx-2 md:block"
+              className="mx-0.5 h-5 w-px bg-border/60"
               aria-hidden
             />
 
@@ -259,7 +263,7 @@ export function Nav() {
               onClick={(e) => toggleSeason(e)}
               aria-label={`Switch to ${season === "light" ? "dark" : "light"} mode`}
               title={`Switch to ${season === "light" ? "dark" : "light"} mode`}
-              className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent px-0 text-ink-deep transition-[transform,background-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:bg-ink-deep/8 hover:text-ink-deep active:scale-90 md:h-10 md:w-10"
+              className="group relative inline-flex h-9 w-9 items-center justify-center rounded-full bg-transparent text-ink-deep transition-all duration-300 hover:bg-surface/80 active:scale-90 md:h-10 md:w-10"
             >
               <span
                 className={`${iconWrap} transition-transform duration-500 group-hover:rotate-45 group-active:rotate-90`}

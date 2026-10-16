@@ -145,6 +145,42 @@ const Logo = {
       <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0z" />
     </svg>
   ),
+  nodejs: (
+    // Official Node.js Brand Vector (Hexagon + stylized interior)
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <path
+        d="M12 2l8.8 5.1v10.2L12 22.4l-8.8-5.1V7.1L12 2z"
+        fill="#339933"
+      />
+      <path
+        d="M12 4.1l6.7 3.9v7.8L12 19.7l-6.7-3.9V8L12 4.1z"
+        fill="#43853D"
+      />
+      <path
+        d="M12.5 8.2c-.4-.2-.9-.3-1.4-.3-1.2 0-2.1.8-2.1 2.2v4.8h1.4v-4.5c0-.6.4-1 1-1 .4 0 .8.1 1.1.3v-1.5z"
+        fill="#fff"
+      />
+      <circle cx="15.5" cy="12" r="1.5" fill="#fff" />
+    </svg>
+  ),
+  express: (
+    // Official Express.js Minimal Typography Vector
+    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+      <rect width="24" height="24" rx="3.5" fill="#18181B" />
+      <text
+        x="12"
+        y="15.5"
+        textAnchor="middle"
+        fontSize="7.5"
+        fontWeight="800"
+        fill="#fff"
+        letterSpacing="0.5"
+        fontFamily="sans-serif"
+      >
+        ex
+      </text>
+    </svg>
+  ),
   fastapi: (
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <circle cx="12" cy="12" r="11" fill="#059669" />
@@ -298,7 +334,6 @@ const Logo = {
     </svg>
   ),
   matplotlib: (
-    // Official Matplotlib Vector Emblem
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <circle cx="12" cy="12" r="10" fill="#11557C" />
       <path
@@ -317,7 +352,6 @@ const Logo = {
     </svg>
   ),
   seaborn: (
-    // Official Seaborn Density Curve Logo
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="3.5" fill="#4C72B0" />
       <path
@@ -335,7 +369,6 @@ const Logo = {
     </svg>
   ),
   plotly: (
-    // Official Plotly Vertical Dots and Bars
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect width="24" height="24" rx="3.5" fill="#252438" />
       <rect x="5" y="13" width="2.5" height="7" rx="1.25" fill="#8C8CE6" />
@@ -345,7 +378,6 @@ const Logo = {
     </svg>
   ),
   tableau: (
-    // Official Tableau Multi-Color Star Cross
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <rect x="11.2" y="2" width="1.6" height="5" fill="#E8762D" rx="0.8" />
       <rect x="9.5" y="3.7" width="5" height="1.6" fill="#E8762D" rx="0.8" />
@@ -360,7 +392,6 @@ const Logo = {
     </svg>
   ),
   jupyter: (
-    // Official Jupyter Planetary Ring and Moons
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
         d="M12 5.5c-4.2 0-7.7 1.8-8.5 4.2 1.4-.8 3.5-1.2 5.8-1.2 4.2 0 7.8 1.4 8.5 3.3.3-.7.4-1.4.4-2.1 0-2.3-2.8-4.2-6.2-4.2z"
@@ -376,7 +407,6 @@ const Logo = {
     </svg>
   ),
   aws: (
-    // Official AWS Smile Vector
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
         d="M6 10.5c-.8 0-1.4.2-1.8.6l.4.7c.3-.3.8-.5 1.4-.5.8 0 1.2.4 1.2 1v.2c-.4 0-1 .1-1.6.3-.9.3-1.4.8-1.4 1.5 0 .8.6 1.4 1.6 1.4.7 0 1.2-.3 1.5-.8v.7h1V12c0-1-.8-1.5-2.3-1.5zm.2 3.8c-.5 0-.9-.3-.9-.7 0-.5.4-.8 1.1-.8.4 0 .8.1 1 .2-.2.8-.7 1.3-1.2 1.3z"
@@ -406,98 +436,66 @@ const Logo = {
     </svg>
   ),
   mongodb: (
-    // Official MongoDB Green Leaf
+    // 100% Authentic Official MongoDB Leaf Logo
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
-        d="M12 2c-.3 1.2-.8 2.8-2 4.5-2.2 3.2-3 5.8-3 8 0 4.2 3.2 7 7 7.5.3 0 .7.1 1 .1s.7-.1 1-.1c3.8-.5 7-3.3 7-7.5 0-2.2-.8-4.8-3-8-1.2-1.7-1.7-3.3-2-4.5h-2z"
-        fill="#47A248"
+        d="M12.001 0.448C11.517 0.941 6.136 6.34 6.136 12.879C6.136 17.659 9.387 21.685 11.558 23.513C11.838 23.748 12.164 23.748 12.444 23.513C14.615 21.685 17.866 17.659 17.866 12.879C17.866 6.34 12.485 0.941 12.001 0.448Z"
+        fill="#13AA52"
       />
       <path
-        d="M12 2.5v19c-.3 0-.6-.1-.9-.1C7.8 20.9 5 18.5 5 14.5c0-2 .7-4.4 2.7-7.3 1.2-1.6 1.7-3.1 2-4.2L12 2.5z"
-        fill="#499D4A"
+        d="M12.001 0.448C11.868 0.584 6.136 6.368 6.136 12.879C6.136 17.659 9.387 21.685 11.558 23.513C11.71 23.641 11.874 23.708 12.001 23.731V0.448Z"
+        fill="#116149"
       />
       <path
-        d="M12 4.5c.2.8.5 1.8 1.2 2.8 1.8 2.6 2.5 4.8 2.5 6.7 0 3.6-2.3 5.8-5.7 6.4V4.5z"
-        fill="#59B75B"
+        d="M12.001 4.708V19.789C13.882 18.257 16.299 15.021 16.299 12.879C16.299 8.243 12.81 4.708 12.001 4.708Z"
+        fill="#13AA52"
+      />
+      <path
+        d="M12.001 4.708C11.192 4.708 7.703 8.243 7.703 12.879C7.703 15.021 10.12 18.257 12.001 19.789V4.708Z"
+        fill="#FFEAA5"
+        opacity="0.3"
       />
     </svg>
   ),
   mysql: (
-    // Official MySQL Dolphin Sakila
+    // 100% Authentic Official MySQL Dolphin Sakila Logo
     <svg viewBox="0 0 24 24" className="size-full" fill="none">
       <path
-        d="M19.5 14c-.8-1.2-1.8-2.5-3.2-3.5-2-1.5-4-1.8-5.8-.8-1.5.8-2.4 2.2-2.5 3.8-.1 1.6.6 3.2 1.8 4.2 1.2 1 2.8 1.4 4.4 1 1.6-.4 3-1.5 3.8-3l1.5-1.7z"
+        d="M12.92 5.48c-.09 0-.18-.01-.28-.01-1.34 0-2.58.65-3.38 1.73-.24.34-.44.71-.57 1.12-.49 1.52-.18 3.25.8 4.5.42.54.96.96 1.56 1.23.15.07.31.12.47.17.21.06.43.1.66.11.56.04 1.12-.06 1.63-.3.79-.35 1.44-.97 1.83-1.75.39-.78.48-1.68.24-2.53a4.27 4.27 0 0 0-.96-1.69 4.29 4.29 0 0 0-2.01-1.38z"
         fill="#00758F"
       />
       <path
-        d="M10.5 7.5c1.2-1 2.8-1.4 4.4-1.2-1.2.6-2.2 1.5-2.8 2.7-.8-.5-1.3-1-1.6-1.5z"
-        fill="#F29111"
-      />
-      <circle cx="11.5" cy="12.5" r="0.8" fill="#fff" />
-    </svg>
-  ),
-  nodejs: (
-    // Official Node.js Green Hexagon
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <polygon
-        points="12,2 21,7.2 21,17.8 12,23 3,17.8 3,7.2"
-        fill="#339933"
+        d="M16.51 3.52c-1.31-1.04-3.03-1.57-4.79-1.49-1.76.08-3.41.77-4.61 1.93-1.19 1.16-1.87 2.72-1.9 4.35-.03 1.63.59 3.22 1.73 4.42.39.41.84.77 1.33 1.06.16.1.33.18.51.25.31.13.63.23.96.3.73.15 1.49.12 2.21-.08.72-.2 1.38-.58 1.91-1.1 1.06-1.03 1.64-2.48 1.6-3.95-.04-1.48-.7-2.88-1.85-3.89z"
+        fill="#00618A"
       />
       <path
-        d="M12 5.5l6 3.5v7l-6 3.5-6-3.5V9l6-3.5z"
-        stroke="#fff"
-        strokeWidth="1.2"
-        fill="none"
+        d="M21.9 15.7c-.46-.34-1.07-.56-1.74-.61-.85-.07-1.69.16-2.35.65-.66.49-1.05 1.2-1.1 2-.05.78.26 1.54.87 2.07.61.54 1.41.8 2.22.74.83-.07 1.6-.49 2.08-1.15.49-.66.66-1.49.47-2.28-.08-.36-.24-.68-.45-.96v-.46z"
+        fill="#00758F"
       />
-      <text
-        x="12"
-        y="14"
-        textAnchor="middle"
-        fontSize="5"
-        fontWeight="bold"
-        fill="#fff"
-        fontFamily="sans-serif"
-      >
-        NODE
-      </text>
-    </svg>
-  ),
-  express: (
-    // Official Express.js Vector
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
-      <rect width="24" height="24" rx="3.5" fill="#222" />
-      <text
-        x="12"
-        y="15.5"
-        textAnchor="middle"
-        fontSize="7.5"
-        fontWeight="800"
-        fill="#fff"
-        letterSpacing="0.5"
-        fontFamily="sans-serif"
-      >
-        ex
-      </text>
+      <path
+        d="M14.5 5.8c.8-.5 1.8-.7 2.7-.5-.6.8-1.4 1.3-2.3 1.5-.1-.4-.2-.7-.4-1z"
+        fill="#F29111"
+      />
+      <path
+        d="M3.2 18.8c1.5 1.8 3.8 2.8 6.2 2.7-1.8-.5-3.3-1.6-4.2-3.1-.7.2-1.4.3-2 .4z"
+        fill="#F29111"
+      />
     </svg>
   ),
   vscode: (
-    // Official VS Code Origami Ribbon
-    <svg viewBox="0 0 24 24" className="size-full" fill="none">
+    // 100% Authentic Official Visual Studio Code Logo
+    <svg viewBox="0 0 32 32" className="size-full" fill="none">
       <path
-        d="M17.5 2.5l4 2v15l-4 2-10-8.5 10-10.5z"
-        fill="#007ACC"
+        d="m29.01 5.03-5.766-2.776a1.74 1.74 0 0 0-1.989.338L2.38 19.8a1.166 1.166 0 0 0-.08 1.647q.037.04.077.077l1.541 1.4a1.165 1.165 0 0 0 1.489.066L28.142 5.75A1.158 1.158 0 0 1 30 6.672v-.067a1.75 1.75 0 0 0-.99-1.575"
+        fill="#0065a9"
       />
       <path
-        d="M17.5 2.5L7.5 11 2.5 7.5l2-2 13-3z"
-        fill="#1F8AD2"
+        d="m29.01 26.97-5.766 2.777a1.745 1.745 0 0 1-1.989-.338L2.38 12.2a1.166 1.166 0 0 1-.08-1.647q.037-.04.077-.077l1.541-1.4A1.165 1.165 0 0 1 5.41 9.01l22.732 17.24A1.158 1.158 0 0 0 30 25.328v.072a1.75 1.75 0 0 1-.99 1.57"
+        fill="#007acc"
       />
       <path
-        d="M17.5 21.5l-13-3-2-2 5-3.5 10 8.5z"
-        fill="#0065A9"
-      />
-      <path
-        d="M17.5 7.5L9.5 12l8 4.5v-9z"
-        fill="#005B9E"
+        d="M23.244 29.747a1.745 1.745 0 0 1-1.989-.338A1.025 1.025 0 0 0 23 28.684V3.316a1.024 1.024 0 0 0-1.749-.724 1.74 1.74 0 0 1 1.989-.339l5.765 2.772A1.75 1.75 0 0 1 30 6.6v18.8a1.75 1.75 0 0 1-.991 1.576Z"
+        fill="#1f9cf0"
       />
     </svg>
   ),
@@ -603,11 +601,13 @@ const categories = [
   },
   {
     title: "Frontend & Backend",
-    eyebrow: "Frameworks",
-    blurb: "The app layer I use to move from prototypes to shipping systems.",
+    eyebrow: "Frameworks & Runtime",
+    blurb: "The app layer and server runtimes I use to move from prototypes to shipping systems.",
     skills: [
       { name: "React", logo: "react" },
       { name: "Next.js", logo: "nextjs" },
+      { name: "Node.js", logo: "nodejs" },
+      { name: "Express.js", logo: "express" },
       { name: "FastAPI", logo: "fastapi" },
       { name: "PostgreSQL", logo: "postgresql" },
     ],
@@ -658,8 +658,6 @@ const categories = [
       { name: "VS Code", logo: "vscode" },
       { name: "MongoDB", logo: "mongodb" },
       { name: "MySQL", logo: "mysql" },
-      { name: "Node.js", logo: "nodejs" },
-      { name: "Express.js", logo: "express" },
     ],
   },
 ];

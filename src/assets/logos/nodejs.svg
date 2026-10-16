@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 128 128"><path fill="#3c873a" d="m64 2 54 31v56l-54 37-54-37V33z"/><text x="64" y="82" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="34" text-anchor="middle">node</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <path d="M12 2l8.8 5.1v10.2L12 22.4l-8.8-5.1V7.1L12 2z" fill="#339933"/>
+  <path d="M12 4.1l6.7 3.9v7.8L12 19.7l-6.7-3.9V8L12 4.1z" fill="#43853D"/>
+  <path d="M12.5 8.2c-.4-.2-.9-.3-1.4-.3-1.2 0-2.1.8-2.1 2.2v4.8h1.4v-4.5c0-.6.4-1 1-1 .4 0 .8.1 1.1.3v-1.5z" fill="#fff"/>
+  <circle cx="15.5" cy="12" r="1.5" fill="#fff"/>
+</svg>

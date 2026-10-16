@@ -9,6 +9,8 @@ type CompanionProps = {
 
 export function BlogStoryCompanion({ slug, progress }: CompanionProps) {
   switch (slug) {
+    case "ai-enabled-monocular-gait-analysis":
+      return <GaitAnalysisCompanion progress={progress} />;
     case "i-got-lost-in-chennai-then-i-built-ridehub":
       return <RideHubCompanion progress={progress} />;
     case "nabha-what-happens-when-technology-stops-assuming":
@@ -582,6 +584,223 @@ function SecurityCompanion({ progress }: { progress: number }) {
         <div className="flex flex-col gap-1 font-mono text-[10px] text-muted-foreground bg-surface/60 rounded-xl border border-border p-2.5">
           <span className="text-foreground font-semibold">HASH: 0x9f4a...8b12 [VERIFIED]</span>
           <span>ACTION: ROLE_PERMISSION_CHECK [ALLOW]</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 8. GAIT ANALYSIS: Interactive Biomechanical Skeleton & Optical Flow Vectors
+// ─────────────────────────────────────────────────────────────────────────────
+
+function GaitAnalysisCompanion({ progress }: { progress: number }) {
+  const [showFlow, setShowFlow] = useState(true);
+  const [selectedClass, setSelectedClass] = useState<"Normal" | "Stroke" | "CP" | "Myopathic">("Normal");
+
+  const stridePhase = Math.round(progress % 100);
+  const phaseName =
+    stridePhase < 20
+      ? "Heel Strike (0–20%)"
+      : stridePhase < 50
+      ? "Mid-Stance Support (20–50%)"
+      : stridePhase < 80
+      ? "Terminal Toe-Off (50–80%)"
+      : "Forward Swing (80–100%)";
+
+  const classData = {
+    Normal: { speed: "3.89", sparc: "-14.07", label: "Healthy Bilateral Symmetry" },
+    Stroke: { speed: "2.61", sparc: "-14.06", label: "Hemiparetic Circumduction" },
+    CP: { speed: "3.28", sparc: "-13.67", label: "Spastic Crouch / Equinus" },
+    Myopathic: { speed: "2.83", sparc: "-14.11", label: "Waddling Trendelenburg Gait" },
+  };
+
+  return (
+    <div className="relative my-8 overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-b from-blue-950/20 via-background to-surface/40 p-5 sm:p-6 shadow-sm">
+      {/* Top Header */}
+      <div className="flex flex-wrap items-center justify-between border-b border-border/60 pb-3 gap-2">
+        <div className="flex items-center gap-2">
+          <span className="flex size-2 rounded-full bg-blue-500 animate-pulse" />
+          <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground">
+            Story Companion // Monocular Biomechanics Telemetry
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="rounded-full border border-blue-500/30 bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-mono font-medium text-blue-400">
+            Phase: {stridePhase}% · {phaseName}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Left: Interactive 12-Joint Skeleton SVG Avatar with Walking Cycle */}
+        <div className="relative flex size-36 shrink-0 items-center justify-center rounded-2xl border border-border/80 bg-zinc-950 p-2 shadow-inner">
+          <svg className="size-full overflow-visible" viewBox="0 0 100 120">
+            {/* Flow Vector Field Overlay (Toggleable) */}
+            {showFlow && (
+              <g opacity="0.45" stroke="#38BDF8" strokeWidth="1.2">
+                <path d="M 25 35 L 35 30 M 75 35 L 65 30" strokeDasharray="2,2" />
+                <path d="M 20 85 L 15 95 M 80 85 L 85 95" strokeDasharray="2,2" />
+                <circle cx="50" cy="55" r="32" stroke="#38BDF8" strokeWidth="0.8" fill="none" strokeDasharray="3,3" opacity="0.3" />
+              </g>
+            )}
+
+            {/* Head */}
+            <circle cx="50" cy="18" r="8" fill="#3B82F6" stroke="#60A5FA" strokeWidth="1.5" />
+
+            {/* Torso & Pelvis Origin */}
+            <line x1="50" y1="26" x2="50" y2="58" stroke="#93C5FD" strokeWidth="2.5" strokeLinecap="round" />
+            <line x1="38" y1="32" x2="62" y2="32" stroke="#93C5FD" strokeWidth="2" strokeLinecap="round" />
+            <line x1="42" y1="58" x2="58" y2="58" stroke="#60A5FA" strokeWidth="2.5" strokeLinecap="round" />
+            <circle cx="50" cy="58" r="2.5" fill="#F59E0B" /> {/* Pelvis Center Origin */}
+
+            {/* Arms (Cycling with sine waves) */}
+            <motion.line
+              x1="38"
+              y1="32"
+              animate={{
+                x2: 30 + Math.sin((progress / 100) * Math.PI * 2) * 12,
+                y2: 48 + Math.cos((progress / 100) * Math.PI * 2) * 6,
+              }}
+              stroke="#60A5FA"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <motion.line
+              x1="62"
+              y1="32"
+              animate={{
+                x2: 70 - Math.sin((progress / 100) * Math.PI * 2) * 12,
+                y2: 48 - Math.cos((progress / 100) * Math.PI * 2) * 6,
+              }}
+              stroke="#60A5FA"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+
+            {/* Left Leg: Hip -> Knee -> Ankle */}
+            <motion.line
+              x1="42"
+              y1="58"
+              animate={{
+                x2: 35 + Math.sin((progress / 100) * Math.PI * 2) * 16,
+                y2: 82,
+              }}
+              stroke="#38BDF8"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            <motion.line
+              animate={{
+                x1: 35 + Math.sin((progress / 100) * Math.PI * 2) * 16,
+                y1: 82,
+                x2: 30 + Math.sin((progress / 100) * Math.PI * 2) * 22,
+                y2: 110,
+              }}
+              stroke="#38BDF8"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+
+            {/* Right Leg: Hip -> Knee -> Ankle */}
+            <motion.line
+              x1="58"
+              y1="58"
+              animate={{
+                x2: 65 - Math.sin((progress / 100) * Math.PI * 2) * 16,
+                y2: 82,
+              }}
+              stroke="#60A5FA"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            <motion.line
+              animate={{
+                x1: 65 - Math.sin((progress / 100) * Math.PI * 2) * 16,
+                y1: 82,
+                x2: 70 - Math.sin((progress / 100) * Math.PI * 2) * 22,
+                y2: 110,
+              }}
+              stroke="#60A5FA"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+
+            {/* Feet / Toes */}
+            <circle cx="30" cy="110" r="2" fill="#38BDF8" />
+            <circle cx="70" cy="110" r="2" fill="#60A5FA" />
+          </svg>
+
+          {/* Scale Legend */}
+          <span className="absolute bottom-1 right-2 text-[8px] font-mono text-zinc-500">100-step cycle</span>
+        </div>
+
+        {/* Right: Live Biomechanics Telemetry Dashboard */}
+        <div className="flex-1 w-full space-y-3">
+          {/* Diagnostic Class Selector */}
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
+              Diagnosed Gait Signatures:
+            </span>
+            <div className="flex items-center gap-1">
+              {(["Normal", "Stroke", "CP", "Myopathic"] as const).map((cls) => (
+                <button
+                  key={cls}
+                  type="button"
+                  onClick={() => {
+                    setSelectedClass(cls);
+                    toast.info(`Switched diagnostic profile to ${cls}`);
+                  }}
+                  className={`rounded-lg px-2 py-1 text-[10px] font-medium transition-all ${
+                    selectedClass === cls
+                      ? "bg-blue-500 text-white shadow-xs font-semibold"
+                      : "border border-border bg-surface/50 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {cls}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Telemetry Metrics Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+            <div className="rounded-xl border border-border bg-surface/60 p-2.5">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider block">Rel. Speed</span>
+              <span className="font-mono font-bold text-foreground text-sm">
+                {classData[selectedClass].speed} <span className="text-[9px] font-normal text-muted-foreground">units/s</span>
+              </span>
+            </div>
+            <div className="rounded-xl border border-border bg-surface/60 p-2.5">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider block">SPARC Metric</span>
+              <span className="font-mono font-bold text-foreground text-sm">
+                {classData[selectedClass].sparc}
+              </span>
+            </div>
+            <div className="col-span-2 sm:col-span-1 rounded-xl border border-border bg-surface/60 p-2.5">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider block">Cadence (FPS)</span>
+              <span className="font-mono font-bold text-foreground text-sm">
+                108 <span className="text-[9px] font-normal text-muted-foreground">steps/m</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Interactive Flow Toggle Action */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-border/50 text-xs">
+            <button
+              type="button"
+              onClick={() => {
+                setShowFlow((f) => !f);
+                toast.success(showFlow ? "Optical flow vectors hidden" : "28-D RAFT Optical flow active");
+              }}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1 text-[11px] font-medium text-foreground hover:bg-surface active:scale-95 transition-all"
+            >
+              <span>{showFlow ? "🌊 Hide Flow Vectors" : "🌊 Show RAFT Flow"}</span>
+            </button>
+            <span className="text-[10px] font-mono text-muted-foreground">
+              {classData[selectedClass].label}
+            </span>
+          </div>
         </div>
       </div>
     </div>

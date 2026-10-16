@@ -1,9 +1,6 @@
 import { Reveal } from "./Reveal";
 
-import caseStudyImg from "@/assests/case-study.jpg";
-import project1Img from "@/assests/project-1.jpg";
-import project2Img from "@/assests/project-2.jpg";
-import project3Img from "@/assests/project-3.jpg";
+import gaitPipelineImg from "@/assests/gait-pipeline.jpg";
 import ridehubImg from "@/assests/ridehub-img.jpg";
 
 type Project = {
@@ -19,6 +16,7 @@ type Project = {
   image: string;
   side: "left" | "right";
   note?: string;
+  blogSlug?: string;
 };
 
 const allProjectsList: Project[] = [
@@ -33,9 +31,10 @@ const allProjectsList: Project[] = [
     stack: ["PyTorch", "YOLOv8", "MediaPipe", "RAFT Optical Flow", "TCN"],
     metric: { value: "70.7%", label: "Balanced Accuracy" },
     github: "https://github.com/DivyanshuX9",
-    image: project1Img,
+    image: gaitPipelineImg,
     side: "left",
     note: "Co-authored with Debeshi Sen (23BDS1055), guided by Dr. Pavithra L K, VIT Chennai",
+    blogSlug: "/blog/ai-enabled-monocular-gait-analysis",
   },
   {
     num: "02",
@@ -50,6 +49,7 @@ const allProjectsList: Project[] = [
     github: "https://github.com/DivyanshuX9/RideHub",
     image: ridehubImg,
     side: "right",
+    blogSlug: "/blog/i-got-lost-in-chennai-then-i-built-ridehub",
   },
   {
     num: "03",
@@ -58,12 +58,13 @@ const allProjectsList: Project[] = [
     category: "ds",
     name: "Weather-Based Traffic Signal Model",
     summary:
-      "Adaptive traffic signal control system combining real-time environmental/weather parameters with computer vision to dynamically adjust signal timings, green light durations, and object detection under adverse weather conditions (rain, fog, low visibility).",
-    stack: ["Python", "OpenCV", "YOLO / CNN", "Weather API", "FastAPI"],
-    metric: { value: "Adaptive", label: "Real-time weather control" },
+      "Adaptive traffic sign and signal control system combining real-time environmental/weather parameters with computer vision (EfficientNetB3) to dynamically adjust signal timings and maintain high recognition under adverse conditions (rain, fog, low visibility). Demonstrated an 86.2 percentage-point transfer advantage.",
+    stack: ["Python", "OpenCV", "EfficientNet", "Weather API", "FastAPI"],
+    metric: { value: "+86.2pp", label: "Transfer Learning Lead" },
     github: "https://github.com/DivyanshuX9/Weather_Based_Traffic_signal_model",
-    image: "https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80",
     side: "left",
+    blogSlug: "/blog/weather-based-traffic-signal-model",
   },
   {
     num: "04",
@@ -76,8 +77,9 @@ const allProjectsList: Project[] = [
     stack: ["Python", "AES-256-GCM", "SHA-256", "Blockchain"],
     metric: { value: "256-bit", label: "Field-level encryption" },
     github: "https://github.com/DivyanshuX9/RBAC-DocEncryption",
-    image: project2Img,
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
     side: "right",
+    blogSlug: "/blog/encrypted-docs-audit-logs",
   },
   {
     num: "05",
@@ -90,8 +92,9 @@ const allProjectsList: Project[] = [
     stack: ["React", "FastAPI", "Twilio", "Bolna AI", "Gemini API"],
     metric: { value: "173", label: "Villages served (target)" },
     github: "https://github.com/DivyanshuX9",
-    image: project3Img,
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
     side: "left",
+    blogSlug: "/blog/nabha-what-happens-when-technology-stops-assuming",
   },
   {
     num: "06",
@@ -104,8 +107,9 @@ const allProjectsList: Project[] = [
     stack: ["Python", "XGBoost", "Random Forest", "Scikit-learn", "Pandas"],
     metric: { value: "0.965", label: "R² score" },
     github: "https://github.com/DivyanshuX9/Walmart-Sales-Prediction",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
     side: "right",
+    blogSlug: "/blog/walmart-sales-model-stacking-vs-linear",
   },
   {
     num: "07",
@@ -118,7 +122,7 @@ const allProjectsList: Project[] = [
     stack: ["Python", "Gemini API", "Twilio", "RAG", "FastAPI"],
     metric: { value: "RAG", label: "Retrieval-augmented" },
     github: "https://github.com/DivyanshuX9",
-    image: caseStudyImg,
+    image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=1200&q=80",
     side: "left",
   },
 ];
@@ -213,7 +217,7 @@ function ProjectCard({ project }: { project: Project }) {
                     </ul>
                   </div>
 
-                  <div className="mt-3.5 flex items-center justify-between border-t border-border/40 pt-3">
+                  <div className="mt-3.5 flex flex-wrap items-center justify-between gap-3 border-t border-border/40 pt-3">
                     <a
                       href={project.github}
                       target={project.github.startsWith("http") ? "_blank" : undefined}
@@ -231,6 +235,15 @@ function ProjectCard({ project }: { project: Project }) {
                         <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
                     </a>
+
+                    {project.blogSlug && (
+                      <a
+                        href={project.blogSlug}
+                        className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <span>Read Case Study →</span>
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

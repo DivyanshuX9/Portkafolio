@@ -1,7 +1,9 @@
-import ridehubMd from "@/assests/Blogs/ridehub-blog.md?raw";
-import nabhaMd from "@/assests/Blogs/nabha-blog.md?raw";
 import constellationMd from "@/assests/Blogs/constellation-blog.md?raw";
+import gaitMd from "@/assests/Blogs/gait-analysis-blog.md?raw";
 import germanMd from "@/assests/Blogs/german-learning-blog.md?raw";
+import nabhaMd from "@/assests/Blogs/nabha-blog.md?raw";
+import ridehubMd from "@/assests/Blogs/ridehub-blog.md?raw";
+import weatherMd from "@/assests/Blogs/weather-traffic-blog.md?raw";
 
 export type BlogPost = {
   slug: string;
@@ -14,6 +16,15 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "ai-enabled-monocular-gait-analysis",
+    tag: "Biomechanics",
+    dateLabel: "Oct · 26",
+    title: "AI-Enabled Monocular Gait Analysis: Clinical Biomechanics from Single-Camera Video",
+    excerpt:
+      "A sensorless clinical gait assessment pipeline combining 147-D pelvic-scaled pose kinematics and 28-D RAFT dense optical flow with SPARC smoothness and cadence estimation.",
+    content: gaitMd,
+  },
+  {
     slug: "i-got-lost-in-chennai-then-i-built-ridehub",
     tag: "Product",
     dateLabel: "May · 28",
@@ -21,6 +32,15 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Why a transport aggregation layer matters — and how RideHub started as a personal need that turned into a systems problem worth solving.",
     content: ridehubMd,
+  },
+  {
+    slug: "weather-based-traffic-signal-model",
+    tag: "Computer Vision",
+    dateLabel: "Feb · 26",
+    title: "Traffic Sign Recognition: Weather Robustness & Cross-Country Generalization",
+    excerpt:
+      "Evaluating EfficientNetB3 across six photorealistic weather corruptions and measuring an 86.2 percentage-point transfer advantage on Belgian road signs.",
+    content: weatherMd,
   },
   {
     slug: "nabha-what-happens-when-technology-stops-assuming",
@@ -60,19 +80,6 @@ export const blogPosts: BlogPost[] = [
       "Start with the simplest model that can't embarrass you, then earn complexity.",
       "I used a linear baseline to establish a clean reference point, then tested a stacking regressor to see if non-linearity actually mattered.",
       "The ensemble improved specific seasonal segments, but the baseline won overall maintainability. That trade-off is often the right answer.",
-    ].join("\n\n"),
-  },
-  {
-    slug: "weather-based-traffic-signal-model",
-    tag: "Computer Vision",
-    dateLabel: "Feb · 26",
-    title: "Weather-based adaptive traffic signal control system",
-    excerpt:
-      "Designing adaptive signal timing algorithms that combine real-time weather sensors and computer vision inference under adverse weather conditions.",
-    content: [
-      "Traditional fixed-time traffic signals fail when weather degrades driving speed and visibility.",
-      "I built an adaptive traffic signal control model combining computer vision and environmental data to dynamically adjust green light durations during rain, fog, and poor road conditions.",
-      "Identical preprocessing and weather-shift domain adaptation proved critical to maintaining object detection accuracy when camera lenses face adverse conditions.",
     ].join("\n\n"),
   },
   {
