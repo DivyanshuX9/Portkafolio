@@ -52,6 +52,12 @@ ENV/
 src/assests/resume.zip
 src/assests/resume_docx_extracted/
 
-# OS
+# OS & IDE Agents
 .DS_Store
 .jetro/
+.agents/
+.cursor/
+.mcp.json
+.windsurfrules
+AGENT.md
+CLAUDE.md
