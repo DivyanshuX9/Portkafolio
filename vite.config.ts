@@ -18,6 +18,19 @@ export default defineConfig({
           target: "http://localhost:8000",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
+          configure: (proxy) => {
+            proxy.on("error", (err, _req, res) => {
+              if (res && "writeHead" in res && !res.headersSent) {
+                res.writeHead(502, { "Content-Type": "application/json" });
+                res.end(
+                  JSON.stringify({
+                    error: "Backend service unreachable",
+                    message: (err as Error).message || "ECONNRESET",
+                  }),
+                );
+              }
+            });
+          },
         },
       },
     },

@@ -1,6 +1,6 @@
 import { Reveal } from "./Reveal";
 
-import gaitPipelineImg from "@/assests/gait-pipeline.jpg";
+import gaitThumbnailImg from "@/assests/gait-thumbnail.png";
 import ridehubImg from "@/assests/ridehub-img.jpg";
 
 type Project = {
@@ -31,7 +31,7 @@ const allProjectsList: Project[] = [
     stack: ["PyTorch", "YOLOv8", "MediaPipe", "RAFT Optical Flow", "TCN"],
     metric: { value: "70.7%", label: "Balanced Accuracy" },
     github: "https://github.com/DivyanshuX9",
-    image: gaitPipelineImg,
+    image: gaitThumbnailImg,
     side: "left",
     note: "Co-authored with Debeshi Sen (23BDS1055), guided by Dr. Pavithra L K, VIT Chennai",
     blogSlug: "/blog/ai-enabled-monocular-gait-analysis",

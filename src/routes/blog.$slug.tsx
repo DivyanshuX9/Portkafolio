@@ -13,13 +13,27 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import katex from "katex";
+
 // ── Markdown renderer ────────────────────────────────────────────────────────
 
+type TableToken = {
+  type: "table";
+  headers: string[];
+  alignments: ("left" | "center" | "right")[];
+  rows: string[][];
+};
+
 type Token =
-  | { type: "h1" | "h2" | "h3"; text: string; id: string }
+  | { type: "h1" | "h2" | "h3" | "h4"; text: string; id: string }
   | { type: "hr" }
   | { type: "ul"; items: string[] }
+  | { type: "ol"; items: string[] }
   | { type: "blockquote"; text: string }
+  | { type: "image"; alt: string; src: string }
+  | { type: "math"; latex: string }
+  | { type: "code"; lang: string; code: string }
+  | TableToken
   | { type: "p"; text: string };
 
 function slugify(text: string): string {
@@ -31,72 +45,292 @@ function slugify(text: string): string {
 }
 
 function tokenize(md: string): Token[] {
+  const lines = md.replace(/\r\n/g, "\n").split("\n");
   const tokens: Token[] = [];
-  const blocks = md.split(/\r?\n\s*\r?\n/);
+  let i = 0;
 
-  for (const raw of blocks) {
-    const block = raw.trim();
-    if (!block) continue;
+  while (i < lines.length) {
+    const rawLine = lines[i];
+    const line = rawLine.trim();
 
-    if (block.startsWith("# ")) {
-      const text = block.slice(2);
-      tokens.push({ type: "h1", text, id: slugify(text) });
-    } else if (block.startsWith("## ")) {
-      const text = block.slice(3);
-      tokens.push({ type: "h2", text, id: slugify(text) });
-    } else if (block.startsWith("### ")) {
-      const text = block.slice(4);
-      tokens.push({ type: "h3", text, id: slugify(text) });
-    } else if (/^-{3,}$/.test(block)) {
-      tokens.push({ type: "hr" });
-    } else if (block.startsWith("> ")) {
-      tokens.push({ type: "blockquote", text: block.slice(2) });
-    } else {
-      const lines = block.split("\n");
-      if (lines.length > 1 && lines.every((l) => /^[-*]\s/.test(l.trim()))) {
-        tokens.push({
-          type: "ul",
-          items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()),
-        });
-      } else if (lines.every((l) => /^[-*]\s/.test(l.trim()))) {
-        tokens.push({
-          type: "ul",
-          items: lines.map((l) => l.replace(/^[-*]\s/, "").trim()),
-        });
-      } else {
-        tokens.push({ type: "p", text: block.replace(/\n/g, " ") });
+    // Blank lines
+    if (!line) {
+      i++;
+      continue;
+    }
+
+    // Fenced code blocks
+    if (line.startsWith("```")) {
+      const lang = line.slice(3).trim();
+      i++;
+      const codeLines: string[] = [];
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        codeLines.push(lines[i]);
+        i++;
       }
+      if (i < lines.length && lines[i].trim().startsWith("```")) {
+        i++;
+      }
+      tokens.push({ type: "code", lang, code: codeLines.join("\n") });
+      continue;
+    }
+
+    // Display math: $$ ... $$
+    if (line.startsWith("$$")) {
+      if (line.length > 2 && line.endsWith("$$") && line !== "$$") {
+        tokens.push({ type: "math", latex: line.slice(2, -2).trim() });
+        i++;
+        continue;
+      }
+      i++;
+      const mathLines: string[] = [];
+      while (i < lines.length && !lines[i].trim().endsWith("$$")) {
+        mathLines.push(lines[i]);
+        i++;
+      }
+      if (i < lines.length) {
+        const last = lines[i].trim();
+        const content = last.slice(0, -2).trim();
+        if (content) mathLines.push(content);
+        i++;
+      }
+      tokens.push({ type: "math", latex: mathLines.join("\n").trim() });
+      continue;
+    }
+
+    // Headings
+    const headingMatch = line.match(/^(#{1,4})\s+(.+)$/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      const text = headingMatch[2].trim();
+      const type =
+        level === 1 ? "h1" : level === 2 ? "h2" : level === 3 ? "h3" : "h4";
+      tokens.push({ type, text, id: slugify(text) });
+      i++;
+      continue;
+    }
+
+    // Horizontal rule
+    if (/^([-*_])\1{2,}$/.test(line)) {
+      tokens.push({ type: "hr" });
+      i++;
+      continue;
+    }
+
+    // Standalone image: ![alt](src)
+    const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imgMatch) {
+      tokens.push({ type: "image", alt: imgMatch[1], src: imgMatch[2] });
+      i++;
+      continue;
+    }
+
+    // Markdown Table
+    if (
+      line.startsWith("|") &&
+      line.endsWith("|") &&
+      i + 1 < lines.length &&
+      lines[i + 1].trim().startsWith("|") &&
+      /^[|:\s-]+$/.test(lines[i + 1].trim())
+    ) {
+      const headerLine = line;
+      const alignLine = lines[i + 1].trim();
+      i += 2;
+
+      const headers = headerLine
+        .slice(1, -1)
+        .split("|")
+        .map((c) => c.trim());
+      const alignments = alignLine
+        .slice(1, -1)
+        .split("|")
+        .map((col) => {
+          const c = col.trim();
+          if (c.startsWith(":") && c.endsWith(":")) return "center" as const;
+          if (c.endsWith(":")) return "right" as const;
+          return "left" as const;
+        });
+
+      const rows: string[][] = [];
+      while (
+        i < lines.length &&
+        lines[i].trim().startsWith("|") &&
+        lines[i].trim().endsWith("|")
+      ) {
+        const rowCells = lines[i]
+          .trim()
+          .slice(1, -1)
+          .split("|")
+          .map((c) => c.trim());
+        rows.push(rowCells);
+        i++;
+      }
+      tokens.push({ type: "table", headers, alignments, rows });
+      continue;
+    }
+
+    // Blockquote: lines starting with >
+    if (line.startsWith(">")) {
+      const quoteLines: string[] = [];
+      while (i < lines.length && lines[i].trim().startsWith(">")) {
+        quoteLines.push(lines[i].trim().replace(/^>\s*/, ""));
+        i++;
+      }
+      tokens.push({ type: "blockquote", text: quoteLines.join("\n") });
+      continue;
+    }
+
+    // Ordered list: 1. Item
+    if (/^\d+\.\s+/.test(line)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+        i++;
+      }
+      tokens.push({ type: "ol", items });
+      continue;
+    }
+
+    // Unordered list: - Item or * Item
+    if (/^[-*]\s+/.test(line)) {
+      const items: string[] = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^[-*]\s+/, ""));
+        i++;
+      }
+      tokens.push({ type: "ul", items });
+      continue;
+    }
+
+    // Regular paragraph: gather consecutive non-block lines
+    const paraLines: string[] = [];
+    while (
+      i < lines.length &&
+      lines[i].trim() &&
+      !lines[i].trim().startsWith("#") &&
+      !lines[i].trim().startsWith("```") &&
+      !lines[i].trim().startsWith("$$") &&
+      !lines[i].trim().startsWith(">") &&
+      !/^([-*_])\1{2,}$/.test(lines[i].trim()) &&
+      !/^!\[([^\]]*)\]\(([^)]+)\)$/.test(lines[i].trim()) &&
+      !/^[-*]\s+/.test(lines[i].trim()) &&
+      !/^\d+\.\s+/.test(lines[i].trim()) &&
+      !(lines[i].trim().startsWith("|") && lines[i].trim().endsWith("|"))
+    ) {
+      paraLines.push(lines[i].trim());
+      i++;
+    }
+    if (paraLines.length > 0) {
+      tokens.push({ type: "p", text: paraLines.join(" ") });
     }
   }
+
   return tokens;
 }
 
+function MathDisplay({ latex }: { latex: string }) {
+  const html = useMemo(() => {
+    try {
+      return katex.renderToString(latex, {
+        displayMode: true,
+        throwOnError: false,
+      });
+    } catch {
+      return latex;
+    }
+  }, [latex]);
+
+  return (
+    <div className="my-6 overflow-x-auto rounded-xl border border-border/70 bg-surface/50 p-4 sm:p-6 shadow-2xs backdrop-blur-xs text-foreground flex items-center justify-center">
+      <div
+        className="katex-display-container text-base sm:text-lg select-text max-w-full overflow-x-auto py-1"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </div>
+  );
+}
+
+function MathInline({ latex }: { latex: string }) {
+  const html = useMemo(() => {
+    try {
+      return katex.renderToString(latex, {
+        displayMode: false,
+        throwOnError: false,
+      });
+    } catch {
+      return latex;
+    }
+  }, [latex]);
+
+  return (
+    <span
+      className="inline-math px-0.5 align-baseline select-text text-foreground font-serif text-[1.02em]"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
+}
+
 function Inline({ text }: { text: string }) {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
+  const parts = text.split(
+    /(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\$[^$\n]+\$|\n)/g,
+  );
+
   return (
     <>
       {parts.map((part, i) => {
-        if (part.startsWith("**") && part.endsWith("**"))
+        if (!part) return null;
+
+        if (part === "\n") {
+          return <br key={i} />;
+        }
+
+        const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+        if (linkMatch) {
+          const isExternal = linkMatch[2].startsWith("http");
+          return (
+            <a
+              key={i}
+              href={linkMatch[2]}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noreferrer noopener" : undefined}
+              className="text-foreground underline underline-offset-4 font-medium transition-colors hover:text-foreground/70"
+            >
+              <Inline text={linkMatch[1]} />
+            </a>
+          );
+        }
+
+        if (part.startsWith("**") && part.endsWith("**") && part.length >= 4) {
           return (
             <strong key={i} className="font-semibold text-foreground">
-              {part.slice(2, -2)}
+              <Inline text={part.slice(2, -2)} />
             </strong>
           );
-        if (part.startsWith("*") && part.endsWith("*"))
+        }
+
+        if (part.startsWith("*") && part.endsWith("*") && part.length >= 2) {
           return (
-            <em key={i} className="italic">
-              {part.slice(1, -1)}
+            <em key={i} className="italic text-foreground/90">
+              <Inline text={part.slice(1, -1)} />
             </em>
           );
-        if (part.startsWith("`") && part.endsWith("`"))
+        }
+
+        if (part.startsWith("`") && part.endsWith("`") && part.length >= 2) {
           return (
             <code
               key={i}
-              className="rounded bg-surface px-1.5 py-0.5 font-mono text-[13px] text-foreground"
+              className="rounded bg-surface px-1.5 py-0.5 font-mono text-[13px] text-foreground border border-border/40"
             >
               {part.slice(1, -1)}
             </code>
           );
+        }
+
+        if (part.startsWith("$") && part.endsWith("$") && part.length >= 2) {
+          return <MathInline key={i} latex={part.slice(1, -1).trim()} />;
+        }
+
         return <span key={i}>{part}</span>;
       })}
     </>
@@ -149,15 +383,28 @@ function MarkdownArticle({ content }: { content: string }) {
                 <Inline text={tok.text} />
               </h3>
             );
+          case "h4":
+            return (
+              <h4
+                key={i}
+                id={tok.id}
+                className="scroll-mt-24 pt-4 pb-1 font-display text-base font-medium tracking-tight text-foreground"
+              >
+                <Inline text={tok.text} />
+              </h4>
+            );
           case "hr":
             return <hr key={i} className="my-8 border-border" />;
           case "blockquote":
             return (
               <blockquote
                 key={i}
-                className="my-6 relative overflow-hidden rounded-2xl border-l-4 border-foreground/50 bg-surface/40 p-4 sm:p-5 text-[15px] italic text-foreground/90 shadow-2xs backdrop-blur-xs"
+                className="my-6 relative overflow-hidden rounded-2xl border-l-4 border-foreground/50 bg-surface/40 p-4 sm:p-5 text-[15px] italic text-foreground/90 shadow-2xs backdrop-blur-xs space-y-1"
               >
-                <span className="pointer-events-none absolute right-4 top-2 select-none font-serif text-4xl text-foreground/10" aria-hidden>
+                <span
+                  className="pointer-events-none absolute right-4 top-2 select-none font-serif text-4xl text-foreground/10"
+                  aria-hidden
+                >
                   “
                 </span>
                 <Inline text={tok.text} />
@@ -178,6 +425,105 @@ function MarkdownArticle({ content }: { content: string }) {
                   </li>
                 ))}
               </ul>
+            );
+          case "ol":
+            return (
+              <ol key={i} className="my-4 space-y-2.5 pl-1 sm:pl-2">
+                {tok.items.map((item, j) => (
+                  <li
+                    key={j}
+                    className="flex items-start gap-3 text-[15px] leading-relaxed text-foreground/85"
+                  >
+                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-foreground/10 font-mono text-[11px] font-semibold text-foreground">
+                      {j + 1}
+                    </span>
+                    <span className="flex-1">
+                      <Inline text={item} />
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            );
+          case "image":
+            return (
+              <figure key={i} className="my-8 space-y-2">
+                <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface/50 shadow-sm">
+                  <img
+                    src={tok.src}
+                    alt={tok.alt}
+                    className="w-full object-contain max-h-[520px] mx-auto"
+                    loading="lazy"
+                  />
+                </div>
+                {tok.alt && (
+                  <figcaption className="text-center text-xs text-muted-foreground font-mono">
+                    {tok.alt}
+                  </figcaption>
+                )}
+              </figure>
+            );
+          case "math":
+            return <MathDisplay key={i} latex={tok.latex} />;
+          case "code":
+            return (
+              <div
+                key={i}
+                className="my-6 overflow-hidden rounded-xl border border-border/80 bg-neutral-950 text-neutral-100 p-4 font-mono text-xs shadow-sm"
+              >
+                <div className="mb-2 flex items-center justify-between text-[11px] text-neutral-400 font-sans uppercase tracking-wider">
+                  <span>{tok.lang || "code"}</span>
+                </div>
+                <pre className="overflow-x-auto leading-relaxed">
+                  <code>{tok.code}</code>
+                </pre>
+              </div>
+            );
+          case "table":
+            return (
+              <div
+                key={i}
+                className="my-8 overflow-x-auto rounded-xl border border-border/80 bg-surface/40 p-1 shadow-2xs backdrop-blur-xs"
+              >
+                <table className="w-full border-collapse text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-border/70 bg-surface/80">
+                      {tok.headers.map((h, hi) => {
+                        const align = tok.alignments[hi] || "left";
+                        return (
+                          <th
+                            key={hi}
+                            className="px-4 py-3 font-semibold text-foreground tracking-tight"
+                            style={{ textAlign: align }}
+                          >
+                            <Inline text={h} />
+                          </th>
+                        );
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border/40">
+                    {tok.rows.map((row, ri) => (
+                      <tr
+                        key={ri}
+                        className="hover:bg-foreground/[0.03] transition-colors"
+                      >
+                        {row.map((cell, ci) => {
+                          const align = tok.alignments[ci] || "left";
+                          return (
+                            <td
+                              key={ci}
+                              className="px-4 py-3 text-[14px] text-foreground/85 leading-relaxed"
+                              style={{ textAlign: align }}
+                            >
+                              <Inline text={cell} />
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             );
           case "p":
             return (
@@ -202,9 +548,16 @@ function stripMarkdown(md: string): string {
     .replace(/^-{3,}$/gm, "")
     .replace(/^>\s+/gm, "")
     .replace(/^[-*]\s+/gm, "")
+    .replace(/^\d+\.\s+/gm, "")
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/\$\$[\s\S]*?\$\$/g, " formula ")
+    .replace(/\$([^$]+)\$/g, "$1")
     .replace(/\*\*([^*]+)\*\*/g, "$1")
     .replace(/\*([^*]+)\*/g, "$1")
     .replace(/`([^`]+)`/g, "$1")
+    .replace(/\|[\s\-:]+\|/g, " ")
+    .replace(/\|/g, ", ")
     .replace(/\n{2,}/g, " ")
     .replace(/\n/g, " ")
     .trim();
