@@ -174,7 +174,7 @@ export function GithubContributions() {
     return githubCacheSnapshot.contributions as unknown as ContributionResponse;
   }, []);
 
-  const { data, isLoading, dataUpdatedAt } = useQuery({
+  const { data, isLoading, isError, dataUpdatedAt } = useQuery({
     queryKey: ["github-profile", githubUsername],
     queryFn: async () => {
       const cached = getLocalCache<{ profile: GitHubProfile; stars: number }>(
@@ -250,9 +250,10 @@ export function GithubContributions() {
   });
 
   const profile = data?.profile;
-  const updatedLabel = dataUpdatedAt
-    ? formatDistanceToNow(dataUpdatedAt, { addSuffix: true })
-    : "just now";
+  const updatedLabel =
+    dataUpdatedAt && dataUpdatedAt > 0
+      ? formatDistanceToNow(dataUpdatedAt, { addSuffix: true })
+      : "today";
   const name = profile?.name ?? githubUsername;
   const bio = profile?.bio ?? "";
   const location = profile?.location ?? "";
