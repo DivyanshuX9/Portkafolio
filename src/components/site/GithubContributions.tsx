@@ -35,29 +35,58 @@ type ContributionResponse = {
   contributions: ContributionDay[];
 };
 
+import githubCacheSnapshot from "@/content/github-cache.json";
+
 const githubUsername = import.meta.env.VITE_GITHUB_USERNAME ?? "DivyanshuX9";
 const githubApiBase =
   import.meta.env.VITE_GITHUB_API_BASE ?? "https://api.github.com";
 const githubContributionsApiUrl = `https://github-contributions-api.jogruber.de/v4/${githubUsername}`;
-const githubCache = new Map<string, { at: number; data: unknown }>();
-const githubPending = new Map<string, Promise<unknown>>();
-const githubCacheTtl = 10 * 60 * 1000;
 
-const levelStyle = [
-  "bg-[#ebedf0]",
-  "bg-[#9be9a8]",
-  "bg-[#40c463]",
-  "bg-[#30a14e]",
-  "bg-[#216e39]",
-];
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+const memoryCache = new Map<string, { at: number; data: unknown }>();
+const pendingRequests = new Map<string, Promise<unknown>>();
 
-async function cachedJson<T>(url: string, ttl = githubCacheTtl): Promise<T> {
-  const cached = githubCache.get(url);
-  if (cached && Date.now() - cached.at < ttl) {
-    return cached.data as T;
+function getLocalCache<T>(key: string, maxAgeMs: number = ONE_DAY_MS): T | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.at === "number" && Date.now() - parsed.at < maxAgeMs) {
+      return parsed.data as T;
+    }
+  } catch {}
+  return null;
+}
+
+function setLocalCache<T>(key: string, data: T): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(key, JSON.stringify({ at: Date.now(), data }));
+  } catch {}
+}
+
+async function cachedJson<T>(
+  url: string,
+  cacheKey: string,
+  fallbackData?: T,
+  ttl: number = ONE_DAY_MS,
+): Promise<T> {
+  // 1. Check in-memory cache
+  const mem = memoryCache.get(cacheKey);
+  if (mem && Date.now() - mem.at < ttl) {
+    return mem.data as T;
   }
 
-  const pending = githubPending.get(url);
+  // 2. Check localStorage cache
+  const local = getLocalCache<T>(cacheKey, ttl);
+  if (local) {
+    memoryCache.set(cacheKey, { at: Date.now(), data: local });
+    return local;
+  }
+
+  // 3. Deduplicate in-flight requests
+  const pending = pendingRequests.get(cacheKey);
   if (pending) {
     return pending as Promise<T>;
   }
@@ -67,23 +96,40 @@ async function cachedJson<T>(url: string, ttl = githubCacheTtl): Promise<T> {
   })
     .then(async (response) => {
       if (!response.ok) {
-        throw new Error(`Request failed with ${response.status}`);
+        throw new Error(`Request failed with status ${response.status}`);
       }
-      return response.json() as Promise<T>;
+      return (await response.json()) as T;
     })
     .then((data) => {
-      githubCache.set(url, { at: Date.now(), data });
-      githubPending.delete(url);
+      memoryCache.set(cacheKey, { at: Date.now(), data });
+      setLocalCache(cacheKey, data);
+      pendingRequests.delete(cacheKey);
       return data;
     })
     .catch((error) => {
-      githubPending.delete(url);
+      pendingRequests.delete(cacheKey);
+      // Fallback: check if stale cache exists in localStorage
+      const stale = getLocalCache<T>(cacheKey, Infinity);
+      if (stale) {
+        return stale;
+      }
+      if (fallbackData !== undefined) {
+        return fallbackData;
+      }
       throw error;
     });
 
-  githubPending.set(url, request);
+  pendingRequests.set(cacheKey, request);
   return request;
 }
+
+const levelStyle = [
+  "bg-[#ebedf0]",
+  "bg-[#9be9a8]",
+  "bg-[#40c463]",
+  "bg-[#30a14e]",
+  "bg-[#216e39]",
+];
 
 function StatSkeleton() {
   return <Skeleton className="mt-2 h-8 w-14 rounded-none" />;
@@ -107,34 +153,99 @@ const profileBadges = [
 export function GithubContributions() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, isLoading, isError, dataUpdatedAt } = useQuery({
+  const initialProfile = useMemo(() => {
+    const local = getLocalCache<{ profile: GitHubProfile; stars: number }>(
+      `gh_profile_${githubUsername}`,
+      ONE_DAY_MS,
+    );
+    if (local) return local;
+    return {
+      profile: githubCacheSnapshot.profile as unknown as GitHubProfile,
+      stars: githubCacheSnapshot.stars,
+    };
+  }, []);
+
+  const initialContributions = useMemo(() => {
+    const local = getLocalCache<ContributionResponse>(
+      `gh_contrib_${githubUsername}`,
+      ONE_DAY_MS,
+    );
+    if (local) return local;
+    return githubCacheSnapshot.contributions as unknown as ContributionResponse;
+  }, []);
+
+  const { data, isLoading, dataUpdatedAt } = useQuery({
     queryKey: ["github-profile", githubUsername],
     queryFn: async () => {
-      const [profile, repos] = await Promise.all([
-        cachedJson<GitHubProfile>(`${githubApiBase}/users/${githubUsername}`),
-        cachedJson<GitHubRepo[]>(
-          `${githubApiBase}/users/${githubUsername}/repos?per_page=100&type=owner&sort=updated`,
-        ),
-      ]);
-
-      const stars = repos.reduce(
-        (acc, repo) => acc + (repo.stargazers_count || 0),
-        0,
+      const cached = getLocalCache<{ profile: GitHubProfile; stars: number }>(
+        `gh_profile_${githubUsername}`,
+        ONE_DAY_MS,
       );
+      if (cached) return cached;
 
-      return { profile, stars };
+      try {
+        const [profile, repos] = await Promise.all([
+          cachedJson<GitHubProfile>(
+            `${githubApiBase}/users/${githubUsername}`,
+            `gh_raw_profile_${githubUsername}`,
+            githubCacheSnapshot.profile as unknown as GitHubProfile,
+          ),
+          cachedJson<GitHubRepo[]>(
+            `${githubApiBase}/users/${githubUsername}/repos?per_page=100&type=owner&sort=updated`,
+            `gh_raw_repos_${githubUsername}`,
+            [],
+          ),
+        ]);
+
+        const stars = Array.isArray(repos)
+          ? repos.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0)
+          : githubCacheSnapshot.stars;
+
+        const result = { profile, stars };
+        setLocalCache(`gh_profile_${githubUsername}`, result);
+        return result;
+      } catch {
+        return initialProfile;
+      }
     },
-    refetchInterval: 10 * 60 * 1000,
+    initialData: initialProfile,
+    staleTime: ONE_DAY_MS,
+    gcTime: ONE_DAY_MS,
+    refetchInterval: false,
     refetchOnWindowFocus: false,
-    staleTime: 10 * 60 * 1000,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
     retry: 0,
   });
 
   const { data: contributionData } = useQuery({
     queryKey: ["github-contributions", githubUsername],
-    queryFn: async () =>
-      cachedJson<ContributionResponse>(githubContributionsApiUrl),
-    staleTime: 10 * 60 * 1000,
+    queryFn: async () => {
+      const cached = getLocalCache<ContributionResponse>(
+        `gh_contrib_${githubUsername}`,
+        ONE_DAY_MS,
+      );
+      if (cached) return cached;
+
+      try {
+        const res = await cachedJson<ContributionResponse>(
+          githubContributionsApiUrl,
+          `gh_contrib_${githubUsername}`,
+          githubCacheSnapshot.contributions as unknown as ContributionResponse,
+        );
+        setLocalCache(`gh_contrib_${githubUsername}`, res);
+        return res;
+      } catch {
+        return initialContributions;
+      }
+    },
+    initialData: initialContributions,
+    staleTime: ONE_DAY_MS,
+    gcTime: ONE_DAY_MS,
+    refetchInterval: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
     retry: 0,
   });
 

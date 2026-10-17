@@ -9,7 +9,14 @@ import { nitro } from "nitro/vite";
 
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
 // @cloudflare/vite-plugin builds from this - wrangler.jsonc main alone is insufficient.
+const isVercel = Boolean(
+  process.env.VERCEL ||
+    process.env.NITRO_PRESET === "vercel" ||
+    process.env.NODE_ENV === "production",
+);
+
 export default defineConfig({
+  cloudflare: false,
   vite: {
     assetsInclude: ["**/*.docx"],
     server: {
@@ -34,7 +41,11 @@ export default defineConfig({
         },
       },
     },
-    plugins: [nitro()],
+    plugins: [
+      nitro({
+        preset: isVercel ? "vercel" : undefined,
+      }),
+    ],
   },
   tanstackStart: {
     server: { entry: "server" },
